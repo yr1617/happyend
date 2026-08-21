@@ -1,7 +1,7 @@
 :root {
   /* Colors */
   --color-signal-flare: #ff1a00;
-  --color-sun-baked-canvas: #e7a196;
+  --color-sun-baked-canvas: #f2ece1; /* Ivory canvas color */
   --color-midnight-frame: #0a0a0a;
 
   /* Typography */
@@ -77,12 +77,17 @@ body {
   position: relative;
 }
 
-.brand-logo {
-  font-family: var(--font-monument);
-  font-size: var(--text-heading);
-  letter-spacing: -1.92px;
+.brand-logo-wrap {
   text-align: center;
-  margin-top: 10vh;
+  margin-top: 8vh;
+}
+
+.title-image {
+  max-width: 480px;
+  width: 80%;
+  height: auto;
+  filter: drop-shadow(0 0 0 var(--color-signal-flare));
+  /* title image color tuning if needed */
 }
 
 .statement-headline {
@@ -98,9 +103,10 @@ body {
   font-size: var(--text-display);
   line-height: 0.82;
   letter-spacing: -5.12px;
+  text-align: center;
   word-break: break-all;
   opacity: 0.85;
-  margin: 40px 0;
+  margin: 30px 0;
 }
 
 .footer-bar {
@@ -141,23 +147,24 @@ video, img {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border: 1.5px solid var(--color-signal-flare);
   border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(10, 10, 10, 0.4);
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .play-triangle {
   width: 0;
   height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-left: 14px solid var(--color-signal-flare);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid var(--color-signal-flare);
   margin-left: 4px;
 }
 
@@ -212,8 +219,9 @@ video, img {
 
 .analysis-text {
   font-size: var(--text-body);
-  line-height: 1.4;
-  letter-spacing: -0.08px;
+  line-height: 1.5;
+  letter-spacing: -0.05px;
+  text-transform: none; /* Keep story body readable */
 }
 
 @media (max-width: 768px) {
