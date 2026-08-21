@@ -82,6 +82,22 @@ body {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  width: 100%;
+}
+
+/* 중앙 메인 SVG 로고 스타일 */
+.title-image {
+  width: 90vw;
+  max-width: 1300px;
+  height: auto;
+  display: block;
+}
+
+.footer-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-caption);
+  width: 100%;
 }
 
 /* SVG 타이틀을 메인 디스플레이 크기로 확대 및 컬러 적용 */
