@@ -103,3 +103,81 @@ function ejectCD() {
     currentActiveDisc = null;
   }
 }
+let activeCD = null;
+
+function toggleAlbum(element) {
+  element.classList.toggle('open');
+}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+  document.getElementById('playerDeck').classList.add('drag-over');
+}
+
+function dragLeave(ev) {
+  document.getElementById('playerDeck').classList.remove('drag-over');
+}
+
+function dragStart(ev) {
+  ev.dataTransfer.setData("cd-id", ev.target.id);
+  ev.dataTransfer.setData("track", ev.target.getAttribute("data-track"));
+  ev.dataTransfer.setData("title", ev.target.getAttribute("data-title"));
+}
+
+function handleDrop(ev) {
+  ev.preventDefault();
+  const playerDeck = document.getElementById('playerDeck');
+  playerDeck.classList.remove('drag-over');
+
+  const cdId = ev.dataTransfer.getData("cd-id");
+  const track = ev.dataTransfer.getData("track");
+  const title = ev.dataTransfer.getData("title");
+
+  const cdElement = document.getElementById(cdId);
+  const cdTray = document.getElementById('cdTray');
+
+  if (cdElement && track) {
+    // 이전 CD 초기화
+    if (activeCD) {
+      ejectCD();
+    }
+
+    activeCD = cdElement;
+    
+    // CD를 플레이어 덱 안으로 이동 시각화
+    cdTray.appendChild(cdElement);
+    cdElement.classList.add('inserted', 'spinning');
+
+    // 음원 재생 및 레이저 빔 가동
+    const audioPlayer = document.getElementById('audioPlayer');
+    audioPlayer.src = track;
+    audioPlayer.play();
+
+    document.getElementById('trackDisplay').innerText = title;
+    document.getElementById('trayText').innerText = "";
+    playerDeck.classList.add('playing');
+  }
+}
+
+function ejectCD() {
+  const audioPlayer = document.getElementById('audioPlayer');
+  audioPlayer.pause();
+  audioPlayer.currentTime = 0;
+
+  const playerDeck = document.getElementById('playerDeck');
+  playerDeck.classList.remove('playing');
+
+  document.getElementById('trackDisplay').innerText = "NO DISC LOADED";
+  document.getElementById('trayText').innerText = "DROP CD HERE";
+
+  if (activeCD) {
+    activeCD.classList.remove('spinning', 'inserted');
+    
+    // 원래 앨범 속 위치로 CD 복귀
+    const originalAlbum = activeCD.closest('.album-item');
+    if (originalAlbum) {
+      originalAlbum.appendChild(activeCD);
+    }
+    activeCD = null;
+  }
+}
