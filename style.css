@@ -540,3 +540,232 @@ img {
     grid-template-columns: 1fr;
   }
 }
+.cd-section {
+  width: 100%;
+  max-width: 1440px;
+  margin: 100px auto;
+  padding: 40px 24px;
+  background-color: var(--color-midnight-frame);
+  color: var(--color-signal-flare);
+  border: 1px solid var(--color-signal-flare);
+}
+
+.cd-section-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-caption);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-signal-flare);
+  padding-bottom: 16px;
+  margin-bottom: 40px;
+}
+
+.player-workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* PLAYER DEVICE & DRAG ANIMATION */
+.cd-player-device {
+  background-color: #141414;
+  border: 2px solid var(--color-signal-flare);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.player-deck {
+  width: 240px;
+  height: 240px;
+  background-color: #0a0a0a;
+  border: 2px dashed var(--color-signal-flare);
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.player-deck.drag-over {
+  transform: scale(1.08);
+  background-color: rgba(255, 26, 0, 0.2);
+  border-style: solid;
+  box-shadow: 0 0 20px rgba(255, 26, 0, 0.4) !important;
+}
+
+.laser-beam {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: var(--color-signal-flare);
+  opacity: 0;
+  top: 50%;
+  pointer-events: none;
+}
+
+.playing .laser-beam {
+  opacity: 0.8;
+  animation: scanLaser 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes scanLaser {
+  0% { top: 20%; }
+  100% { top: 80%; }
+}
+
+.cd-tray {
+  width: 200px;
+  height: 200px;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 26, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tray-center-pin {
+  width: 28px;
+  height: 28px;
+  border-radius: 50% !important;
+  border: 2px solid var(--color-signal-flare);
+  background-color: #141414;
+  z-index: 10;
+}
+
+.tray-text {
+  position: absolute;
+  font-size: 11px;
+  color: var(--color-signal-flare);
+  opacity: 0.6;
+}
+
+.player-controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-signal-flare);
+  padding-top: 20px;
+}
+
+.track-display {
+  font-size: var(--text-caption);
+}
+
+.eject-btn {
+  background: transparent;
+  border: 1px solid var(--color-signal-flare);
+  color: var(--color-signal-flare);
+  padding: 6px 16px;
+  font-family: var(--font-pressura);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.eject-btn:hover {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+}
+
+/* ALBUMS & CD SLIDE-OUT ANIMATION */
+.album-rack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.album-item {
+  position: relative;
+  width: 320px;
+  height: 180px;
+  cursor: pointer;
+}
+
+.album-cover {
+  width: 180px;
+  height: 180px;
+  background-color: var(--color-sun-baked-canvas);
+  color: var(--color-midnight-frame);
+  border: 2px solid var(--color-signal-flare);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.click-hint {
+  font-size: 9px;
+  color: var(--color-signal-flare);
+  letter-spacing: 0.5px;
+}
+
+.album-item:hover .album-cover {
+  transform: translateX(-5px);
+}
+
+/* CD GRAPHIC & REVEAL */
+.cd-disc {
+  width: 160px;
+  height: 160px;
+  background: repeating-radial-gradient(
+    circle at center,
+    #2b2b2b,
+    #141414 6px,
+    #3a3a3a 12px
+  );
+  border-radius: 50% !important;
+  border: 2px solid var(--color-signal-flare);
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: grab;
+}
+
+/* 앨범 열릴 때 CD 슬라이드 애니메이션 */
+.album-item.open .cd-disc {
+  left: 130px;
+}
+
+.cd-label {
+  font-size: 9px;
+  color: var(--color-signal-flare);
+  border: 1px solid var(--color-signal-flare);
+  padding: 3px 6px;
+  background-color: #0a0a0a;
+  border-radius: 50% !important;
+}
+
+/* CD 회전 애니메이션 */
+.cd-disc.spinning {
+  animation: spinCD 1.8s linear infinite;
+}
+
+@keyframes spinCD {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 플레이어 탑재 상태 */
+.cd-disc.inserted {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 5;
+}
