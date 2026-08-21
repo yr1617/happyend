@@ -32,27 +32,28 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* CORNER NAVIGATION & BADGES */
+/* CORNER NAVIGATION & BADGES (Z-INDEX UPGRADE) */
 .corner-nav {
   position: fixed;
   top: 24px;
   left: 24px;
-  z-index: 100;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   gap: 5px;
   font-size: var(--text-caption);
   text-transform: uppercase;
+  pointer-events: none;
 }
 
 .corner-badge {
   position: fixed;
   top: 24px;
   right: 24px;
-  z-index: 100;
+  z-index: 999;
   text-align: right;
   font-size: var(--text-caption);
-  cursor: pointer;
+  cursor: pointer !important;
   user-select: none;
 }
 
@@ -109,12 +110,8 @@ body {
 /* FULL-BLEED MEDIA SECTIONS */
 .media-section {
   background-color: var(--color-midnight-frame);
-  width: 100vw;
+  width: 100%;
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
 }
 
 .video-frame {
@@ -122,14 +119,15 @@ body {
   width: 100%;
   height: 65vh;
   overflow: hidden;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
-video, img {
+video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none; /* 클릭 이벤트를 부모 .video-frame으로 전달 */
 }
 
 .play-control {
@@ -169,7 +167,7 @@ video, img {
   text-transform: uppercase;
 }
 
-/* RED BOUNDING BOX OVERLAY (REFERENCE DESIGN) */
+/* RED BOUNDING BOX OVERLAY */
 .node-media {
   position: relative;
   background-color: var(--color-midnight-frame);
