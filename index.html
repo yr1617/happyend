@@ -185,6 +185,71 @@
       </div>
     </article>
 
+<!-- INTERACTIVE MUSIC PLAYER SECTION -->
+<section class="cd-section">
+  <div class="cd-section-title">
+    <span>AUDIO ARCHIVE // RECORD SHOP</span>
+    <span>DRAG CD TO PLAYER TO PLAY TRACK</span>
+  </div>
+
+  <div class="player-workspace">
+    <!-- 왼쪽: CD 플레이어 (Drop Zone) -->
+    <div class="cd-player-device" id="dropZone">
+      <div class="player-deck">
+        <div class="cd-tray" id="cdTray">
+          <div class="tray-center-pin"></div>
+          <span class="tray-text" id="trayText">DROP CD HERE</span>
+        </div>
+      </div>
+      <div class="player-controls">
+        <div class="track-display" id="trackDisplay">NO DISC LOADED</div>
+        <button class="eject-btn" id="ejectBtn" onclick="ejectCD()">EJECT</button>
+      </div>
+    </div>
+
+    <!-- 오른쪽: 겹쳐진 앨범들 (Rack) -->
+    <div class="album-rack">
+      
+      <!-- ALBUM 01 -->
+      <div class="album-item" onclick="toggleAlbum(this)">
+        <div class="album-cover">
+          <span class="cover-no">01</span>
+          <span class="cover-title">CLUB NIGHTS</span>
+        </div>
+        <div class="cd-disc" draggable="true" ondragstart="dragStart(event)" data-track="track1.mp3" data-title="TRACK 01: CLUB NIGHTS">
+          <div class="cd-label">HAPPYEND #01</div>
+        </div>
+      </div>
+
+      <!-- ALBUM 02 -->
+      <div class="album-item" onclick="toggleAlbum(this)">
+        <div class="album-cover">
+          <span class="cover-no">02</span>
+          <span class="cover-title">SURVEILLANCE</span>
+        </div>
+        <div class="cd-disc" draggable="true" ondragstart="dragStart(event)" data-track="track2.mp3" data-title="TRACK 02: SURVEILLANCE">
+          <div class="cd-label">HAPPYEND #02</div>
+        </div>
+      </div>
+
+      <!-- ALBUM 03 -->
+      <div class="album-item" onclick="toggleAlbum(this)">
+        <div class="album-cover">
+          <span class="cover-no">03</span>
+          <span class="cover-title">OVERPASS BRIDGE</span>
+        </div>
+        <div class="cd-disc" draggable="true" ondragstart="dragStart(event)" data-track="track3.mp3" data-title="TRACK 03: OVERPASS BRIDGE">
+          <div class="cd-label">HAPPYEND #03</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 오디오 재생 객체 -->
+  <audio id="audioPlayer"></audio>
+</section>
+    
   </main>
 
   <script src="main.js"></script>
