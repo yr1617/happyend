@@ -11,6 +11,10 @@
   --text-heading: 48px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -30,29 +34,33 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* CORNER NAVIGATION & BADGES */
+/* CORNER NAVIGATION (CLICK PASS-THROUGH) */
 .corner-nav {
   position: fixed;
   top: 24px;
   left: 24px;
-  z-index: 9999;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: 5px;
   font-size: var(--text-caption);
   text-transform: uppercase;
-  pointer-events: none;
+  pointer-events: none; /* 클릭 가로채기 방지 */
 }
 
+/* TOP BUTTON (ALWAYS CLICKABLE) */
 .corner-badge {
   position: fixed;
   top: 24px;
   right: 24px;
-  z-index: 9999;
+  z-index: 999999; /* 화면 최상단 레이어 보장 */
   text-align: right;
   font-size: var(--text-caption);
+  color: var(--color-signal-flare);
+  text-decoration: none;
+  display: block;
   cursor: pointer !important;
-  user-select: none;
+  pointer-events: auto !important;
 }
 
 .badge-circle {
@@ -105,7 +113,7 @@ body {
   text-transform: uppercase;
 }
 
-/* MEDIA SECTIONS (FULL-BLEED & NO BLACK BARS) */
+/* MEDIA SECTIONS */
 .media-section {
   background-color: var(--color-midnight-frame);
   width: 100vw;
@@ -122,14 +130,17 @@ body {
   aspect-ratio: 16 / 9;
   max-height: 80vh;
   overflow: hidden;
-  cursor: pointer !important;
+  background-color: #000;
 }
 
-video, img {
+video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto !important; /* 비디오 자체 컨트롤 허용 */
 }
 
 .play-control {
@@ -146,7 +157,7 @@ video, img {
   justify-content: center;
   background: rgba(10, 10, 10, 0.5);
   pointer-events: none;
-  z-index: 10;
+  z-index: 20;
   transition: opacity 0.25s ease;
 }
 
@@ -169,7 +180,7 @@ video, img {
   text-transform: uppercase;
 }
 
-/* MEDIA ITEM CONTAINERS WITH EXACT FIT */
+/* MEDIA ITEM CONTAINERS */
 .node-media {
   position: relative;
   background-color: var(--color-midnight-frame);
@@ -179,7 +190,14 @@ video, img {
   overflow: hidden;
 }
 
-/* RED BOUNDING BOX OVERLAY (FINE-TUNED PER SCENE) */
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* RED BOUNDING BOX OVERLAY */
 .bounding-box {
   position: absolute;
   border: 2px solid var(--color-signal-flare);
@@ -201,7 +219,7 @@ video, img {
   white-space: nowrap;
 }
 
-/* Scene-specific Face/Target bounding box positioning */
+/* Bounding box coords */
 .video-bbox { top: 20%; left: 35%; width: 22%; height: 45%; }
 .bbox-scene1 { top: 15%; left: 25%; width: 20%; height: 40%; }
 .bbox-scene2 { top: 10%; left: 55%; width: 22%; height: 45%; }
