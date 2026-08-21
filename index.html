@@ -9,20 +9,20 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="top">
 
-  <!-- CORNER NAVIGATION -->
-  <nav class="corner-nav">
+  <!-- LEFT NAV (NO POINTER EVENTS) -->
+  <div class="corner-nav">
     <div>TEASER ARCHIVE</div>
     <div>STORYFOOTAGE</div>
     <div>2026.08</div>
-  </nav>
+  </div>
 
-  <!-- CORNER BADGE (TOP BUTTON) -->
-  <div class="corner-badge" id="scrollTopBtn" onclick="scrollToTop()">
+  <!-- TOP BUTTON (DIRECT ANCHOR TO #top) -->
+  <a href="#top" class="corner-badge" aria-label="Scroll to top">
     <div>EST. IN 2026</div>
     <div class="badge-circle">▲</div>
-  </div>
+  </a>
 
   <!-- HERO SECTION -->
   <section class="hero">
@@ -39,11 +39,10 @@
 
   <!-- MAIN TEASER VIDEO FRAME -->
   <div class="media-section">
-    <div class="video-frame" id="videoFrame" onclick="toggleVideoPlay()">
-      <video id="teaserVideo" playsinline preload="metadata">
+    <div class="video-frame" id="videoFrame">
+      <video id="teaserVideo" playsinline preload="metadata" controls>
         <source src="YTDown.com_YouTube_Media_IZI1INOARtc_001_1080p.mp4" type="video/mp4">
       </video>
-      <!-- BOUNDING BOX OVERLAY FOR VIDEO -->
       <div class="bounding-box video-bbox">
         <span class="bbox-label">SYS_CAM_01</span>
       </div>
@@ -84,7 +83,7 @@
     <!-- SCENE 02 -->
     <article class="story-node">
       <div class="node-media">
-        <img src="02_prank.jpg" alt="Scene 02">
+        <img src="01_prank.jpg" alt="Scene 02">
         <div class="bounding-box bbox-scene2">
           <span class="bbox-label">??????</span>
         </div>
