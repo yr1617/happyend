@@ -1,10 +1,8 @@
 :root {
-  /* Colors */
   --color-signal-flare: #ff1a00;
   --color-sun-baked-canvas: #f2ece1;
   --color-midnight-frame: #0a0a0a;
 
-  /* Typography */
   --font-pressura: 'JetBrains Mono', monospace;
   --font-monument: 'Space Grotesk', sans-serif;
 
@@ -32,12 +30,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* CORNER NAVIGATION & BADGES (Z-INDEX UPGRADE) */
+/* CORNER NAVIGATION & BADGES */
 .corner-nav {
   position: fixed;
   top: 24px;
   left: 24px;
-  z-index: 999;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -50,7 +48,7 @@ body {
   position: fixed;
   top: 24px;
   right: 24px;
-  z-index: 999;
+  z-index: 9999;
   text-align: right;
   font-size: var(--text-caption);
   cursor: pointer !important;
@@ -107,27 +105,31 @@ body {
   text-transform: uppercase;
 }
 
-/* FULL-BLEED MEDIA SECTIONS */
+/* MEDIA SECTIONS (FULL-BLEED & NO BLACK BARS) */
 .media-section {
   background-color: var(--color-midnight-frame);
-  width: 100%;
+  width: 100vw;
   position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .video-frame {
   position: relative;
   width: 100%;
-  height: 65vh;
+  aspect-ratio: 16 / 9;
+  max-height: 80vh;
   overflow: hidden;
   cursor: pointer !important;
 }
 
-video {
+video, img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  pointer-events: none; /* 클릭 이벤트를 부모 .video-frame으로 전달 */
 }
 
 .play-control {
@@ -167,42 +169,22 @@ video {
   text-transform: uppercase;
 }
 
-/* RED BOUNDING BOX OVERLAY */
+/* MEDIA ITEM CONTAINERS WITH EXACT FIT */
 .node-media {
   position: relative;
   background-color: var(--color-midnight-frame);
   width: 100%;
-  height: 70vh;
+  aspect-ratio: 16 / 9;
   margin-bottom: 30px;
   overflow: hidden;
 }
 
+/* RED BOUNDING BOX OVERLAY (FINE-TUNED PER SCENE) */
 .bounding-box {
   position: absolute;
   border: 2px solid var(--color-signal-flare);
   pointer-events: none;
   z-index: 5;
-}
-
-.bbox-left {
-  top: 10%;
-  left: 12%;
-  width: 28%;
-  height: 42%;
-}
-
-.bbox-right {
-  top: 12%;
-  right: 15%;
-  width: 30%;
-  height: 45%;
-}
-
-.video-bbox-left {
-  top: 15%;
-  left: 10%;
-  width: 25%;
-  height: 40%;
 }
 
 .bbox-label {
@@ -216,7 +198,17 @@ video {
   padding: 2px 6px;
   font-weight: bold;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
+
+/* Scene-specific Face/Target bounding box positioning */
+.video-bbox { top: 20%; left: 35%; width: 22%; height: 45%; }
+.bbox-scene1 { top: 15%; left: 25%; width: 20%; height: 40%; }
+.bbox-scene2 { top: 10%; left: 55%; width: 22%; height: 45%; }
+.bbox-scene3 { top: 25%; left: 40%; width: 18%; height: 35%; }
+.bbox-scene4 { top: 15%; left: 65%; width: 20%; height: 42%; }
+.bbox-scene5 { top: 20%; left: 38%; width: 24%; height: 48%; }
+.bbox-scene6 { top: 30%; left: 20%; width: 15%; height: 35%; }
 
 /* STORY NARRATIVE SCROLL */
 .story-container {
@@ -254,12 +246,5 @@ video {
   .analysis-block {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
-  .node-media {
-    height: 45vh;
-  }
-  .bbox-left, .bbox-right, .video-bbox-left {
-    width: 45%;
-    height: 40%;
   }
 }
