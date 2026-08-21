@@ -335,3 +335,208 @@ img {
     gap: 20px;
   }
 }
+/* INTERACTIVE MUSIC PLAYER SECTION */
+.cd-section {
+  width: 100%;
+  max-width: 1440px;
+  margin: 100px auto;
+  padding: 40px 24px;
+  background-color: var(--color-midnight-frame);
+  color: var(--color-signal-flare);
+  border: 1px solid var(--color-signal-flare);
+}
+
+.cd-section-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-caption);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-signal-flare);
+  padding-bottom: 16px;
+  margin-bottom: 40px;
+}
+
+.player-workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* CD PLAYER DEVICE */
+.cd-player-device {
+  background-color: #141414;
+  border: 2px solid var(--color-signal-flare);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.player-deck {
+  width: 240px;
+  height: 240px;
+  background-color: #0a0a0a;
+  border: 2px dashed var(--color-signal-flare);
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.player-deck.drag-over {
+  background-color: rgba(255, 26, 0, 0.15);
+  border-style: solid;
+}
+
+.cd-tray {
+  width: 200px;
+  height: 200px;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 26, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tray-center-pin {
+  width: 24px;
+  height: 24px;
+  border-radius: 50% !important;
+  border: 2px solid var(--color-signal-flare);
+  background-color: #141414;
+  z-index: 2;
+}
+
+.tray-text {
+  position: absolute;
+  font-size: 11px;
+  color: var(--color-signal-flare);
+  opacity: 0.6;
+}
+
+.player-controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-signal-flare);
+  padding-top: 20px;
+}
+
+.track-display {
+  font-size: var(--text-caption);
+  letter-spacing: 0.5px;
+}
+
+.eject-btn {
+  background: transparent;
+  border: 1px solid var(--color-signal-flare);
+  color: var(--color-signal-flare);
+  padding: 6px 16px;
+  font-family: var(--font-pressura);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.eject-btn:hover {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+}
+
+/* ALBUM RACK & CD ANIMATION */
+.album-rack {
+  display: flex;
+  flex-direction: column;
+  gap: -30px; /* 겹친 느낌 효과 */
+  position: relative;
+}
+
+.album-item {
+  position: relative;
+  width: 280px;
+  height: 180px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.album-item:hover {
+  transform: translateY(-10px);
+}
+
+.album-cover {
+  width: 180px;
+  height: 180px;
+  background-color: var(--color-sun-baked-canvas);
+  color: var(--color-midnight-frame);
+  border: 2px solid var(--color-signal-flare);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+/* CD DISC GRAPHIC */
+.cd-disc {
+  width: 160px;
+  height: 160px;
+  background: repeating-radial-gradient(
+    circle at center,
+    #2b2b2b,
+    #141414 4px,
+    #3a3a3a 8px
+  );
+  border-radius: 50% !important;
+  border: 1px solid var(--color-signal-flare);
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: grab;
+}
+
+.cd-disc:active {
+  cursor: grabbing;
+}
+
+.cd-label {
+  font-size: 9px;
+  color: var(--color-signal-flare);
+  border: 1px solid var(--color-signal-flare);
+  padding: 2px 6px;
+  background-color: #0a0a0a;
+}
+
+/* ALBUM OPENED STATE */
+.album-item.open .cd-disc {
+  left: 110px; /* 슬라이드되며 CD가 꺼내짐 */
+}
+
+/* CD SPINNING WHEN PLAYING */
+.cd-disc.spinning {
+  animation: spinCD 2s linear infinite;
+}
+
+@keyframes spinCD {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .player-workspace {
+    grid-template-columns: 1fr;
+  }
+}
