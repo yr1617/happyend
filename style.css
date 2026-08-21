@@ -219,14 +219,83 @@ img {
   white-space: nowrap;
 }
 
-/* Bounding box coords */
-.video-bbox { top: 20%; left: 35%; width: 22%; height: 45%; }
-.bbox-scene1 { top: 15%; left: 25%; width: 20%; height: 40%; }
-.bbox-scene2 { top: 10%; left: 55%; width: 22%; height: 45%; }
-.bbox-scene3 { top: 25%; left: 40%; width: 18%; height: 35%; }
-.bbox-scene4 { top: 15%; left: 65%; width: 20%; height: 42%; }
-.bbox-scene5 { top: 20%; left: 38%; width: 24%; height: 48%; }
-.bbox-scene6 { top: 30%; left: 20%; width: 15%; height: 35%; }
+/* RED BOUNDING BOX OVERLAY (EXACT TARGETING) */
+.bounding-box {
+  position: absolute;
+  border: 2px solid var(--color-signal-flare);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.bbox-label {
+  position: absolute;
+  bottom: -22px;
+  left: -2px;
+  background-color: var(--color-signal-flare);
+  color: #ffffff;
+  font-size: 11px;
+  font-family: var(--font-pressura);
+  padding: 2px 6px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* 1. 메인 틸저 비디오: 중앙 인물 영역 */
+.video-bbox { 
+  top: 25%; 
+  left: 38%; 
+  width: 24%; 
+  height: 50%; 
+}
+
+/* Scene 01 (클럽): 주요 인물 영역 */
+.bbox-scene1 { 
+  top: 20%; 
+  left: 30%; 
+  width: 22%; 
+  height: 55%; 
+}
+
+/* Scene 02 (장난): 노란색 거꾸로 선 자동차 정확히 타깃 */
+.bbox-scene2 { 
+  top: 14%; 
+  left: 22%; 
+  width: 16%; 
+  height: 62%; 
+}
+
+/* Scene 03 (감시): 중앙 화면 피사체 */
+.bbox-scene3 { 
+  top: 20%; 
+  left: 35%; 
+  width: 30%; 
+  height: 50%; 
+}
+
+/* Scene 04 (갈등): 오른쪽 학생/인물 영역 */
+.bbox-scene4 { 
+  top: 20%; 
+  left: 60%; 
+  width: 25%; 
+  height: 55%; 
+}
+
+/* Scene 05 (포옹): 중앙 뭉쳐있는 인물들 */
+.bbox-scene5 { 
+  top: 18%; 
+  left: 32%; 
+  width: 36%; 
+  height: 60%; 
+}
+
+/* Scene 06 (다리): 다리 위 두 인물 영역 정확히 타깃 */
+.bbox-scene6 { 
+  top: 48%; 
+  left: 36%; 
+  width: 32%; 
+  height: 48%; 
+}
 
 /* STORY NARRATIVE SCROLL */
 .story-container {
