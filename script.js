@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. 기존 비디오 플레이어 제어 로직
+  // ==========================================
   const video = document.getElementById('teaserVideo');
   const playControl = document.getElementById('playControl');
 
   if (video && playControl) {
-    // 비디오 클릭 또는 기본 컨트롤 작동 시 재생 상태 반영
     video.addEventListener('play', () => {
       playControl.style.opacity = '0';
     });
@@ -16,45 +19,41 @@ document.addEventListener('DOMContentLoaded', () => {
       playControl.style.opacity = '1';
     });
   }
-});
-let currentActiveDisc = null;
 
-let activeCD = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================
+  // 2. CD 플레이어 인터랙션 로직
+  // ==========================================
   let activeCD = null;
 
-  // 1. 앨범 클릭 이벤트 (열기 / 닫기)
-  const albums = document.querySelectorAll('.album-item');
-  albums.forEach(album => {
-    album.addEventListener('click', (e) => {
-      // CD를 직접 드래그할 때는 앨범 토글 동작 방지
-      if (e.target.classList.contains('cd-disc')) return;
-      album.classList.toggle('open');
+  // A. 커버 클릭 시 앨범 열기 / 닫기
+  const albumCovers = document.querySelectorAll('.album-cover');
+  albumCovers.forEach(cover => {
+    cover.addEventListener('click', () => {
+      const parentAlbum = cover.parentElement;
+      parentAlbum.classList.toggle('open');
     });
   });
 
-  // 2. CD 드래그 이벤트 등록
+  // B. CD 드래그 시작 이벤트
   const cds = document.querySelectorAll('.cd-disc');
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', cd.id);
-      e.dataTransfer.setData('track', cd.getAttribute('data-track'));
-      e.dataTransfer.setData('title', cd.getAttribute('data-title'));
+      e.dataTransfer.setData('cd-id', cd.id);
+      e.dataTransfer.setData('title', cd.getAttribute('data-title') || 'HAPPYEND TRACK');
     });
   });
 
-  // 3. 드롭존(플레이어) 이벤트 등록
+  // C. 플레이어 Drop Zone 이벤트
   const dropZone = document.getElementById('dropZone');
   const playerDeck = document.getElementById('playerDeck');
   const cdTray = document.getElementById('cdTray');
-  const audioPlayer = document.getElementById('audioPlayer');
   const trackDisplay = document.getElementById('trackDisplay');
   const trayText = document.getElementById('trayText');
   const ejectBtn = document.getElementById('ejectBtn');
 
   if (dropZone) {
-    // 드래그가 영역 위로 올 때 (반드시 preventDefault 필요)
+    // 드래그가 영역 위로 올 때 (드롭 허용 필수)
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
       playerDeck.classList.add('drag-over');
@@ -65,52 +64,45 @@ document.addEventListener('DOMContentLoaded', () => {
       playerDeck.classList.remove('drag-over');
     });
 
-    // 마우스를 놓았을 때 (드롭)
+    // CD를 놓았을 때 (드롭 시 무조건 회전 애니메이션 실행)
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       playerDeck.classList.remove('drag-over');
 
-      const cdId = e.dataTransfer.getData('text/plain');
-      const track = e.dataTransfer.getData('track');
+      const cdId = e.dataTransfer.getData('cd-id');
       const title = e.dataTransfer.getData('title');
-
       const cdElement = document.getElementById(cdId);
 
-      if (cdElement && track) {
+      if (cdElement) {
+        // 이미 꽂혀있는 CD가 있다면 꺼냄
         if (activeCD) {
           ejectCD();
         }
 
         activeCD = cdElement;
 
-        // CD를 플레이어 안으로 장착
+        // CD를 플레이어 중앙 덱으로 장착 및 회전 적용
         cdTray.appendChild(cdElement);
         cdElement.classList.add('inserted', 'spinning');
 
-        // 오디오 재생
-        audioPlayer.src = track;
-        audioPlayer.play().catch(err => console.log('재생 에러:', err));
-
-        trackDisplay.innerText = title;
-        trayText.innerText = '';
+        // 상태 표시 텍스트 변경 & 스캔 빔 실행
+        if (trackDisplay) trackDisplay.innerText = title + ' [PLAYING]';
+        if (trayText) trayText.innerText = '';
         playerDeck.classList.add('playing');
       }
     });
   }
 
-  // 4. EJECT (꺼내기) 버튼 기능
+  // D. EJECT (꺼내기) 버튼 기능
   function ejectCD() {
-    audioPlayer.pause();
-    audioPlayer.currentTime = 0;
-
-    playerDeck.classList.remove('playing');
-    trackDisplay.innerText = 'NO DISC LOADED';
-    trayText.innerText = 'DROP CD HERE';
+    if (playerDeck) playerDeck.classList.remove('playing');
+    if (trackDisplay) trackDisplay.innerText = 'NO DISC LOADED';
+    if (trayText) trayText.innerText = 'DROP CD HERE';
 
     if (activeCD) {
       activeCD.classList.remove('spinning', 'inserted');
 
-      // 원래 CD가 있던 앨범 위치 찾아 복귀
+      // 원래 속했던 앨범 위치로 반환
       let targetAlbumId = 'album1';
       if (activeCD.id === 'cd2') targetAlbumId = 'album2';
       if (activeCD.id === 'cd3') targetAlbumId = 'album3';
@@ -126,4 +118,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ejectBtn) {
     ejectBtn.addEventListener('click', ejectCD);
   }
-});}
+
+});
