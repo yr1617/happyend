@@ -68,13 +68,13 @@ body {
   transition: all 0.2s ease;
 }
 
-/* 맨 위로 가기 버튼 HOVER 효과 추가 */
+/* 맨 위로 가기 버튼 HOVER 효과 */
 .corner-badge:hover .badge-circle {
   background-color: var(--color-signal-flare);
   color: var(--color-sun-baked-canvas);
 }
 
-/* HERO SECTION (첫 화면 - 비디오 침범 완벽 방지) */
+/* HERO SECTION (첫 화면) */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -252,7 +252,7 @@ video {
   display: block;
 }
 
-/* 1. STORY TAB (기존 오리지널 본문 스타일) */
+/* STORY TAB */
 .story-node {
   margin-bottom: 100px;
 }
@@ -285,14 +285,15 @@ video {
   line-height: 1.5;
 }
 
+/* 본문 글자색 원복 (시그널 플레어 레드) */
 .analysis-text {
   font-size: 15px;
   line-height: 1.6;
-  color: #1a1a1a;
+  color: var(--color-signal-flare);
   word-break: keep-all;
 }
 
-/* 2. CHARACTERS TAB */
+/* CHARACTERS TAB */
 .character-list {
   display: flex;
   flex-direction: column;
@@ -346,11 +347,11 @@ video {
 .char-desc {
   font-size: 15px;
   line-height: 1.6;
-  color: #1a1a1a;
+  color: var(--color-signal-flare);
   word-break: keep-all;
 }
 
-/* 3. MUSIC TAB */
+/* MUSIC TAB */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
