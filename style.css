@@ -3,11 +3,6 @@
   --color-sun-baked-canvas: #f2ece1;
   --color-midnight-frame: #0a0a0a;
 
-  --color-deck-base: #e6e6e6;
-  --color-deck-border: #cccccc;
-  --color-platter: #8c8c8c;
-  --color-vinyl-groove: #1a1a1a;
-
   --font-pressura: 'JetBrains Mono', monospace;
   --font-monument: 'Space Grotesk', sans-serif;
 
@@ -145,6 +140,32 @@ video {
   display: block;
 }
 
+/* CLICK-BLOCKING OVERLAY FIX */
+.bounding-box {
+  position: absolute;
+  border: 2px solid var(--color-signal-flare);
+  pointer-events: none !important; /* 마우스 클릭 통과 설정 */
+  z-index: 5;
+}
+
+.bbox-label {
+  position: absolute;
+  bottom: -22px;
+  left: -2px;
+  background-color: var(--color-signal-flare);
+  color: #ffffff;
+  font-size: 11px;
+  font-family: var(--font-pressura);
+  padding: 2px 6px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  pointer-events: none !important;
+}
+
+/* 비디오 상단에만 맞춘 Bounding Box */
+.video-bbox { top: 20%; left: 35%; width: 30%; height: 50%; }
+
 .play-control {
   position: absolute;
   top: 50%;
@@ -157,10 +178,10 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(10, 10, 10, 0.5);
+  background: rgba(10, 10, 10, 0.6);
   z-index: 30;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  pointer-events: none;
+  pointer-events: none !important; /* 마우스 클릭 통과 */
+  transition: opacity 0.2s ease;
 }
 
 .play-triangle {
@@ -172,7 +193,7 @@ video {
   margin-left: 4px;
 }
 
-/* PLAYING STATE: TOGGLE TO PAUSE ICON (11 SHAPE) */
+/* 재생 중일 때 11자 모양 토글 */
 .play-control.is-playing .play-triangle {
   width: 16px;
   height: 20px;
@@ -218,28 +239,6 @@ img {
   display: block;
 }
 
-.bounding-box {
-  position: absolute;
-  border: 2px solid var(--color-signal-flare);
-  pointer-events: none;
-  z-index: 5;
-}
-
-.bbox-label {
-  position: absolute;
-  bottom: -22px;
-  left: -2px;
-  background-color: var(--color-signal-flare);
-  color: #ffffff;
-  font-size: 11px;
-  font-family: var(--font-pressura);
-  padding: 2px 6px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.video-bbox { top: 25%; left: 38%; width: 24%; height: 50%; }
 .bbox-scene1 { top: 20%; left: 30%; width: 22%; height: 55%; }
 .bbox-scene2 { top: 14%; left: 22%; width: 16%; height: 62%; }
 .bbox-scene3 { top: 20%; left: 35%; width: 30%; height: 50%; }
@@ -314,9 +313,9 @@ img {
 
 /* VECTOR TURNTABLE DECK CONTAINER */
 .cd-player-device {
-  background-color: var(--color-deck-base);
+  background-color: #e6e6e6;
   border: 4px solid #b8b8b8;
-  padding: 35px;
+  padding: 30px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -324,12 +323,11 @@ img {
   user-select: none;
 }
 
-/* VECTOR GRAPHIC LAYOUT OF TURNTABLE */
 .turntable-surface {
   position: relative;
   width: 100%;
   aspect-ratio: 1.15 / 1;
-  background-color: #e0e0e0;
+  background-color: #dcdcdc;
   border: 2px solid #a6a6a6;
   display: flex;
   align-items: center;
@@ -338,10 +336,10 @@ img {
   overflow: hidden;
 }
 
-/* PLATTER (TURNTABLE BASE CIRCLE) */
+/* PLATTER */
 .player-deck {
-  width: 290px;
-  height: 290px;
+  width: 280px;
+  height: 280px;
   background-color: #8c8c8c;
   border-radius: 50% !important;
   border: 4px solid #737373;
@@ -356,14 +354,15 @@ img {
 }
 
 .cd-tray {
-  width: 270px;
-  height: 270px;
+  width: 260px;
+  height: 260px;
   border-radius: 50% !important;
-  background-color: #333333;
+  background-color: #262626;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  pointer-events: auto !important;
 }
 
 .tray-center-pin {
@@ -373,18 +372,19 @@ img {
   border-radius: 50% !important;
   border: 3px solid #737373;
   z-index: 30;
+  pointer-events: none;
 }
 
 .tray-text {
   position: absolute;
   font-size: 10px;
   font-family: var(--font-pressura);
-  color: #aaaaaa;
+  color: #888888;
   letter-spacing: 1px;
   pointer-events: none;
 }
 
-/* TONEARM GRAPHIC VECTOR (우측 톤암 디테일) */
+/* TONEARM GRAPHIC VECTOR */
 .tonearm-assembly {
   position: absolute;
   top: 25px;
@@ -395,11 +395,11 @@ img {
 }
 
 .tonearm-base {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-color: #333;
   border-radius: 50% !important;
-  border: 4px solid #666;
+  border: 3px solid #666;
   position: absolute;
   top: 0;
   right: 0;
@@ -407,10 +407,10 @@ img {
 
 .tonearm-stick {
   position: absolute;
-  top: 30px;
-  right: 27px;
-  width: 8px;
-  height: 200px;
+  top: 25px;
+  right: 22px;
+  width: 6px;
+  height: 190px;
   background-color: #b3b3b3;
   border: 1px solid #777;
   transform-origin: top center;
@@ -425,20 +425,20 @@ img {
 .tonearm-headshell {
   position: absolute;
   bottom: -10px;
-  left: -6px;
-  width: 20px;
-  height: 35px;
+  left: -5px;
+  width: 16px;
+  height: 30px;
   background-color: #1a1a1a;
   transform: rotate(20deg);
 }
 
-/* PITCH SLIDER (우측 하단 피치) */
+/* PITCH SLIDER */
 .pitch-slider {
   position: absolute;
   bottom: 25px;
   right: 20px;
-  width: 22px;
-  height: 100px;
+  width: 20px;
+  height: 90px;
   background-color: #b8b8b8;
   border: 2px solid #8c8c8c;
   display: flex;
@@ -447,26 +447,25 @@ img {
 }
 
 .pitch-line {
-  width: 4px;
-  height: 80px;
+  width: 3px;
+  height: 70px;
   background-color: #333;
 }
 
 .pitch-handle {
   position: absolute;
-  width: 30px;
-  height: 16px;
+  width: 26px;
+  height: 14px;
   background-color: #f2f2f2;
   border: 2px solid #333;
 }
 
-/* POWER BUTTON GRAPHIC (좌측 상단 버튼) */
 .deck-power-btn {
   position: absolute;
   top: 25px;
   left: 20px;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background-color: #d9d9d9;
   border: 2px solid #8c8c8c;
 }
@@ -476,7 +475,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333333;
+  background-color: #222222;
   padding: 12px 18px;
   color: #ffffff;
 }
@@ -531,7 +530,8 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  cursor: pointer;
+  cursor: pointer !important;
+  pointer-events: auto !important;
   box-sizing: border-box;
   transition: transform 0.3s ease;
 }
@@ -574,7 +574,8 @@ img {
   align-items: center;
   justify-content: center;
   transition: transform 0.4s ease;
-  cursor: grab;
+  cursor: grab !important;
+  pointer-events: auto !important;
   user-select: none;
 }
 
@@ -612,14 +613,14 @@ img {
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 250px !important;
-  height: 250px !important;
+  width: 240px !important;
+  height: 240px !important;
   z-index: 15 !important;
 }
 
 .cd-disc.inserted .cd-red-ring {
-  width: 80px !important;
-  height: 80px !important;
+  width: 70px !important;
+  height: 70px !important;
 }
 
 .cd-disc.spinning {
