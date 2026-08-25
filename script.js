@@ -1,29 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. 비디오 컨트롤 (재생 중 11자 표시)
+  // ==========================================
+  // 1. 비디오 클릭 시 Play / Pause 및 아이콘 완벽 토글
+  // ==========================================
   const video = document.getElementById('teaserVideo');
+  const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
 
-  if (video && playControl) {
+  if (video && videoFrame && playControl) {
+    
+    videoFrame.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+
     video.addEventListener('play', () => {
       playControl.classList.add('is-playing');
-      playControl.style.opacity = '0';
     });
 
     video.addEventListener('pause', () => {
       playControl.classList.remove('is-playing');
-      playControl.style.opacity = '1';
     });
 
     video.addEventListener('ended', () => {
       playControl.classList.remove('is-playing');
-      playControl.style.opacity = '1';
     });
   }
 
-  // 2. CD 인터랙션
+
+  // ==========================================
+  // 2. VECTOR TURNTABLE DRAG & DROP LOGIC
+  // ==========================================
   let activeCD = null;
 
+  // ALBUM COVER CLICK SLIDE TOGGLE
   const albumCovers = document.querySelectorAll('.album-cover');
   albumCovers.forEach(cover => {
     cover.addEventListener('click', (e) => {
@@ -33,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // DRAG SETUP
   const cds = document.querySelectorAll('.cd-disc');
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
@@ -42,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // DROP ZONE SETUP
   const dropZone = document.getElementById('dropZone');
   const playerDeck = document.getElementById('playerDeck');
   const cdTray = document.getElementById('cdTray');
@@ -79,15 +94,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (trackDisplay) trackDisplay.innerText = title + ' [PLAYING]';
         if (trayText) trayText.innerText = '';
-        playerDeck.classList.add('playing');
+        dropZone.classList.add('playing');
       }
     });
   }
 
+  // EJECT FUNCTION
   function ejectCD() {
-    if (playerDeck) playerDeck.classList.remove('playing');
-    if (trackDisplay) trackDisplay.innerText = 'NO DISC LOADED';
-    if (trayText) trayText.innerText = 'DROP CD HERE';
+    if (dropZone) dropZone.classList.remove('playing');
+    if (trackDisplay) trackDisplay.innerText = 'NO RECORD LOADED';
+    if (trayText) trayText.innerText = 'DROP HERE';
 
     if (activeCD) {
       activeCD.classList.remove('spinning', 'inserted');
@@ -107,4 +123,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ejectBtn) {
     ejectBtn.addEventListener('click', ejectCD);
   }
+
 });
