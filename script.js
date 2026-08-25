@@ -1,14 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ==========================================
-  // 1. 비디오 클릭 시 Play / Pause 및 아이콘 완벽 토글
-  // ==========================================
+  // 1. 비디오 클릭시 완벽 재생/일시정지 및 11자 아이콘 토글
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
 
   if (video && videoFrame && playControl) {
-    
     videoFrame.addEventListener('click', () => {
       if (video.paused) {
         video.play();
@@ -30,13 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
-  // ==========================================
-  // 2. VECTOR TURNTABLE DRAG & DROP LOGIC
-  // ==========================================
+  // 2. 턴테이블 드래그 앤 드롭 동작
   let activeCD = null;
 
-  // ALBUM COVER CLICK SLIDE TOGGLE
   const albumCovers = document.querySelectorAll('.album-cover');
   albumCovers.forEach(cover => {
     cover.addEventListener('click', (e) => {
@@ -46,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // DRAG SETUP
   const cds = document.querySelectorAll('.cd-disc');
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
@@ -56,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // DROP ZONE SETUP
   const dropZone = document.getElementById('dropZone');
   const playerDeck = document.getElementById('playerDeck');
   const cdTray = document.getElementById('cdTray');
@@ -99,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // EJECT FUNCTION
   function ejectCD() {
     if (dropZone) dropZone.classList.remove('playing');
     if (trackDisplay) trackDisplay.innerText = 'NO RECORD LOADED';
@@ -123,5 +113,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ejectBtn) {
     ejectBtn.addEventListener('click', ejectCD);
   }
-
 });
