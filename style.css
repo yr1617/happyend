@@ -74,7 +74,7 @@ body {
   color: var(--color-sun-baked-canvas);
 }
 
-/* HERO SECTION (첫 화면) */
+/* HERO SECTION (첫 화면 - 높이 독립 고정) */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -111,6 +111,7 @@ body {
   background-color: #000;
   cursor: pointer !important;
   overflow: hidden;
+  z-index: 10;
 }
 
 video {
@@ -136,6 +137,7 @@ video {
   background: rgba(10, 10, 10, 0.4);
   pointer-events: none;
   transition: opacity 0.2s ease;
+  z-index: 20;
 }
 
 .play-triangle {
@@ -198,6 +200,8 @@ video {
   gap: 8px;
   opacity: 0.4;
   transition: all 0.3s ease;
+  padding: 10px;
+  pointer-events: auto !important;
 }
 
 .album-tab-btn:hover, .album-tab-btn.active {
@@ -214,7 +218,7 @@ video {
   align-items: center;
   justify-content: center;
   background-color: var(--color-sun-baked-canvas);
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 .tab-graphic-icon .icon-inner-cd {
@@ -237,7 +241,7 @@ video {
 .tab-num {
   font-size: 10px;
   letter-spacing: 1px;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 /* TAB PANELS */
