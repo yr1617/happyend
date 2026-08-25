@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. 비디오 재생 / 일시정지
+  // 1. 트레일러 비디오 재생 / 일시정지
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
 
   if (videoFrame && video) {
-    videoFrame.addEventListener('click', () => {
+    videoFrame.addEventListener('click', (e) => {
+      e.preventDefault();
       if (video.paused) {
         video.play();
       } else {
@@ -14,12 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    video.addEventListener('play', () => playControl.classList.add('is-playing'));
-    video.addEventListener('pause', () => playControl.classList.remove('is-playing'));
-    video.addEventListener('ended', () => playControl.classList.remove('is-playing'));
+    video.addEventListener('play', () => {
+      if (playControl) playControl.classList.add('is-playing');
+    });
+
+    video.addEventListener('pause', () => {
+      if (playControl) playControl.classList.remove('is-playing');
+    });
+
+    video.addEventListener('ended', () => {
+      if (playControl) playControl.classList.remove('is-playing');
+    });
   }
 
-  // 2. 탭 전환 기능
+  // 2. 탭 전환 기능 (오류 수정 완료)
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -32,14 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
       tabContents.forEach(c => c.classList.remove('active'));
 
       btn.classList.add('active');
-      const activeSection = document.getElementById(targetTab);
-      if (activeSection) {
-        activeSection.classList.add('active');
+      const targetElement = document.getElementById(targetTab);
+      if (targetElement) {
+        targetElement.classList.add('active');
       }
     });
   });
 
-  // 3. LP 플레이어 Drag & Drop 및 인터랙션
+  // 3. CD/LP 플레이어 기능
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
@@ -107,7 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (activeCD.id === 'cd2') targetAlbumId = 'album2';
       if (activeCD.id === 'cd3') targetAlbumId = 'album3';
 
-      document.getElementById(targetAlbumId).appendChild(activeCD);
+      const targetAlbum = document.getElementById(targetAlbumId);
+      if (targetAlbum) {
+        targetAlbum.appendChild(activeCD);
+      }
       activeCD = null;
     }
   }
