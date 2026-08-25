@@ -1,15 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
 
-  // 1. 트레일러 비디오 재생 / 일시정지
+  // 1. 비디오 재생 / 일시정지 (비디오 객체 직접 제어)
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
 
   if (videoFrame && video) {
-    videoFrame.addEventListener('click', (e) => {
-      e.preventDefault();
+    videoFrame.addEventListener('click', () => {
       if (video.paused) {
-        video.play();
+        video.play().catch(err => console.log("Video play error:", err));
       } else {
         video.pause();
       }
@@ -28,27 +27,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. 탭 전환 기능
+  // 2. 탭 버튼 클릭 전환 (이벤트 위임 적용으로 동작 보장)
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetTab = btn.getAttribute('data-tab');
+      const currentBtn = e.currentTarget;
+      const targetTabId = currentBtn.getAttribute('data-tab');
 
+      // 기존 활성화 해제
       tabBtns.forEach(b => b.classList.remove('active'));
       tabContents.forEach(c => c.classList.remove('active'));
 
-      btn.classList.add('active');
-      const targetElement = document.getElementById(targetTab);
-      if (targetElement) {
-        targetElement.classList.add('active');
+      // 클릭한 탭 활성화
+      currentBtn.classList.add('active');
+      const targetContent = document.getElementById(targetTabId);
+      if (targetContent) {
+        targetContent.classList.add('active');
       }
     });
   });
 
-  // 3. CD/LP 플레이어 기능
+  // 3. CD 플레이어 드래그 앤 드롭
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
