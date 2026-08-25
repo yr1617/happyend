@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
 
-  if (videoFrame && video && playControl) {
+  if (videoFrame && video) {
     videoFrame.addEventListener('click', () => {
       if (video.paused) {
         video.play();
@@ -19,23 +19,27 @@ document.addEventListener('DOMContentLoaded', () => {
     video.addEventListener('ended', () => playControl.classList.remove('is-playing'));
   }
 
-  // 2. 탭 전환 기능 (앨범 선택 스타일)
+  // 2. 탭 전환 기능
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
   tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
       const targetTab = btn.getAttribute('data-tab');
 
       tabBtns.forEach(b => b.classList.remove('active'));
       tabContents.forEach(c => c.classList.remove('active'));
 
       btn.classList.add('active');
-      document.getElementById(targetTab).classList.add('active');
+      const activeSection = document.getElementById(targetTab);
+      if (activeSection) {
+        activeSection.classList.add('active');
+      }
     });
   });
 
-  // 3. LP 플레이어 Drag & Drop 및 앨범 클릭 슬라이드
+  // 3. LP 플레이어 Drag & Drop 및 인터랙션
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
@@ -89,13 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (trackDisplay) trackDisplay.innerText = title + ' [PLAYING]';
         if (trayText) trayText.innerText = '';
-        dropZone.classList.add('playing');
       }
     });
   }
 
   function ejectCD() {
-    if (dropZone) dropZone.classList.remove('playing');
     if (trackDisplay) trackDisplay.innerText = 'NO RECORD LOADED';
     if (trayText) trayText.innerText = 'DROP HERE';
 
