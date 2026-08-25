@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. 비디오 클릭시 완벽 재생/일시정지 및 11자 아이콘 토글
+  // 1. 비디오 재생 / 일시정지
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
 
-  if (video && videoFrame && playControl) {
+  if (videoFrame && video && playControl) {
     videoFrame.addEventListener('click', () => {
       if (video.paused) {
         video.play();
@@ -14,28 +14,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    video.addEventListener('play', () => {
-      playControl.classList.add('is-playing');
-    });
-
-    video.addEventListener('pause', () => {
-      playControl.classList.remove('is-playing');
-    });
-
-    video.addEventListener('ended', () => {
-      playControl.classList.remove('is-playing');
-    });
+    video.addEventListener('play', () => playControl.classList.add('is-playing'));
+    video.addEventListener('pause', () => playControl.classList.remove('is-playing'));
+    video.addEventListener('ended', () => playControl.classList.remove('is-playing'));
   }
 
-  // 2. 턴테이블 드래그 앤 드롭 동작
+  // 2. 탭 전환 기능 (앨범 선택 스타일)
+  const tabBtns = document.querySelectorAll('.album-tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+
+  // 3. LP 플레이어 Drag & Drop 및 앨범 클릭 슬라이드
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
   albumCovers.forEach(cover => {
     cover.addEventListener('click', (e) => {
       e.stopPropagation();
-      const parentAlbum = cover.parentElement;
-      parentAlbum.classList.toggle('open');
+      const parent = cover.parentElement;
+      parent.classList.toggle('open');
     });
   });
 
@@ -43,8 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', cd.id);
-      e.dataTransfer.setData('title', cd.getAttribute('data-title') || 'HAPPYEND TRACK');
-      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('title', cd.getAttribute('data-title'));
     });
   });
 
@@ -58,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (dropZone) {
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
       playerDeck.classList.add('drag-over');
     });
 
@@ -75,9 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cdElement = document.getElementById(cdId);
 
       if (cdElement) {
-        if (activeCD) {
-          ejectCD();
-        }
+        if (activeCD) ejectCD();
 
         activeCD = cdElement;
         cdTray.appendChild(cdElement);
@@ -97,15 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (activeCD) {
       activeCD.classList.remove('spinning', 'inserted');
-
       let targetAlbumId = 'album1';
       if (activeCD.id === 'cd2') targetAlbumId = 'album2';
       if (activeCD.id === 'cd3') targetAlbumId = 'album3';
 
-      const targetAlbum = document.getElementById(targetAlbumId);
-      if (targetAlbum) {
-        targetAlbum.appendChild(activeCD);
-      }
+      document.getElementById(targetAlbumId).appendChild(activeCD);
       activeCD = null;
     }
   }
