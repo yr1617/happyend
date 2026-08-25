@@ -65,22 +65,30 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 8px;
+  transition: all 0.2s ease;
 }
 
-/* HERO SECTION (첫화면 타이틀) */
+/* 맨 위로 가기 버튼 HOVER 효과 추가 */
+.corner-badge:hover .badge-circle {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+}
+
+/* HERO SECTION (첫 화면 - 비디오 침범 완벽 방지) */
 .hero {
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 24px;
+  position: relative;
 }
 
 .brand-logo-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .title-image {
@@ -89,7 +97,7 @@ body {
   height: auto;
 }
 
-/* TRAILER VIDEO SECTION (원래 너비 및 위치 복구) */
+/* TRAILER VIDEO SECTION */
 .media-container {
   max-width: 1200px;
   margin: 0 auto 60px auto;
@@ -110,6 +118,7 @@ video {
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 .play-control {
@@ -164,7 +173,7 @@ video {
   text-transform: uppercase;
 }
 
-/* ALBUM GRAPHIC TAB UI (텍스트 제거, 아이콘 형태만 배치) */
+/* GRAPHIC TAB SELECTOR UI */
 .album-tab-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -196,7 +205,6 @@ video {
   transform: translateY(-4px);
 }
 
-/* 그래픽 아이콘 스타일 */
 .tab-graphic-icon {
   width: 50px;
   height: 50px;
@@ -206,6 +214,7 @@ video {
   align-items: center;
   justify-content: center;
   background-color: var(--color-sun-baked-canvas);
+  pointer-events: none;
 }
 
 .tab-graphic-icon .icon-inner-cd {
@@ -228,9 +237,10 @@ video {
 .tab-num {
   font-size: 10px;
   letter-spacing: 1px;
+  pointer-events: none;
 }
 
-/* TAB CONTENT PANELS */
+/* TAB PANELS */
 .tab-content {
   display: none;
   max-width: 1200px;
@@ -242,7 +252,7 @@ video {
   display: block;
 }
 
-/* 1. STORY TAB (기존 시놉시스 스타일 유지) */
+/* 1. STORY TAB (기존 오리지널 본문 스타일) */
 .story-node {
   margin-bottom: 100px;
 }
@@ -282,7 +292,7 @@ video {
   word-break: keep-all;
 }
 
-/* 2. CHARACTERS TAB (시놉시스 UI 스타일 적용) */
+/* 2. CHARACTERS TAB */
 .character-list {
   display: flex;
   flex-direction: column;
@@ -443,7 +453,6 @@ video {
   color: var(--color-sun-baked-canvas);
 }
 
-/* ALBUM RACK */
 .album-rack {
   display: flex;
   flex-direction: column;
