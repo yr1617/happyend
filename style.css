@@ -8,12 +8,9 @@
 
   --text-caption: 12px;
   --text-body: 16px;
-  --text-heading: 48px;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 * {
   box-sizing: border-box;
@@ -29,12 +26,11 @@ body {
   font-family: var(--font-pressura);
   font-weight: 400;
   line-height: 1.2;
-  letter-spacing: -0.005em;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* CORNER NAVIGATION */
+/* CORNER NAV */
 .corner-nav {
   position: fixed;
   top: 24px;
@@ -57,9 +53,7 @@ body {
   font-size: var(--text-caption);
   color: var(--color-signal-flare);
   text-decoration: none;
-  display: block;
   cursor: pointer !important;
-  pointer-events: auto !important;
 }
 
 .badge-circle {
@@ -71,22 +65,15 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.corner-badge:hover .badge-circle {
-  background-color: var(--color-signal-flare);
-  color: var(--color-sun-baked-canvas);
 }
 
 /* HERO SECTION */
 .hero {
-  height: 100vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 24px;
-  position: relative;
 }
 
 .brand-logo-wrap {
@@ -94,43 +81,29 @@ body {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  width: 100%;
 }
 
 .title-image {
   width: 90vw;
   max-width: 1300px;
   height: auto;
-  display: block;
 }
 
-.footer-bar {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--text-caption);
-  width: 100%;
-  text-transform: uppercase;
-}
-
-/* MEDIA SECTIONS & VIDEO FIX */
+/* FIXED TRAILER VIDEO SECTION (상단 고정) */
 .media-section {
   background-color: var(--color-midnight-frame);
-  width: 100vw;
+  width: 100%;
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
 }
 
 .video-frame {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-height: 80vh;
+  max-height: 75vh;
   overflow: hidden;
   background-color: #000;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 video {
@@ -138,34 +111,10 @@ video {
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none; /* 비디오 자체 클릭을 부모 frame으로 전달 */
 }
 
-/* CLICK-BLOCKING OVERLAY FIX */
-.bounding-box {
-  position: absolute;
-  border: 2px solid var(--color-signal-flare);
-  pointer-events: none !important; /* 마우스 클릭 통과 설정 */
-  z-index: 5;
-}
-
-.bbox-label {
-  position: absolute;
-  bottom: -22px;
-  left: -2px;
-  background-color: var(--color-signal-flare);
-  color: #ffffff;
-  font-size: 11px;
-  font-family: var(--font-pressura);
-  padding: 2px 6px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  pointer-events: none !important;
-}
-
-/* 비디오 상단에만 맞춘 Bounding Box */
-.video-bbox { top: 20%; left: 35%; width: 30%; height: 50%; }
-
+/* 중앙 재생 컨트롤 버튼 */
 .play-control {
   position: absolute;
   top: 50%;
@@ -180,7 +129,7 @@ video {
   justify-content: center;
   background: rgba(10, 10, 10, 0.6);
   z-index: 30;
-  pointer-events: none !important; /* 마우스 클릭 통과 */
+  pointer-events: none !important;
   transition: opacity 0.2s ease;
 }
 
@@ -193,24 +142,18 @@ video {
   margin-left: 4px;
 }
 
-/* 재생 중일 때 11자 모양 토글 */
+/* 재생 상태 아이콘 전환 (11자 형태) */
 .play-control.is-playing .play-triangle {
   width: 16px;
   height: 20px;
   border: none;
   margin-left: 0;
-  background: transparent;
   border-left: 6px solid var(--color-signal-flare);
   border-right: 6px solid var(--color-signal-flare);
 }
 
-.play-control.is-playing {
-  opacity: 0;
-}
-
-.video-frame:hover .play-control.is-playing {
-  opacity: 0.8;
-}
+.play-control.is-playing { opacity: 0; }
+.video-frame:hover .play-control.is-playing { opacity: 0.8; }
 
 .section-metadata {
   display: flex;
@@ -218,25 +161,178 @@ video {
   padding: 12px 24px;
   font-size: var(--text-caption);
   background-color: var(--color-sun-baked-canvas);
-  border-bottom: 1px solid var(--color-signal-flare);
+  border-bottom: 2px solid var(--color-signal-flare);
   text-transform: uppercase;
 }
 
-/* MEDIA ITEM CONTAINERS */
+/* ==========================================
+   GRAPHIC ALBUM STYLE TAB UI (앨범 셀렉터)
+   ========================================== */
+.album-tab-container {
+  max-width: 1200px;
+  margin: 60px auto 20px auto;
+  padding: 0 24px;
+}
+
+.tab-selector-bar {
+  display: flex;
+  gap: 20px;
+  border-bottom: 2px solid var(--color-midnight-frame);
+  padding-bottom: 20px;
+  justify-content: center;
+}
+
+.album-tab-btn {
+  background: #e6e1d5;
+  border: 2px solid var(--color-midnight-frame);
+  padding: 15px 25px;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.2s ease;
+}
+
+.tab-jacket {
+  width: 35px;
+  height: 35px;
+  background-color: var(--color-midnight-frame);
+  color: var(--color-sun-baked-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.tab-info {
+  text-align: left;
+}
+
+.tab-cat {
+  font-size: 9px;
+  color: #666;
+  display: block;
+}
+
+.tab-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-midnight-frame);
+}
+
+.album-tab-btn:hover, .album-tab-btn.active {
+  background: var(--color-midnight-frame);
+  border-color: var(--color-signal-flare);
+  transform: translateY(-5px);
+}
+
+.album-tab-btn:hover .tab-title, .album-tab-btn.active .tab-title {
+  color: var(--color-signal-flare);
+}
+
+.album-tab-btn:hover .tab-jacket, .album-tab-btn.active .tab-jacket {
+  background-color: var(--color-signal-flare);
+  color: var(--color-midnight-frame);
+}
+
+/* TAB CONTENT CONTAINER */
+.tab-content {
+  display: none;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* 1. CHARACTERS TAB */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.char-card {
+  border: 2px solid var(--color-midnight-frame);
+  background-color: #f7f5f0;
+  padding: 20px;
+}
+
+.char-img-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background-color: #d8d3c5;
+  border: 1px dashed var(--color-midnight-frame);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.char-meta {
+  border-top: 2px solid var(--color-midnight-frame);
+  padding-top: 15px;
+}
+
+.char-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--color-midnight-frame);
+}
+
+.actor-name {
+  font-size: 12px;
+  color: var(--color-signal-flare);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.char-desc {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 2. STORY TAB */
+.story-node {
+  margin-bottom: 100px;
+}
+
 .node-media {
   position: relative;
   background-color: var(--color-midnight-frame);
   width: 100%;
   aspect-ratio: 16 / 9;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   overflow: hidden;
 }
 
-img {
+.node-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+}
+
+.bounding-box {
+  position: absolute;
+  border: 2px solid var(--color-signal-flare);
+  pointer-events: none !important;
+}
+
+.bbox-label {
+  position: absolute;
+  bottom: -22px;
+  left: -2px;
+  background-color: var(--color-signal-flare);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 4px;
 }
 
 .bbox-scene1 { top: 20%; left: 30%; width: 22%; height: 55%; }
@@ -246,81 +342,48 @@ img {
 .bbox-scene5 { top: 18%; left: 32%; width: 36%; height: 60%; }
 .bbox-scene6 { top: 48%; left: 36%; width: 32%; height: 48%; }
 
-/* STORY NARRATIVE SCROLL */
-.story-container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 120px 24px;
-}
-
-.story-node {
-  margin-bottom: 160px;
-}
-
 .analysis-block {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 60px;
-  align-items: start;
+  gap: 40px;
 }
 
-.analysis-meta {
-  font-size: var(--text-caption);
-  line-height: 1.4;
-  text-transform: uppercase;
-}
+.analysis-meta { font-size: 11px; line-height: 1.4; }
+.analysis-text { font-size: 14px; line-height: 1.6; color: #222; word-break: keep-all; }
 
-.analysis-text {
-  font-size: var(--text-body);
-  line-height: 1.6;
-  letter-spacing: -0.01em;
-  text-transform: none;
-  word-break: keep-all;
-}
-
-/* ==========================================
-   2D FLAT VECTOR GRAPHIC TURNTABLE SECTION
-   ========================================== */
+/* 3. MUSIC TURNTABLE TAB */
 .cd-section {
   width: 100%;
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 40px;
+  padding: 30px;
   background-color: #f7f5f0;
   border: 2px solid var(--color-midnight-frame);
-  box-sizing: border-box;
 }
 
 .cd-section-title {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  font-family: var(--font-pressura);
   color: var(--color-midnight-frame);
-  letter-spacing: 1.5px;
   border-bottom: 2px solid var(--color-midnight-frame);
-  padding-bottom: 12px;
-  margin-bottom: 40px;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
   font-weight: bold;
 }
 
 .player-workspace {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 50px;
+  gap: 40px;
   align-items: center;
 }
 
-/* VECTOR TURNTABLE DECK CONTAINER */
 .cd-player-device {
   background-color: #e6e6e6;
   border: 4px solid #b8b8b8;
-  padding: 30px;
-  position: relative;
+  padding: 25px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  user-select: none;
+  gap: 15px;
 }
 
 .turntable-surface {
@@ -336,10 +399,9 @@ img {
   overflow: hidden;
 }
 
-/* PLATTER */
 .player-deck {
-  width: 280px;
-  height: 280px;
+  width: 260px;
+  height: 260px;
   background-color: #8c8c8c;
   border-radius: 50% !important;
   border: 4px solid #737373;
@@ -349,20 +411,17 @@ img {
   position: relative;
 }
 
-.player-deck.drag-over {
-  background-color: #ff1a00;
-}
+.player-deck.drag-over { background-color: var(--color-signal-flare); }
 
 .cd-tray {
-  width: 260px;
-  height: 260px;
+  width: 240px;
+  height: 240px;
   border-radius: 50% !important;
   background-color: #262626;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  pointer-events: auto !important;
 }
 
 .tray-center-pin {
@@ -378,25 +437,22 @@ img {
 .tray-text {
   position: absolute;
   font-size: 10px;
-  font-family: var(--font-pressura);
-  color: #888888;
-  letter-spacing: 1px;
+  color: #888;
   pointer-events: none;
 }
 
-/* TONEARM GRAPHIC VECTOR */
 .tonearm-assembly {
   position: absolute;
   top: 25px;
   right: 25px;
   width: 90px;
-  height: 260px;
+  height: 240px;
   pointer-events: none;
 }
 
 .tonearm-base {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   background-color: #333;
   border-radius: 50% !important;
   border: 3px solid #666;
@@ -407,163 +463,90 @@ img {
 
 .tonearm-stick {
   position: absolute;
-  top: 25px;
-  right: 22px;
+  top: 20px;
+  right: 20px;
   width: 6px;
-  height: 190px;
+  height: 180px;
   background-color: #b3b3b3;
-  border: 1px solid #777;
   transform-origin: top center;
   transform: rotate(-15deg);
   transition: transform 0.6s ease;
 }
 
-.playing .tonearm-stick {
-  transform: rotate(18deg);
-}
+.playing .tonearm-stick { transform: rotate(18deg); }
 
 .tonearm-headshell {
   position: absolute;
   bottom: -10px;
   left: -5px;
   width: 16px;
-  height: 30px;
+  height: 28px;
   background-color: #1a1a1a;
   transform: rotate(20deg);
 }
 
-/* PITCH SLIDER */
-.pitch-slider {
-  position: absolute;
-  bottom: 25px;
-  right: 20px;
-  width: 20px;
-  height: 90px;
-  background-color: #b8b8b8;
-  border: 2px solid #8c8c8c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.pitch-line {
-  width: 3px;
-  height: 70px;
-  background-color: #333;
-}
-
-.pitch-handle {
-  position: absolute;
-  width: 26px;
-  height: 14px;
-  background-color: #f2f2f2;
-  border: 2px solid #333;
-}
-
-.deck-power-btn {
-  position: absolute;
-  top: 25px;
-  left: 20px;
-  width: 24px;
-  height: 24px;
-  background-color: #d9d9d9;
-  border: 2px solid #8c8c8c;
-}
-
-/* DISPLAY & CONTROLS */
 .player-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #222222;
-  padding: 12px 18px;
-  color: #ffffff;
+  background-color: #222;
+  padding: 10px 15px;
+  color: #fff;
 }
 
-.track-display {
-  font-size: 11px;
-  font-family: var(--font-pressura);
-  letter-spacing: 1px;
-}
+.track-display { font-size: 11px; }
 
 .eject-btn {
   background: var(--color-signal-flare);
   border: none;
-  color: #ffffff;
-  padding: 6px 14px;
+  color: #fff;
+  padding: 6px 12px;
   font-size: 10px;
-  font-family: var(--font-pressura);
   font-weight: bold;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
-.eject-btn:hover {
-  background-color: #cc1500;
-}
-
-/* ALBUM RACK & VECTOR VINYL DISCS */
+/* ALBUM RACK & DISCS */
 .album-rack {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
 }
 
 .album-item {
   position: relative;
   width: 100%;
-  height: 150px;
+  height: 140px;
   display: flex;
   align-items: center;
 }
 
 .album-cover {
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   background-color: var(--color-midnight-frame);
-  color: #ffffff;
+  color: #fff;
   border: 2px solid var(--color-midnight-frame);
   position: absolute;
   top: 0;
   left: 0;
   z-index: 20;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer !important;
-  pointer-events: auto !important;
-  box-sizing: border-box;
   transition: transform 0.3s ease;
 }
 
-.cover-no {
-  font-size: 10px;
-  color: var(--color-signal-flare);
-}
+.cover-no { font-size: 10px; color: var(--color-signal-flare); }
+.cover-title { font-size: 12px; font-weight: bold; }
+.click-hint { font-size: 8px; background: var(--color-signal-flare); color: #fff; padding: 2px 4px; width: fit-content; }
 
-.cover-title {
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.click-hint {
-  font-size: 8px;
-  background-color: var(--color-signal-flare);
-  color: #fff;
-  padding: 2px 4px;
-  width: fit-content;
-}
-
-/* 2D VECTOR VINYL GRAPHIC */
 .cd-disc {
-  width: 140px;
-  height: 140px;
-  background: repeating-radial-gradient(
-    circle at center,
-    #2b2b2b 0px,
-    #1a1a1a 4px,
-    #333333 8px
-  );
+  width: 130px;
+  height: 130px;
+  background: repeating-radial-gradient(circle at center, #2b2b2b 0px, #1a1a1a 4px, #333 8px);
   border-radius: 50% !important;
   border: 1px solid #000;
   position: absolute;
@@ -575,13 +558,11 @@ img {
   justify-content: center;
   transition: transform 0.4s ease;
   cursor: grab !important;
-  pointer-events: auto !important;
-  user-select: none;
 }
 
 .cd-red-ring {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   background-color: var(--color-signal-flare);
   border-radius: 50% !important;
   display: flex;
@@ -591,41 +572,27 @@ img {
 }
 
 .cd-center-hole {
-  width: 14px;
-  height: 14px;
-  background-color: #ffffff;
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
   border-radius: 50% !important;
-  pointer-events: none;
 }
 
-/* OPEN STATE & INSERTED ANIMATION */
-.album-item.open .album-cover {
-  transform: translateX(-15px);
-}
-
-.album-item.open .cd-disc {
-  transform: translateX(130px);
-  z-index: 25;
-}
+.album-item.open .album-cover { transform: translateX(-15px); }
+.album-item.open .cd-disc { transform: translateX(120px); z-index: 25; }
 
 .cd-disc.inserted {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 240px !important;
-  height: 240px !important;
+  width: 220px !important;
+  height: 220px !important;
   z-index: 15 !important;
 }
 
-.cd-disc.inserted .cd-red-ring {
-  width: 70px !important;
-  height: 70px !important;
-}
-
-.cd-disc.spinning {
-  animation: spinVinyl 1.8s linear infinite !important;
-}
+.cd-disc.inserted .cd-red-ring { width: 60px !important; height: 60px !important; }
+.cd-disc.spinning { animation: spinVinyl 1.8s linear infinite !important; }
 
 @keyframes spinVinyl {
   from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -633,11 +600,8 @@ img {
 }
 
 @media (max-width: 768px) {
-  .analysis-block {
+  .player-workspace, .analysis-block, .tab-selector-bar {
     grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .player-workspace {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
