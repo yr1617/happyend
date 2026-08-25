@@ -16,7 +16,6 @@ html { scroll-behavior: smooth; }
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-radius: 0px !important;
   box-shadow: none !important;
 }
 
@@ -68,13 +67,12 @@ body {
   transition: all 0.2s ease;
 }
 
-/* 맨 위로 가기 버튼 HOVER 효과 */
 .corner-badge:hover .badge-circle {
   background-color: var(--color-signal-flare);
   color: var(--color-sun-baked-canvas);
 }
 
-/* HERO SECTION (첫 화면 - 높이 독립 고정) */
+/* HERO SECTION */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -256,7 +254,7 @@ video {
   display: block;
 }
 
-/* STORY TAB */
+/* TAB 1: STORY */
 .story-node {
   margin-bottom: 100px;
 }
@@ -289,7 +287,6 @@ video {
   line-height: 1.5;
 }
 
-/* 본문 글자색 원복 (시그널 플레어 레드) */
 .analysis-text {
   font-size: 15px;
   line-height: 1.6;
@@ -297,7 +294,7 @@ video {
   word-break: keep-all;
 }
 
-/* CHARACTERS TAB */
+/* TAB 2: CHARACTERS */
 .character-list {
   display: flex;
   flex-direction: column;
@@ -355,7 +352,7 @@ video {
   word-break: keep-all;
 }
 
-/* MUSIC TAB */
+/* TAB 3: MUSIC (그래픽 일러스트 턴테이블 스타일 반영) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -366,36 +363,44 @@ video {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .player-workspace {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
   align-items: center;
 }
 
+/* 턴테이블 기기 본체 그래픽 */
 .cd-player-device {
-  border: 1px solid var(--color-signal-flare);
-  padding: 20px;
+  background-color: #e2e2e2;
+  border-radius: 20px !important;
+  padding: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid #cccccc;
 }
 
 .turntable-surface {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border: 1px solid var(--color-signal-flare);
+  background-color: #d0d0d0;
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
+/* 회색 원형 플래터 */
 .player-deck {
-  width: 80%;
-  height: 80%;
-  border: 1px solid var(--color-signal-flare);
+  width: 90%;
+  height: 90%;
+  background-color: #888888;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -403,14 +408,15 @@ video {
 }
 
 .player-deck.drag-over {
-  background-color: rgba(255, 26, 0, 0.1);
+  background-color: #ffb4a8;
 }
 
+/* 검은색 마트 판 */
 .cd-tray {
-  width: 90%;
-  height: 90%;
+  width: 92%;
+  height: 92%;
+  background-color: #2b2b2b;
   border-radius: 50% !important;
-  border: 1px dashed var(--color-signal-flare);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -418,46 +424,77 @@ video {
 }
 
 .tray-center-pin {
-  width: 12px;
-  height: 12px;
-  border: 1px solid var(--color-signal-flare);
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
   border-radius: 50% !important;
-  background-color: var(--color-sun-baked-canvas);
   z-index: 30;
   pointer-events: none;
 }
 
 .tray-text {
   position: absolute;
-  font-size: 10px;
+  font-size: 11px;
+  color: #888888;
   pointer-events: none;
 }
 
+/* 톤암 & 톤암 피봇 일러스트 요소 */
+.cd-player-device::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  width: 65px;
+  height: 65px;
+  background: #333333;
+  border-radius: 50% !important;
+  z-index: 5;
+}
+
+.cd-player-device::after {
+  content: '';
+  position: absolute;
+  top: 75px;
+  right: 60px;
+  width: 10px;
+  height: 170px;
+  background: #777777;
+  border-radius: 5px !important;
+  transform: rotate(-25deg);
+  transform-origin: top center;
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* 컨트롤러 하단 디스플레이 및 버튼 */
 .player-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid var(--color-signal-flare);
+  background-color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 10px !important;
 }
 
-.track-display { font-size: 11px; }
+.track-display { 
+  font-size: 11px; 
+  color: #333333;
+  font-weight: bold;
+}
 
 .eject-btn {
-  background: none;
-  border: 1px solid var(--color-signal-flare);
-  color: var(--color-signal-flare);
-  padding: 6px 12px;
+  background: #ff1a00;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
   font-size: 10px;
+  font-weight: bold;
+  border-radius: 6px !important;
   cursor: pointer !important;
 }
 
-.eject-btn:hover {
-  background-color: var(--color-signal-flare);
-  color: var(--color-sun-baked-canvas);
-}
-
+/* LP 바이닐 (레코드) 그래픽 스타일 */
 .album-rack {
   display: flex;
   flex-direction: column;
@@ -495,7 +532,13 @@ video {
 .cd-disc {
   width: 110px;
   height: 110px;
-  border: 1px solid var(--color-signal-flare);
+  background: repeating-radial-gradient(
+    circle at center,
+    #111111 0,
+    #111111 4px,
+    #222222 5px,
+    #222222 8px
+  );
   border-radius: 50% !important;
   position: absolute;
   top: 5px;
@@ -506,13 +549,13 @@ video {
   justify-content: center;
   transition: transform 0.4s ease;
   cursor: grab !important;
-  background-color: var(--color-sun-baked-canvas);
 }
 
+/* 레코드 알맹이 (중앙 붉은 원) */
 .cd-center-ring {
-  width: 35px;
-  height: 35px;
-  border: 1px solid var(--color-signal-flare);
+  width: 42px;
+  height: 42px;
+  background-color: #ff4d36;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -523,25 +566,26 @@ video {
 .cd-center-hole {
   width: 10px;
   height: 10px;
-  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
   border-radius: 50% !important;
 }
 
 .album-item.open .album-cover { transform: translateX(-10px); }
 .album-item.open .cd-disc { transform: translateX(100px); z-index: 25; }
 
+/* LP판 장착 시 애니메이션 스타일 */
 .cd-disc.inserted {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 80% !important;
-  height: 80% !important;
+  width: 100% !important;
+  height: 100% !important;
   z-index: 15 !important;
 }
 
 .cd-disc.spinning {
-  animation: spinVinyl 3s linear infinite !important;
+  animation: spinVinyl 2.5s linear infinite !important;
 }
 
 @keyframes spinVinyl {
