@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. 탭 전환 기능 (오류 수정 완료)
+  // 2. 탭 전환 기능
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
