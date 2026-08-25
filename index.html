@@ -22,15 +22,15 @@
     <div class="badge-circle">▲</div>
   </a>
 
-  <!-- HERO LOGO -->
+  <!-- HERO TITLE (최상단 첫화면 복구) -->
   <section class="hero">
     <div class="brand-logo-wrap">
       <img src="HAPPYEND_title_transparent.svg" alt="HAPPYEND" class="title-image">
     </div>
   </section>
 
-  <!-- FIXED TOP TRAILER VIDEO -->
-  <div class="media-section">
+  <!-- TRAILER VIDEO SECTION (원래 자리 및 너비 복구) -->
+  <section class="media-container">
     <div class="video-frame" id="videoFrame">
       <video id="teaserVideo" playsinline preload="metadata">
         <source src="YTDown.com_YouTube_Media_IZI1INOARtc_001_1080p.mp4" type="video/mp4">
@@ -39,88 +39,49 @@
         <div class="play-triangle"></div>
       </div>
     </div>
-  </div>
-  <div class="section-metadata">
-    <div>OFFICIAL TEASER FOOTAGE</div>
-    <div>CLICK ANYWHERE ON VIDEO TO PLAY / PAUSE</div>
-  </div>
-
-  <!-- GRAPHIC ALBUM SELECTOR TAB MENU -->
-  <div class="album-tab-container">
-    <div class="tab-selector-bar">
-      <button class="album-tab-btn active" data-tab="tab-characters">
-        <div class="tab-jacket">01</div>
-        <div class="tab-info">
-          <span class="tab-cat">PROFILE ARCHIVE</span>
-          <span class="tab-title">등장인물 소개</span>
-        </div>
-      </button>
-
-      <button class="album-tab-btn" data-tab="tab-story">
-        <div class="tab-jacket">02</div>
-        <div class="tab-info">
-          <span class="tab-cat">SCENE FOOTAGE</span>
-          <span class="tab-title">스토리 분석</span>
-        </div>
-      </button>
-
-      <button class="album-tab-btn" data-tab="tab-music">
-        <div class="tab-jacket">03</div>
-        <div class="tab-info">
-          <span class="tab-cat">SOUNDTRACK</span>
-          <span class="tab-title">음악 플레이어</span>
-        </div>
-      </button>
-    </div>
-  </div>
-
-  <!-- TAB 1: CHARACTERS -->
-  <section id="tab-characters" class="tab-content active">
-    <div class="character-grid">
-      <div class="char-card">
-        <div class="char-img-placeholder">
-          <span>PROFILE IMAGE</span>
-          <span>(이미지 준비중)</span>
-        </div>
-        <div class="char-meta">
-          <div class="char-name">유타 (YUTA)</div>
-          <span class="actor-name">배우: 쿠리하라 하야토</span>
-          <p class="char-desc">음악을 사랑하며 친구들과의 자유로운 일상을 중요하게 생각하는 고등학생. 학교의 통제와 감시 체계 속에서 자신의 정체성을 고민한다.</p>
-        </div>
-      </div>
-
-      <div class="char-card">
-        <div class="char-img-placeholder">
-          <span>PROFILE IMAGE</span>
-          <span>(이미지 준비중)</span>
-        </div>
-        <div class="char-meta">
-          <div class="char-name">코우 (KOU)</div>
-          <span class="actor-name">배우: 히다카 유키토</span>
-          <p class="char-desc">유타의 오랜 친구이자 클럽 DJ 활동을 함께하는 인물. 장난으로 시작된 사건 이후 학교의 감시에 맞서며 유타와 서로 다른 선택의 갈림길에 선다.</p>
-        </div>
-      </div>
-
-      <div class="char-card">
-        <div class="char-img-placeholder">
-          <span>PROFILE IMAGE</span>
-          <span>(이미지 준비중)</span>
-        </div>
-        <div class="char-meta">
-          <div class="char-name">아오이 (AOI)</div>
-          <span class="actor-name">배우: 아라키 비와</span>
-          <p class="char-desc">학생 사회의 변화와 감시 시스템 도입 속에서 자신만의 방식으로 목소리를 내고자 하는 동급생.</p>
-        </div>
-      </div>
+    <div class="section-metadata">
+      <div>OFFICIAL TEASER FOOTAGE</div>
+      <div>CLICK TO PLAY / PAUSE</div>
     </div>
   </section>
 
-  <!-- TAB 2: STORY -->
-  <section id="tab-story" class="tab-content">
+  <!-- GRAPHIC TAB SELECTOR (텍스트 제거, 그래픽만 배치) -->
+  <div class="album-tab-container">
+    <div class="tab-selector-bar">
+      <button class="album-tab-btn active" data-tab="tab-story">
+        <div class="tab-graphic-icon">
+          <div class="icon-inner-cd">
+            <div class="icon-dot"></div>
+          </div>
+        </div>
+        <span class="tab-num">01</span>
+      </button>
+
+      <button class="album-tab-btn" data-tab="tab-characters">
+        <div class="tab-graphic-icon">
+          <div class="icon-inner-cd">
+            <div class="icon-dot"></div>
+          </div>
+        </div>
+        <span class="tab-num">02</span>
+      </button>
+
+      <button class="album-tab-btn" data-tab="tab-music">
+        <div class="tab-graphic-icon">
+          <div class="icon-inner-cd">
+            <div class="icon-dot"></div>
+          </div>
+        </div>
+        <span class="tab-num">03</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TAB 1: STORY (첫 번째 탭) -->
+  <section id="tab-story" class="tab-content active">
     <article class="story-node">
       <div class="node-media">
         <img src="01_club.jpg" alt="Scene 01">
-        <div class="bounding-box bbox-scene1"><span class="bbox-label">02042-4-11-309</span></div>
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 01]<br>LOCATION: CLUB INTERIOR<br>TIME: MIDNIGHT</div>
@@ -131,7 +92,6 @@
     <article class="story-node">
       <div class="node-media">
         <img src="02_prank.jpg" alt="Scene 02">
-        <div class="bounding-box bbox-scene2"><span class="bbox-label">??????</span></div>
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 02]<br>LOCATION: SCHOOL YARD<br>TIME: DAYLIGHT</div>
@@ -142,7 +102,6 @@
     <article class="story-node">
       <div class="node-media">
         <img src="03_surveillance.jpg" alt="Scene 03">
-        <div class="bounding-box bbox-scene3"><span class="bbox-label">TARGET_SCAN: ACTIVE</span></div>
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 03]<br>LOCATION: MONITORED ZONE<br>ANGLE: SURVEILLANCE</div>
@@ -153,7 +112,6 @@
     <article class="story-node">
       <div class="node-media">
         <img src="04_conflict.jpg" alt="Scene 04">
-        <div class="bounding-box bbox-scene4"><span class="bbox-label">0821-CONFLICT</span></div>
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 04]<br>LOCATION: SCHOOL INTERIOR<br>STATE: EMOTIONAL</div>
@@ -164,7 +122,6 @@
     <article class="story-node">
       <div class="node-media">
         <img src="05_hug.jpg" alt="Scene 05">
-        <div class="bounding-box bbox-scene5"><span class="bbox-label">GROUP_LOCKED</span></div>
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 05]<br>LOCATION: QUIET STREET<br>ACTION: RECONCILIATION</div>
@@ -175,7 +132,6 @@
     <article class="story-node">
       <div class="node-media">
         <img src="06_bridge.jpg" alt="Scene 06">
-        <div class="bounding-box bbox-scene6"><span class="bbox-label">FINAL_DISTANCE</span></div>
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 06]<br>LOCATION: OVERPASS BRIDGE<br>STATE: FINAL</div>
@@ -184,12 +140,56 @@
     </article>
   </section>
 
-  <!-- TAB 3: MUSIC PLAYER -->
+  <!-- TAB 2: CHARACTERS (시놉시스 UI 톤앤매너 적용) -->
+  <section id="tab-characters" class="tab-content">
+    <div class="character-list">
+      <article class="char-item">
+        <div class="char-img-placeholder">
+          <span>IMAGE PLACEHOLDER</span>
+        </div>
+        <div class="char-details">
+          <div class="char-header">
+            <div class="char-name">유타 (YUTA)</div>
+            <span class="actor-name">CAST: 쿠리하라 하야토</span>
+          </div>
+          <p class="char-desc">음악을 사랑하며 친구들과의 자유로운 일상을 중요하게 생각하는 고등학생. 학교의 통제와 감시 체계 속에서 자신의 정체성을 고민한다.</p>
+        </div>
+      </article>
+
+      <article class="char-item">
+        <div class="char-img-placeholder">
+          <span>IMAGE PLACEHOLDER</span>
+        </div>
+        <div class="char-details">
+          <div class="char-header">
+            <div class="char-name">코우 (KOU)</div>
+            <span class="actor-name">CAST: 히다카 유키토</span>
+          </div>
+          <p class="char-desc">유타의 오랜 친구이자 클럽 DJ 활동을 함께하는 인물. 장난으로 시작된 사건 이후 학교의 감시에 맞서며 유타와 서로 다른 선택의 갈림길에 선다.</p>
+        </div>
+      </article>
+
+      <article class="char-item">
+        <div class="char-img-placeholder">
+          <span>IMAGE PLACEHOLDER</span>
+        </div>
+        <div class="char-details">
+          <div class="char-header">
+            <div class="char-name">아오이 (AOI)</div>
+            <span class="actor-name">CAST: 아라키 비와</span>
+          </div>
+          <p class="char-desc">학생 사회의 변화와 감시 시스템 도입 속에서 자신만의 방식으로 목소리를 내고자 하는 동급생.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TAB 3: MUSIC -->
   <section id="tab-music" class="tab-content">
     <div class="cd-section">
       <div class="cd-section-title">
-        <span>VECTOR AUDIO TURNTABLE</span>
-        <span>CLICK ALBUM COVER TO OPEN / DRAG LP DISC TO PLATTER</span>
+        <span>AUDIO PLAYER ARCHIVE</span>
+        <span>DRAG RECORD TO PLATTER</span>
       </div>
 
       <div class="player-workspace">
@@ -201,18 +201,11 @@
                 <span class="tray-text" id="trayText">DROP HERE</span>
               </div>
             </div>
-
-            <div class="tonearm-assembly">
-              <div class="tonearm-base"></div>
-              <div class="tonearm-stick">
-                <div class="tonearm-headshell"></div>
-              </div>
-            </div>
           </div>
 
           <div class="player-controls">
             <div class="track-display" id="trackDisplay">NO RECORD LOADED</div>
-            <button class="eject-btn" id="ejectBtn">STOP / EJECT</button>
+            <button class="eject-btn" id="ejectBtn">EJECT</button>
           </div>
         </div>
 
@@ -221,10 +214,9 @@
             <div class="album-cover">
               <span class="cover-no">01</span>
               <span class="cover-title">CLUB NIGHTS</span>
-              <span class="click-hint">CLICK TO OPEN</span>
             </div>
-            <div class="cd-disc" id="cd1" draggable="true" data-title="SIDE A: CLUB NIGHTS">
-              <div class="cd-red-ring"><div class="cd-center-hole"></div></div>
+            <div class="cd-disc" id="cd1" draggable="true" data-title="TRACK 01: CLUB NIGHTS">
+              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
             </div>
           </div>
 
@@ -232,10 +224,9 @@
             <div class="album-cover">
               <span class="cover-no">02</span>
               <span class="cover-title">SURVEILLANCE</span>
-              <span class="click-hint">CLICK TO OPEN</span>
             </div>
-            <div class="cd-disc" id="cd2" draggable="true" data-title="SIDE B: SURVEILLANCE">
-              <div class="cd-red-ring"><div class="cd-center-hole"></div></div>
+            <div class="cd-disc" id="cd2" draggable="true" data-title="TRACK 02: SURVEILLANCE">
+              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
             </div>
           </div>
 
@@ -243,10 +234,9 @@
             <div class="album-cover">
               <span class="cover-no">03</span>
               <span class="cover-title">OVERPASS BRIDGE</span>
-              <span class="click-hint">CLICK TO OPEN</span>
             </div>
-            <div class="cd-disc" id="cd3" draggable="true" data-title="SIDE C: OVERPASS">
-              <div class="cd-red-ring"><div class="cd-center-hole"></div></div>
+            <div class="cd-disc" id="cd3" draggable="true" data-title="TRACK 03: OVERPASS">
+              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
             </div>
           </div>
         </div>
