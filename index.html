@@ -40,7 +40,7 @@
   <!-- MAIN TEASER VIDEO FRAME -->
   <div class="media-section">
     <div class="video-frame" id="videoFrame">
-      <video id="teaserVideo" playsinline preload="metadata" controls>
+      <video id="teaserVideo" playsinline preload="metadata">
         <source src="YTDown.com_YouTube_Media_IZI1INOARtc_001_1080p.mp4" type="video/mp4">
       </video>
       <div class="bounding-box video-bbox">
@@ -53,7 +53,7 @@
   </div>
   <div class="section-metadata">
     <div>OFFICIAL TEASER FOOTAGE</div>
-    <div>CLICK TO PLAY</div>
+    <div>CLICK VIDEO TO PLAY / PAUSE</div>
   </div>
 
   <!-- STORY NARRATIVE CONTAINER -->
@@ -185,26 +185,44 @@
       </div>
     </article>
 
-    <!-- INTERACTIVE MUSIC PLAYER SECTION -->
+    <!-- VECTOR TURNTABLE PLAYER SECTION -->
     <section class="cd-section">
       <div class="cd-section-title">
-        <span>AUDIO ARCHIVE // RECORD SHOP</span>
-        <span>CLICK COVER TO OPEN / DRAG CD TO PLAYER</span>
+        <span>VECTOR AUDIO TURNTABLE</span>
+        <span>CLICK ALBUM TO OPEN / DRAG VINYL TO PLATTER</span>
       </div>
 
       <div class="player-workspace">
-        <!-- LEFT: CD PLAYER -->
-        <div class="cd-player-device" id="dropZone">
-          <div class="player-deck" id="playerDeck">
-            <div class="laser-beam"></div>
-            <div class="cd-tray" id="cdTray">
-              <div class="tray-center-pin"></div>
-              <span class="tray-text" id="trayText">DROP CD HERE</span>
+        <!-- LEFT: VECTOR TURNTABLE DEVICE -->
+        <div class="cd-player-device">
+          <div class="turntable-surface" id="dropZone">
+            <div class="deck-power-btn"></div>
+            
+            <!-- PLATTER & TRAY -->
+            <div class="player-deck" id="playerDeck">
+              <div class="cd-tray" id="cdTray">
+                <div class="tray-center-pin"></div>
+                <span class="tray-text" id="trayText">DROP HERE</span>
+              </div>
+            </div>
+
+            <!-- TONEARM & PITCH -->
+            <div class="tonearm-assembly">
+              <div class="tonearm-base"></div>
+              <div class="tonearm-stick">
+                <div class="tonearm-headshell"></div>
+              </div>
+            </div>
+
+            <div class="pitch-slider">
+              <div class="pitch-line"></div>
+              <div class="pitch-handle"></div>
             </div>
           </div>
+
           <div class="player-controls">
-            <div class="track-display" id="trackDisplay">NO DISC LOADED</div>
-            <button class="eject-btn" id="ejectBtn">EJECT</button>
+            <div class="track-display" id="trackDisplay">NO RECORD LOADED</div>
+            <button class="eject-btn" id="ejectBtn">STOP / EJECT</button>
           </div>
         </div>
 
@@ -216,11 +234,10 @@
               <span class="cover-title">CLUB NIGHTS</span>
               <span class="click-hint">CLICK TO TOGGLE</span>
             </div>
-            <div class="cd-disc" id="cd1" draggable="true" data-title="TRACK 01: CLUB NIGHTS">
+            <div class="cd-disc" id="cd1" draggable="true" data-title="SIDE A: CLUB NIGHTS">
               <div class="cd-red-ring">
                 <div class="cd-center-hole"></div>
               </div>
-              <div class="cd-text">HAPPYEND 01</div>
             </div>
           </div>
 
@@ -230,11 +247,10 @@
               <span class="cover-title">SURVEILLANCE</span>
               <span class="click-hint">CLICK TO TOGGLE</span>
             </div>
-            <div class="cd-disc" id="cd2" draggable="true" data-title="TRACK 02: SURVEILLANCE">
+            <div class="cd-disc" id="cd2" draggable="true" data-title="SIDE B: SURVEILLANCE">
               <div class="cd-red-ring">
                 <div class="cd-center-hole"></div>
               </div>
-              <div class="cd-text">HAPPYEND 02</div>
             </div>
           </div>
 
@@ -244,11 +260,10 @@
               <span class="cover-title">OVERPASS BRIDGE</span>
               <span class="click-hint">CLICK TO TOGGLE</span>
             </div>
-            <div class="cd-disc" id="cd3" draggable="true" data-title="TRACK 03: OVERPASS BRIDGE">
+            <div class="cd-disc" id="cd3" draggable="true" data-title="SIDE C: OVERPASS">
               <div class="cd-red-ring">
                 <div class="cd-center-hole"></div>
               </div>
-              <div class="cd-text">HAPPYEND 03</div>
             </div>
           </div>
         </div>
