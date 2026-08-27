@@ -82,61 +82,7 @@ body {
   color: var(--color-sun-baked-canvas);
 }
 
-/* 동아리실 조명 그래픽 (DARK MODE FLICKER GRAPHIC) */
-.club-light-graphic {
-  position: fixed;
-  top: 0;
-  right: 120px;
-  z-index: 900;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.light-cord {
-  width: 2px;
-  height: 90px;
-  background-color: var(--color-signal-flare);
-}
-
-.light-shade {
-  width: 0;
-  height: 0;
-  border-left: 25px solid transparent;
-  border-right: 25px solid transparent;
-  border-bottom: 20px solid var(--color-signal-flare);
-}
-
-.light-bulb {
-  width: 16px;
-  height: 16px;
-  background-color: #fff;
-  border-radius: 50% !important;
-  margin-top: -2px;
-  box-shadow: 0 0 15px var(--color-signal-flare) !important;
-}
-
-/* 다크모드 활성화 시 조명 깜빡임 클래스 */
-body.dark-mode .club-light-graphic {
-  opacity: 1;
-  animation: lightFlicker 0.6s ease-in-out forwards;
-}
-
-@keyframes lightFlicker {
-  0% { opacity: 0; }
-  15% { opacity: 0.8; }
-  25% { opacity: 0.2; }
-  45% { opacity: 0.9; }
-  55% { opacity: 0.3; }
-  75% { opacity: 1; }
-  85% { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-
-/* TOP SCROLL BUTTON (오른쪽 아래 고정) */
+/* TOP SCROLL BUTTON */
 .top-scroll-btn {
   position: fixed;
   bottom: 24px;
@@ -163,16 +109,16 @@ body.dark-mode .club-light-graphic {
   color: var(--color-sun-baked-canvas);
 }
 
-/* HERO SECTION (첫 화면 단독 100vh 전면 차지) */
+/* HERO SECTION (100vh 전면 독립 차지) */
 .hero {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 24px;
+  padding: 0;
   position: relative;
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .brand-logo-wrap {
@@ -180,6 +126,8 @@ body.dark-mode .club-light-graphic {
   justify-content: center;
   align-items: center;
   width: 100%;
+  position: relative;
+  z-index: 10; /* 타이틀이 그래픽보다 위에 위치 */
 }
 
 .title-image {
@@ -187,15 +135,55 @@ body.dark-mode .club-light-graphic {
   max-width: 1100px;
   height: auto;
   filter: none;
+  position: relative;
+  z-index: 10;
 }
 
-/* TRAILER VIDEO SECTION (첫 화면 완전히 벗어난 아래 배치) */
+/* 동아리실 그래픽 (타이틀 뒤에 배치되는 배경 백드롭) */
+.club-room-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 1300px;
+  height: 70vh;
+  z-index: 1; /* 타이틀 뒤쪽 레이어 */
+  opacity: 0.15; /* 일반 모드 기본 연한 노출 */
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.club-bg-svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--color-signal-flare);
+}
+
+/* 다크모드 활성화 시 동아리실 그래픽 네온 깜빡임 애니메이션 */
+body.dark-mode .club-room-backdrop {
+  opacity: 0.85;
+  animation: roomFlicker 0.8s ease-in-out forwards;
+}
+
+@keyframes roomFlicker {
+  0% { opacity: 0; }
+  15% { opacity: 0.7; }
+  25% { opacity: 0.1; }
+  40% { opacity: 0.9; }
+  55% { opacity: 0.2; }
+  70% { opacity: 1; }
+  85% { opacity: 0.5; }
+  100% { opacity: 0.85; }
+}
+
+/* TRAILER VIDEO SECTION (첫 화면 하단에 독립적으로 위치) */
 .media-container {
   max-width: 1200px;
   margin: 0 auto 100px auto;
   padding: 0 24px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .video-frame {
@@ -521,7 +509,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 3: MUSIC (다크모드 영향 제외 - 색상 정적 고정) */
+/* TAB 3: MUSIC (다크모드 영향 제외 - 정적 색상 고정) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
