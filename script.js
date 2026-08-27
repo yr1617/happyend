@@ -90,84 +90,77 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 /* -------------------------------------------------------------
-   * 4. [개선] 스크롤 감지 및 한글 짧은 디코딩 연출
+   * 4. [개선] 완전 한글 텍스트 보장 디코딩 연출
    * ------------------------------------------------------------- */
   const koreanNoiseChars = '가나다라마바사아자차카타파하한글음악청춘엔딩해피미래도쿄감시학교자유';
 
   function playFastKoreanDecode(element) {
     if (element.decodeInterval) clearInterval(element.decodeInterval);
 
-    // 원본 텍스트 백업 (최초 1회 실행 시 저장)
+    // 원본 텍스트 백업 (HTML이 아닌 순수 텍스트 저장)
     if (!element.dataset.originalText) {
-      element.dataset.originalText = element.textContent.trim();
+      element.dataset.originalText = element.innerText;
     }
+    
+    // 한글 깨짐 방지를 위해 Array.from으로 문자열 분리
     const targetText = element.dataset.originalText;
-    const length = targetText.length;
+    const charArray = Array.from(targetText);
+    const length = charArray.length;
+
+    if (length === 0) return;
 
     let frameCount = 0;
-    const totalFrames = 5; // 아주 짧게 틱틱거림 (약 0.1초 내외)
+    const totalFrames = 5; // 약 0.1~0.15초간 작동
 
     element.decodeInterval = setInterval(() => {
       frameCount++;
-      let result = '';
-
-      for (let i = 0; i < length; i++) {
-        const char = targetText[i];
-
-        if (char === ' ' || char === '\n') {
-          result += char;
-          continue;
+      
+      const resultHTML = charArray.map(char => {
+        // 공백이나 줄바꿈은 그대로 유지
+        if (char === ' ' || char === '\n' || char === '\r') {
+          return char;
         }
 
-        // 전체 텍스트 중 무작위 일부 글자만 순간 노이즈 처리
-        const isNoiseFrame = frameCount < totalFrames;
-        if (!isNoiseFrame || Math.random() > 0.4) {
-          result += char;
+        // 완성 프레임에 도달했거나 무작위 확률로 진짜 글자 노출
+        if (frameCount >= totalFrames || Math.random() > 0.35) {
+          return char;
         } else {
+          // 한글 무작위 글자로 치환
           const randomKorean = koreanNoiseChars[Math.floor(Math.random() * koreanNoiseChars.length)];
-          result += `<span class="scramble-noise">${randomKorean}</span>`;
+          return `<span class="scramble-noise">${randomKorean}</span>`;
         }
-      }
+      }).join('');
 
-      element.innerHTML = result;
+      element.innerHTML = resultHTML;
 
+      // 애니메이션 종료 시 원본 텍스트 복구
       if (frameCount >= totalFrames) {
         clearInterval(element.decodeInterval);
-        element.innerHTML = targetText;
+        element.innerText = targetText;
       }
-    }, 25);
+    }, 30);
   }
 
-  // .scramble-text 요소에 직접 관찰자를 부착합니다.
-  const scrambleObserverOptions = {
-    threshold: 0.2, // 요소가 화면에 20% 이상 들어오면 실행
-    rootMargin: '0px 0px -50px 0px' // 화면 하단에 너무 바짝 붙기 전에 살짝 여유를 두고 감지
-  };
-
+  // 스크롤 감지 관찰자 설정
   const scrambleObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 스크롤 내려서 화면에 보일 때 효과 실행
         playFastKoreanDecode(entry.target);
       } else {
-        // 화면 밖으로 완전히 벗어나면 초기화 (다시 스크롤해서 올 때 재실행)
+        // 화면 밖으로 벗어나면 원본 텍스트 복원
         if (entry.target.dataset.originalText) {
-          entry.target.innerHTML = entry.target.dataset.originalText;
+          entry.target.innerText = entry.target.dataset.originalText;
         }
       }
     });
-  }, scrambleObserverOptions);
-
-  function initScrambleObserver() {
-    // 모든 .scramble-text 글자 요소 각각을 개별 관찰
-    const textNodes = document.querySelectorAll('.scramble-text');
-    textNodes.forEach(node => {
-      scrambleObserver.observe(node);
-    });
-  }
+  }, {
+    threshold: 0.1
+  });
 
   // 실행
-  initScrambleObserver();
+  document.querySelectorAll('.scramble-text').forEach(node => {
+    scrambleObserver.observe(node);
+  });
 
   /* -------------------------------------------------------------
    * 5. TURNTABLE & CD STACK INTERACTION
