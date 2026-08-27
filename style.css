@@ -650,7 +650,7 @@ video {
 .char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
 .char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
 
-/* TAB 3: MUSIC (세워진 CD 랙 오디오 플레이어) */
+/* TAB 3: MUSIC (TURNTABLE & STACKED RACK) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -668,9 +668,10 @@ video {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  align-items: center;
+  align-items: start;
 }
 
+/* 턴테이블 본체 */
 .cd-player-device {
   background-color: #e2e2e2 !important;
   border-radius: 20px !important;
@@ -680,6 +681,49 @@ video {
   flex-direction: column;
   gap: 20px;
   border: 2px solid #cccccc !important;
+}
+
+/* 톤암 (턴테이블 바늘) 디자인 및 회전 연출 */
+.tonearm {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  width: 12px;
+  height: 160px;
+  background: #666666 !important;
+  border-radius: 6px !important;
+  transform-origin: 6px 15px;
+  transform: rotate(-35deg);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.tonearm::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -14px;
+  width: 40px;
+  height: 40px;
+  background: #333333 !important;
+  border-radius: 50% !important;
+  border: 2px solid #aaaaaa !important;
+}
+
+.tonearm-head {
+  position: absolute;
+  bottom: -5px;
+  left: -4px;
+  width: 20px;
+  height: 30px;
+  background: #222222 !important;
+  border-radius: 3px !important;
+}
+
+/* 음원 재생 시 톤암 동작 */
+.tonearm.playing {
+  transform: rotate(12deg) !important;
 }
 
 .turntable-surface {
@@ -718,8 +762,8 @@ video {
 }
 
 .tray-center-pin {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   background-color: #ffffff !important;
   border-radius: 50% !important;
   z-index: 30;
@@ -730,33 +774,6 @@ video {
   position: absolute;
   font-size: 11px;
   color: #888888 !important;
-  pointer-events: none;
-}
-
-.cd-player-device::before {
-  content: '';
-  position: absolute;
-  top: 35px;
-  right: 35px;
-  width: 65px;
-  height: 65px;
-  background: #333333 !important;
-  border-radius: 50% !important;
-  z-index: 5;
-}
-
-.cd-player-device::after {
-  content: '';
-  position: absolute;
-  top: 75px;
-  right: 60px;
-  width: 10px;
-  height: 170px;
-  background: #777777 !important;
-  border-radius: 5px !important;
-  transform: rotate(-25deg);
-  transform-origin: top center;
-  z-index: 6;
   pointer-events: none;
 }
 
@@ -789,84 +806,117 @@ video {
 
 .eject-btn:hover { opacity: 0.8; }
 
-/* 5개 CD 세워진 슬롯 형태의 랙 (Stack / Shelf Style) */
-.album-rack-stacked {
+/* 5개 CD 가로 슬롯 스택 랙 (Rack) */
+.cd-rack-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   border: 1px solid var(--color-signal-flare);
   padding: 16px;
   background-color: rgba(255, 26, 0, 0.02);
 }
 
-.album-item-slot {
-  position: relative;
-  width: 100%;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px dashed rgba(255, 26, 0, 0.3);
-  padding-bottom: 8px;
-}
-
-.album-item-slot:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.album-cover {
-  width: 70px;
-  height: 70px;
+.cd-slot-container {
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
-  position: relative;
-  z-index: 20;
-  padding: 6px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.cd-case-header {
+  padding: 14px 16px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   cursor: pointer !important;
-  flex-shrink: 0;
+  user-select: none;
+  background-color: rgba(255, 26, 0, 0.04);
 }
 
-.cover-no { font-size: 9px; font-weight: bold; }
-.cover-title { 
-  font-size: 10px; 
-  font-weight: bold; 
-  line-height: 1.1;
-  word-break: break-word;
+.cd-case-header:hover {
+  background-color: rgba(255, 26, 0, 0.1);
 }
 
+.case-index {
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 12px;
+}
+
+.case-title {
+  font-size: 12px;
+  font-weight: bold;
+  flex: 1;
+}
+
+.case-arrow {
+  font-size: 10px;
+  transition: transform 0.3s ease;
+}
+
+.cd-slot-container.open .case-arrow {
+  transform: rotate(180deg);
+}
+
+/* 선택(클릭) 시 드로어 열림 연출 */
+.cd-drawer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.cd-slot-container.open .cd-drawer {
+  max-height: 240px;
+  opacity: 1;
+  padding: 20px 0;
+}
+
+/* 원본 비율 및 규격 복원된 CD Graphic */
 .cd-disc {
-  width: 64px;
-  height: 64px;
+  width: 180px;
+  height: 180px;
   background: repeating-radial-gradient(
     circle at center,
     #111111 0,
-    #111111 3px,
-    #222222 4px,
-    #222222 6px
+    #111111 4px,
+    #222222 5px,
+    #222222 8px
   ) !important;
   border-radius: 50% !important;
   position: relative;
-  margin-left: -20px;
-  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, margin 0.3s ease;
   cursor: grab !important;
-  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  user-select: none;
 }
 
-.album-item-slot:hover .cd-disc {
-  transform: translateX(15px);
+.cd-disc:active {
+  cursor: grabbing !important;
 }
 
+/* 회전 여부 인지를 위한 텍스트/패턴 라벨 */
+.cd-label-pattern {
+  position: absolute;
+  font-size: 9px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 2px;
+  top: 25px;
+  pointer-events: none;
+}
+
+/* 원본 스펙 규격: 원본 크기의 빨간 원 복원 */
 .cd-center-ring {
-  width: 24px;
-  height: 24px;
-  background-color: var(--color-signal-flare);
+  width: 70px;
+  height: 70px;
+  background-color: var(--color-signal-flare) !important;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -875,25 +925,27 @@ video {
 }
 
 .cd-center-hole {
-  width: 6px;
-  height: 6px;
-  background-color: var(--color-sun-baked-canvas);
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-sun-baked-canvas) !important;
   border-radius: 50% !important;
 }
 
+/* 턴테이블에 장착되었을 때의 CD 스타일 */
 .cd-disc.inserted {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
-  margin-left: 0 !important;
+  margin: 0 !important;
   transform: translate(-50%, -50%) !important;
   width: 90% !important;
   height: 90% !important;
   z-index: 15 !important;
 }
 
+/* 회전 애니메이션 */
 .cd-disc.spinning {
-  animation: spinVinyl 2.5s linear infinite !important;
+  animation: spinVinyl 2.2s linear infinite !important;
 }
 
 @keyframes spinVinyl {
