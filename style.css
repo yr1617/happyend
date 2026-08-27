@@ -650,7 +650,7 @@ video {
 .char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
 .char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
 
-/* TAB 3: MUSIC (TURNTABLE & SLIDING DRAWER RACK) */
+/* TAB 3: MUSIC (GRAPHIC STACK & STAGING AREA) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -666,16 +666,16 @@ video {
 
 .player-workspace {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 380px 1fr;
+  gap: 50px;
   align-items: start;
 }
 
-/* 턴테이블 본체 */
+/* 턴테이블 플레이어 */
 .cd-player-device {
   background-color: #e2e2e2 !important;
   border-radius: 20px !important;
-  padding: 30px;
+  padding: 24px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -684,16 +684,15 @@ video {
   overflow: visible !important;
 }
 
-/* 톤암 (턴테이블 바늘): 길이를 대폭 연장하여 CD 중앙부까지 무조건 닿도록 수정 */
 .tonearm {
   position: absolute;
-  top: 35px;
-  right: 35px;
-  width: 12px;
-  height: 230px;
+  top: 30px;
+  right: 30px;
+  width: 10px;
+  height: 220px;
   background: #555555 !important;
-  border-radius: 6px !important;
-  transform-origin: 6px 18px;
+  border-radius: 5px !important;
+  transform-origin: 5px 15px;
   transform: rotate(-35deg);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 90;
@@ -703,27 +702,25 @@ video {
 .tonearm::before {
   content: '';
   position: absolute;
-  top: -10px;
-  left: -13px;
-  width: 38px;
-  height: 38px;
+  top: -8px;
+  left: -11px;
+  width: 32px;
+  height: 32px;
   background: #222222 !important;
   border-radius: 50% !important;
-  border: 3px solid #888888 !important;
+  border: 2px solid #888888 !important;
 }
 
 .tonearm-head {
   position: absolute;
-  bottom: -6px;
-  left: -4px;
-  width: 20px;
-  height: 32px;
+  bottom: -4px;
+  left: -3px;
+  width: 16px;
+  height: 28px;
   background: #111111 !important;
-  border-radius: 3px !important;
   border: 1px solid #ff1a00 !important;
 }
 
-/* 음원 재생 시 톤암 회전 - CD 안쪽 트랙 위에 정확히 조준 */
 .tonearm.playing {
   transform: rotate(38deg) !important;
 }
@@ -764,8 +761,8 @@ video {
 }
 
 .tray-center-pin {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   background-color: #ffffff !important;
   border-radius: 50% !important;
   z-index: 30;
@@ -784,8 +781,8 @@ video {
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff !important;
-  padding: 12px 20px;
-  border-radius: 10px !important;
+  padding: 10px 16px;
+  border-radius: 8px !important;
 }
 
 .track-display { 
@@ -798,102 +795,135 @@ video {
   background: #ff1a00 !important;
   border: none;
   color: #ffffff !important;
-  padding: 8px 16px;
+  padding: 6px 12px;
   font-size: 10px;
   font-weight: bold;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   cursor: pointer !important;
   transition: opacity 0.2s ease;
 }
 
 .eject-btn:hover { opacity: 0.8; }
 
-/* CD RACK & DRAWER (진짜 슬라이딩 서랍 형태 연출) */
-.cd-rack-stack {
+/* ARCHIVE INTERACTIVE AREA */
+.interactive-archive {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border: 1px solid var(--color-signal-flare);
-  padding: 16px;
+  gap: 40px;
+}
+
+/* 1. 가로 불규칙 CD 케이스 스택 */
+.cd-stack-rack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 40px;
+  align-items: center;
   background-color: rgba(255, 26, 0, 0.02);
+  border: 1px solid var(--color-signal-flare);
 }
 
-.cd-slot-container {
-  position: relative;
+.case-item {
+  width: 340px;
+  height: 38px;
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
-  transition: margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: visible !important;
-}
-
-/* 클릭하여 서랍을 열었을 때 슬롯 아래 여백 확보 */
-.cd-slot-container.open {
-  margin-bottom: 210px;
-}
-
-.cd-case-header {
-  position: relative;
-  z-index: 20;
-  padding: 14px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  padding: 0 16px;
   cursor: pointer !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, opacity 0.3s ease;
   user-select: none;
-  background-color: var(--color-sun-baked-canvas);
-  border-bottom: 1px solid transparent;
 }
 
-.cd-slot-container.open .cd-case-header {
-  border-bottom-color: var(--color-signal-flare);
-  background-color: rgba(255, 26, 0, 0.08);
-}
+/* 불규칙 오프셋 스타일링 */
+.offset-left-1 { transform: translateX(-20px); }
+.offset-right-2 { transform: translateX(28px); }
+.offset-left-2 { transform: translateX(-10px); }
+.offset-right-1 { transform: translateX(18px); }
+.offset-left-3 { transform: translateX(-24px); }
 
-.case-index {
-  font-size: 12px;
-  font-weight: bold;
-  margin-right: 12px;
-}
-
-.case-title {
-  font-size: 12px;
-  font-weight: bold;
-  flex: 1;
-}
-
-.case-arrow {
-  font-size: 10px;
-  transition: transform 0.3s ease;
-}
-
-.cd-slot-container.open .case-arrow {
-  transform: rotate(180deg);
-}
-
-/* 서랍(Drawer): 상단 슬롯 밑에서 아래로 쭉 미끄러져 나오는 연출 */
-.cd-drawer {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background-color: rgba(255, 26, 0, 0.04);
-  border: 1px solid var(--color-signal-flare);
-  border-top: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.case-item:hover {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+  transform: scale(1.03) translateY(-2px) !important;
   z-index: 10;
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
-.cd-slot-container.open .cd-drawer {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
+.case-item.active-selected {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+.spine-num { font-size: 11px; font-weight: bold; margin-right: 12px; }
+.spine-title { font-size: 12px; font-weight: bold; }
+
+/* 2. 클릭 시 이동해와서 오픈되는 독립 여백 공간 (STAGING AREA) */
+.opened-case-stage {
+  min-height: 260px;
+  border: 1px dashed var(--color-signal-flare);
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: rgba(255, 26, 0, 0.015);
+}
+
+.stage-placeholder {
+  font-size: 11px;
+  letter-spacing: 1px;
+  opacity: 0.5;
+}
+
+/* 펼쳐진 쥬얼 케이스 그래픽 */
+.opened-jewel-case {
+  display: none;
+  width: 440px;
+  height: 200px;
+  position: relative;
+  perspective: 800px;
+}
+
+.opened-jewel-case.active {
+  display: flex;
+  animation: casePopIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes casePopIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.case-cover {
+  width: 200px;
+  height: 200px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: rgba(255, 26, 0, 0.08);
+  padding: 16px;
+  display: flex;
+  align-items: flex-end;
+  transform-origin: right center;
+  animation: openPlasticCover 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes openPlasticCover {
+  to { transform: rotateY(-140deg); }
+}
+
+.cover-title { font-size: 11px; font-weight: bold; }
+
+.case-tray {
+  width: 200px;
+  height: 200px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 /* CD Disc Graphic */
@@ -917,9 +947,7 @@ video {
   user-select: none;
 }
 
-.cd-disc:active {
-  cursor: grabbing !important;
-}
+.cd-disc:active { cursor: grabbing !important; }
 
 .cd-label-pattern {
   position: absolute;
@@ -932,8 +960,8 @@ video {
 }
 
 .cd-center-ring {
-  width: 65px;
-  height: 65px;
+  width: 60px;
+  height: 60px;
   background-color: var(--color-signal-flare) !important;
   border-radius: 50% !important;
   display: flex;
@@ -943,13 +971,13 @@ video {
 }
 
 .cd-center-hole {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background-color: var(--color-sun-baked-canvas) !important;
   border-radius: 50% !important;
 }
 
-/* 턴테이블에 장착되었을 때의 CD 스타일 */
+/* 턴테이블 장착 및 회전 */
 .cd-disc.inserted {
   position: absolute !important;
   top: 50% !important;
@@ -961,7 +989,6 @@ video {
   z-index: 15 !important;
 }
 
-/* 회전 애니메이션 */
 .cd-disc.spinning {
   animation: spinVinyl 2.2s linear infinite !important;
 }
@@ -978,4 +1005,5 @@ video {
   .character-grid { grid-template-columns: 1fr; }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
   .player-workspace { grid-template-columns: 1fr; }
+  .case-item { width: 100%; transform: none !important; }
 }
