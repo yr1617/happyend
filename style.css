@@ -412,13 +412,6 @@ video {
   font-weight: bold;
 }
 
-.actor-name {
-  font-size: 12px;
-  display: block;
-  margin-top: 4px;
-  opacity: 0.8;
-}
-
 .char-desc {
   font-size: 15px;
   line-height: 1.6;
