@@ -175,7 +175,7 @@ video {
   text-transform: uppercase;
 }
 
-/* TAB SELECTOR BAR & GRAPHIC ICON FIX */
+/* TAB SELECTOR BAR */
 .album-tab-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -212,10 +212,12 @@ video {
   opacity: 1;
 }
 
+/* TAB GRAPHIC ICON FIX (CD 케이스 3D 오픈 메커니즘) */
 .tab-cd-player {
   position: relative;
   width: 54px;
   height: 54px;
+  perspective: 200px; /* 3D 회전을 위한 원근감 */
 }
 
 .tab-graphic-icon {
@@ -225,6 +227,8 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--color-signal-flare); /* 고정된 CD 케이스 뒷판 */
+  background-color: rgba(255, 26, 0, 0.03);
 }
 
 .tab-graphic-icon .icon-inner-cd {
@@ -236,11 +240,12 @@ video {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 5px;
-  left: 5px;
-  transition: transform 0.3s ease;
+  top: 4px;
+  left: 4px;
   background-color: var(--color-sun-baked-canvas);
   z-index: 1;
+  /* CD는 제자리에 고정 */
+  transform: none !important;
 }
 
 .tab-graphic-icon .icon-dot {
@@ -252,36 +257,33 @@ video {
 
 .tab-cd-cover {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -1px;
+  left: -1px;
   width: 54px;
   height: 54px;
-  background-color: rgba(255, 26, 0, 0.12);
+  background-color: rgba(255, 26, 0, 0.15);
   border: 1px solid var(--color-signal-flare);
   z-index: 2;
-  transform-origin: left center;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transform-origin: left center; /* 왼쪽 경첩 기준으로 열림 */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+  backface-visibility: hidden;
 }
 
 .tab-cd-cover::after {
   content: '';
-  width: 5px;
+  width: 4px;
   height: 100%;
   border-right: 1px solid var(--color-signal-flare);
   position: absolute;
   left: 0;
   top: 0;
-  background-color: rgba(255, 26, 0, 0.25);
+  background-color: rgba(255, 26, 0, 0.3);
 }
 
+/* 탭 활성화 시 뚜껑이 왼쪽 3D 방향으로 자연스럽게 열림 */
 .album-tab-btn.active .tab-cd-cover {
-  transform: scaleX(0.2);
-  background-color: rgba(255, 26, 0, 0.25);
-}
-
-.album-tab-btn.active .icon-inner-cd {
-  transform: translateX(10px);
-  z-index: 3;
+  transform: rotateY(-70deg);
+  background-color: rgba(255, 26, 0, 0.08);
 }
 
 .tab-num {
