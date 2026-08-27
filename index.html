@@ -190,7 +190,7 @@
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 06]<br>TITLE: HAPPY END<br>CHARACTERS: YUTA, KOU</div>
-        <div class="analysis-text">졸업을 앞둔 마지막 시간 속에서 유타와 코우는 결국 자신들이 더 이상 예전과 같은 관계에 머물 수 없다는 사실을 마주한다. 한때 같은 음악을 듣고 같은 장난을 치며 미래를 이야기했던 두 사람은 이제 서로 다른 생각과 선택을 가진 채 각자의 길을 바라본다. 마지막에 두 사람이 다리 위에서 떨어져 서 있는 모습은 이러한 변화를 가장 조용하게 보여준다. 영화는 이별을 극적인 사건으로 만들지 않고, 두 사람 사이에 생겨난 거리와 넓은 공간을 통해 표현한다. 화면 속 인물은 거대한 도시와 건축물에 비해 작게 놓여 있고, 두 사람 사이에는 다리의 구조물이 자리한다. 서로를 연결하기 위해 만들어진 다리가 오히려 두 사람 사이의 거리를 강조하는 것처럼 보인다. 이는 영화 전체에서 반복되어 온 ‘연결과 분리’의 관계를 압축한다. 음악은 처음 두 사람을 연결했지만, 감시와 사회적 불안은 그들이 서로 다른 현실을 바라보게 만들었다. 그렇다고 해서 영화가 이 관계를 완전한 실패로 끝내는 것은 아니다. 두 사람은 함께했던 시간 속에서 성장했고, 서로 다른 방향으로 나아갈 수 있게 되었다. Happyend의 ‘끝’은 모든 것이 무너지는 종말이라기보다, 함께였던 청춘이 끝나고 각자가 자신의 세계로 나아가기 시작하는 순간에 가깝다. 그래서 마지막의 넓은 공간과 작은 두 사람의 모습은 상실만을 보여주는 것이 아니라, 아직 정해지지 않은 미래를 향해 나아가는 청춘의 가능성까지 함께 남겨둔다.</div>
+        <div class="analysis-text">졸업을 앞둔 마지막 시간 속에서 유타와 코우는 결국 자신들이 더 이상 예전과 같은 관계에 머물 수 없다는 사실을 마주한다. 한때 같은 음악을 듣고 같은 장난을 치며 미래를 이야기했던 두 사람은 이제 서로 다른 생각과 선택을 가진 채 각자의 길을 바라본다. 마지막에 두 사람이 다리 위에서 떨어져 서 있는 모습은 이러한 변화를 가장 조용하게 보여준다. 영화는 이별을 극적인 사건으로 만들지 않고, 두 사람 사이에 생겨난 거리와 넓은 공간을 통해 표현한다. 화면 속 인물은 거대한 도시와 건축물에 비해 작게 놓여 있고, 두 사람 사이에는 다리의 구조물이 자리한다. 서로를 연결하기 위해 만들어진 다리가 오히려 두 사람 사이의 거리를 강조하는 것처럼 보인다. 이는 영화 전체에서 반복되어 온 ‘연결과 분리’의 관계를 압축한다. 음악은 처음 두 사람을 연결했지만, 감시와 사회적 불안은 그들이 서로 다른 현실을 바라보게 만들었다. 그렇다고 해서 영화가 이 관계를 완전한 실패로 끝내는 것은 아니다. 두 사람은 함께했던 시간 속에서 성장했고, 서로 다른 방향으로 나아갈 수 있게 되었다. Happyend의 ‘끝’은 모든 것의 무너짐이 아니라, 함께였던 청춘이 끝나고 각자가 자신의 세계로 나아가기 시작하는 순간에 가깝다. 그래서 마지막의 넓은 공간과 작은 두 사람의 모습은 상실만을 보여주는 것이 아니라, 아직 정해지지 않은 미래를 향해 나아가는 청춘의 가능성까지 함께 남겨둔다.</div>
       </div>
     </article>
   </section>
@@ -245,12 +245,12 @@
     <div class="cd-section">
       <div class="cd-section-title">
         <span>AUDIO PLAYER ARCHIVE</span>
-        <span>DRAG RECORD TO PLATTER</span>
+        <span>SELECT CD CASE TO OPEN & DRAG DISC</span>
       </div>
 
       <div class="player-workspace">
+        <!-- LEFT: TURNTABLE PLAYER -->
         <div class="cd-player-device">
-          <!-- 턴테이블 바늘 (긴 톤암) -->
           <div class="tonearm" id="tonearm">
             <div class="tonearm-head"></div>
           </div>
@@ -270,89 +270,107 @@
           </div>
         </div>
 
-        <!-- 5개 CD 서랍(Drawer) 랙 스택 -->
-        <div class="cd-rack-stack">
-          
-          <div class="cd-slot-container" id="slot-cd1">
-            <div class="cd-case-header">
-              <span class="case-index">01</span>
-              <span class="case-title">HAPPYEND Theme (Opening)</span>
-              <span class="case-arrow">▼</span>
+        <!-- RIGHT: CD STACK & OPENED MARGIN STAGE -->
+        <div class="interactive-archive">
+          <!-- 1. 가로로 불규칙하게 쌓여있는 CD 케이스 랙 -->
+          <div class="cd-stack-rack">
+            <div class="case-item offset-left-1" data-case="cd1">
+              <span class="spine-num">01</span>
+              <span class="spine-title">HAPPYEND Theme (Opening)</span>
             </div>
-            <div class="cd-drawer">
-              <div class="cd-disc" id="cd1" draggable="true" 
-                   data-title="HAPPYEND Theme (Opening)" 
-                   data-src="Lia Ouyang Rusli - HAPPYEND Theme (Opening)  Happyend (Original Motion Picture Soundtrack).mp3">
-                <span class="cd-label-pattern">HAPPYEND</span>
-                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-              </div>
+            <div class="case-item offset-right-2" data-case="cd2">
+              <span class="spine-num">02</span>
+              <span class="spine-title">HAPPYEND Theme (Closing)</span>
             </div>
-          </div>
-
-          <div class="cd-slot-container" id="slot-cd2">
-            <div class="cd-case-header">
-              <span class="case-index">02</span>
-              <span class="case-title">HAPPYEND Theme (Closing)</span>
-              <span class="case-arrow">▼</span>
+            <div class="case-item offset-left-2" data-case="cd3">
+              <span class="spine-num">03</span>
+              <span class="spine-title">SUBWOOFER</span>
             </div>
-            <div class="cd-drawer">
-              <div class="cd-disc" id="cd2" draggable="true" 
-                   data-title="HAPPYEND Theme (Closing)" 
-                   data-src="Lia Ouyang Rusli - HAPPYEND Theme (Closing)  Happyend (Original Motion Picture Soundtrack).mp3">
-                <span class="cd-label-pattern">HAPPYEND</span>
-                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-              </div>
+            <div class="case-item offset-right-1" data-case="cd4">
+              <span class="spine-num">04</span>
+              <span class="spine-title">WORLD (Variation 1)</span>
+            </div>
+            <div class="case-item offset-left-3" data-case="cd5">
+              <span class="spine-num">05</span>
+              <span class="spine-title">LOVE (Variation 1)</span>
             </div>
           </div>
 
-          <div class="cd-slot-container" id="slot-cd3">
-            <div class="cd-case-header">
-              <span class="case-index">03</span>
-              <span class="case-title">SUBWOOFER</span>
-              <span class="case-arrow">▼</span>
-            </div>
-            <div class="cd-drawer">
-              <div class="cd-disc" id="cd3" draggable="true" 
-                   data-title="SUBWOOFER" 
-                   data-src="Lia Ouyang Rusli - SUBWOOFER  Happyend (Original Motion Picture Soundtrack).mp3">
-                <span class="cd-label-pattern">HAPPYEND</span>
-                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+          <!-- 2. 클릭 시 이동하여 펼쳐지는 독립 여백 공간 -->
+          <div class="opened-case-stage" id="caseStage">
+            <div class="stage-placeholder" id="stagePlaceholder">CLICK A CASE TO OPEN HERE</div>
+
+            <div class="opened-jewel-case" id="jewel-cd1">
+              <div class="case-cover">
+                <span class="cover-title">HAPPYEND Theme (Opening)</span>
+              </div>
+              <div class="case-tray">
+                <div class="cd-disc" id="cd1" draggable="true"
+                     data-title="HAPPYEND Theme (Opening)" 
+                     data-src="Lia Ouyang Rusli - HAPPYEND Theme (Opening)  Happyend (Original Motion Picture Soundtrack).mp3">
+                  <span class="cd-label-pattern">HAPPYEND</span>
+                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="cd-slot-container" id="slot-cd4">
-            <div class="cd-case-header">
-              <span class="case-index">04</span>
-              <span class="case-title">WORLD (Variation 1)</span>
-              <span class="case-arrow">▼</span>
-            </div>
-            <div class="cd-drawer">
-              <div class="cd-disc" id="cd4" draggable="true" 
-                   data-title="WORLD (Variation 1)" 
-                   data-src="WORLD (Variation 1).mp3">
-                <span class="cd-label-pattern">HAPPYEND</span>
-                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+            <div class="opened-jewel-case" id="jewel-cd2">
+              <div class="case-cover">
+                <span class="cover-title">HAPPYEND Theme (Closing)</span>
+              </div>
+              <div class="case-tray">
+                <div class="cd-disc" id="cd2" draggable="true"
+                     data-title="HAPPYEND Theme (Closing)" 
+                     data-src="Lia Ouyang Rusli - HAPPYEND Theme (Closing)  Happyend (Original Motion Picture Soundtrack).mp3">
+                  <span class="cd-label-pattern">HAPPYEND</span>
+                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="cd-slot-container" id="slot-cd5">
-            <div class="cd-case-header">
-              <span class="case-index">05</span>
-              <span class="case-title">LOVE (Variation 1)</span>
-              <span class="case-arrow">▼</span>
-            </div>
-            <div class="cd-drawer">
-              <div class="cd-disc" id="cd5" draggable="true" 
-                   data-title="LOVE (Variation 1)" 
-                   data-src="Lia Ouyang Rusli - LOVE (Variation 1)  Happyend (Original Motion Picture Soundtrack).mp3">
-                <span class="cd-label-pattern">HAPPYEND</span>
-                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+            <div class="opened-jewel-case" id="jewel-cd3">
+              <div class="case-cover">
+                <span class="cover-title">SUBWOOFER</span>
+              </div>
+              <div class="case-tray">
+                <div class="cd-disc" id="cd3" draggable="true"
+                     data-title="SUBWOOFER" 
+                     data-src="Lia Ouyang Rusli - SUBWOOFER  Happyend (Original Motion Picture Soundtrack).mp3">
+                  <span class="cd-label-pattern">HAPPYEND</span>
+                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+                </div>
               </div>
             </div>
-          </div>
 
+            <div class="opened-jewel-case" id="jewel-cd4">
+              <div class="case-cover">
+                <span class="cover-title">WORLD (Variation 1)</span>
+              </div>
+              <div class="case-tray">
+                <div class="cd-disc" id="cd4" draggable="true"
+                     data-title="WORLD (Variation 1)" 
+                     data-src="WORLD (Variation 1).mp3">
+                  <span class="cd-label-pattern">HAPPYEND</span>
+                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="opened-jewel-case" id="jewel-cd5">
+              <div class="case-cover">
+                <span class="cover-title">LOVE (Variation 1)</span>
+              </div>
+              <div class="case-tray">
+                <div class="cd-disc" id="cd5" draggable="true"
+                     data-title="LOVE (Variation 1)" 
+                     data-src="Lia Ouyang Rusli - LOVE (Variation 1)  Happyend (Original Motion Picture Soundtrack).mp3">
+                  <span class="cd-label-pattern">HAPPYEND</span>
+                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
