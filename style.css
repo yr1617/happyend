@@ -684,7 +684,6 @@ video {
   overflow: visible !important;
 }
 
-/* 톤암 (바늘): 비율에 맞게 210px로 연장 */
 .tonearm {
   position: absolute;
   top: 40px;
@@ -883,17 +882,18 @@ video {
   opacity: 0.5;
 }
 
-/* 펼쳐진 쥬얼 케이스 그래픽 (수정본) */
+/* 펼쳐진 쥬얼 케이스 스테이지 컨테이너 */
 .opened-jewel-case {
   display: none;
-  width: 420px;
+  width: 380px;
   height: 190px;
   position: relative;
-  perspective: 800px;
+  perspective: 1000px;
+  margin-left: 190px; /* 왼쪽으로 열릴 공간 확보 */
 }
 
 .opened-jewel-case.active {
-  display: flex;
+  display: block;
   animation: casePopIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -902,27 +902,7 @@ video {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* 외부로 펼쳐지는 커버 (Unfold) 및 투명도 조정 */
-.case-cover {
-  width: 190px;
-  height: 190px;
-  border: 1px solid var(--color-signal-flare);
-  background-color: rgba(255, 26, 0, 0.02);
-  padding: 16px;
-  display: flex;
-  align-items: flex-end;
-  transform-origin: left center;
-  animation: openPlasticCover 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-  position: relative;
-  z-index: 2;
-}
-
-@keyframes openPlasticCover {
-  to { transform: rotateY(140deg); }
-}
-
-.cover-title { font-size: 11px; font-weight: bold; }
-
+/* 오른쪽 본체 (트레이 - CD가 담긴 영역) */
 .case-tray {
   width: 190px;
   height: 190px;
@@ -931,7 +911,44 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* 덮여있다가 왼쪽으로 180도 열리는 완전한 사각형 커버 */
+.case-cover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 190px;
+  height: 190px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas); /* 완전히 덮어서 안쪽 CD를 가림 */
+  padding: 16px;
+  display: flex;
+  align-items: flex-end;
+  transform-origin: left center; /* 왼쪽 가장자리를 축으로 회전 */
+  transform: rotateY(0deg);
+  animation: openCaseLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  z-index: 10;
+  backface-visibility: visible;
+}
+
+@keyframes openCaseLeft {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-180deg); /* 완전한 책 펼치기 형태 */
+  }
+}
+
+.cover-title { 
+  font-size: 11px; 
+  font-weight: bold;
+  color: var(--color-signal-flare);
 }
 
 /* CD Disc Graphic */
