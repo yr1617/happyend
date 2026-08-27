@@ -11,7 +11,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 2. VIDEO PLAYER CONTROLS
+   * 2. SCROLL REVEAL ANIMATION (안 보이던 요소 강제 표시)
+   * ------------------------------------------------------------- */
+  const revealItems = document.querySelectorAll('.reveal-item');
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, {
+    threshold: 0.05
+  });
+
+  function initRevealObserver() {
+    revealItems.forEach(item => {
+      revealObserver.observe(item);
+    });
+  }
+
+  initRevealObserver();
+
+  /* -------------------------------------------------------------
+   * 3. VIDEO PLAYER CONTROLS
    * ------------------------------------------------------------- */
   const teaserVideo = document.getElementById('teaserVideo');
   const playControl = document.getElementById('playControl');
@@ -68,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 3. TAB NAVIGATION SYSTEM
+   * 4. TAB NAVIGATION SYSTEM
    * ------------------------------------------------------------- */
   const tabButtons = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -84,12 +107,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeContent = document.getElementById(targetTab);
       if (activeContent) {
         activeContent.classList.add('active');
+        // 탭 전환 시 요소 안 보임 방지 처리
+        const itemsInTab = activeContent.querySelectorAll('.reveal-item');
+        itemsInTab.forEach(item => item.classList.add('is-visible'));
       }
     });
   });
 
   /* -------------------------------------------------------------
-   * 4. TURNTABLE & CD STACK INTERACTION
+   * 5. TURNTABLE & CD STACK INTERACTION
    * ------------------------------------------------------------- */
   const caseItems = document.querySelectorAll('.case-item');
   const jewelCases = document.querySelectorAll('.opened-jewel-case');
