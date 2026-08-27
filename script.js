@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 3. [수정] TAB NAVIGATION SYSTEM
+   * 3. TAB NAVIGATION SYSTEM
    * ------------------------------------------------------------- */
   const tabButtons = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -84,56 +84,68 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeContent = document.getElementById(targetTab);
       if (activeContent) {
         activeContent.classList.add('active');
-        // 탭 변경 시 새로 노출된 요소 감지 재등록
         initScrambleObserver();
       }
     });
   });
 
   /* -------------------------------------------------------------
-   * 4. [완벽 수정] Refero 스타일 한글 디코딩 & 스크롤 감지
+   * 4. REFERO DESIGN STYLE - 한글 빠른 디코딩 연출
    * ------------------------------------------------------------- */
   const koreanNoiseChars = '가나다라마바사아자차카타파하한글음악청춘엔딩해피미래도쿄감시학교자유';
 
-  // 페이지 로드 즉시 모든 원본 텍스트 안전 백업 (innerText 대신 textContent 활용)
-  document.querySelectorAll('.scramble-text').forEach(node => {
-    if (!node.dataset.originalText) {
-      node.dataset.originalText = node.textContent.trim();
+  // 순수 텍스트 노드만 안전하게 추출하는 함수 (이미지, HTML 구조 보존)
+  function getTextNodes(node) {
+    let textNodes = [];
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (node.nodeValue.trim().length > 0) {
+        textNodes.push(node);
+      }
+    } else {
+      for (let child of node.childNodes) {
+        textNodes = textNodes.concat(getTextNodes(child));
+      }
     }
-  });
+    return textNodes;
+  }
 
   function playFastKoreanDecode(element) {
+    // 최초 1회 원본 HTML 구조 보존 백업
+    if (!element.dataset.originalHTML) {
+      element.dataset.originalHTML = element.innerHTML;
+    }
+
     if (element.decodeInterval) clearInterval(element.decodeInterval);
 
-    const targetText = element.dataset.originalText || element.textContent.trim();
-    if (!targetText) return;
+    const textNodes = getTextNodes(element);
+    if (textNodes.length === 0) return;
 
-    const charArray = Array.from(targetText);
+    // 각 노드의 순수 텍스트 백업
+    const originalTexts = textNodes.map(tn => tn.nodeValue);
+
     let frameCount = 0;
-    const totalFrames = 6; // 0.15초간 틱틱 연출
+    const totalFrames = 5; // 0.12초간 아주 짧게 틱틱거림
 
     element.decodeInterval = setInterval(() => {
       frameCount++;
 
-      const resultHTML = charArray.map(char => {
-        if (char === ' ' || char === '\n' || char === '\r') {
-          return char;
-        }
+      textNodes.forEach((node, index) => {
+        const targetText = originalTexts[index];
+        const charArray = Array.from(targetText);
 
-        // 끝부분 몇 글자만 무작위 한글로 틱틱거리다가 완성
-        if (frameCount >= totalFrames || Math.random() > 0.35) {
-          return char;
+        if (frameCount >= totalFrames) {
+          node.nodeValue = targetText;
         } else {
-          const randomKorean = koreanNoiseChars[Math.floor(Math.random() * koreanNoiseChars.length)];
-          return `<span class="scramble-noise">${randomKorean}</span>`;
+          node.nodeValue = charArray.map(char => {
+            if (char === ' ' || char === '\n' || char === '\r') return char;
+            return Math.random() > 0.4 ? char : koreanNoiseChars[Math.floor(Math.random() * koreanNoiseChars.length)];
+          }).join('');
         }
-      }).join('');
-
-      element.innerHTML = resultHTML;
+      });
 
       if (frameCount >= totalFrames) {
         clearInterval(element.decodeInterval);
-        element.textContent = targetText; // 원본 텍스트 완전 정착
+        element.innerHTML = element.dataset.originalHTML; // 원본 HTML 및 이미지 복구
       }
     }, 25);
   }
@@ -141,18 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const scrambleObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 화면 진입 시 한글 디코딩 애니메이션 실행
         playFastKoreanDecode(entry.target);
       } else {
-        // 화면 이탈 시 원본 텍스트로 미리 복원 (재스크롤 준비)
-        if (entry.target.dataset.originalText) {
-          entry.target.textContent = entry.target.dataset.originalText;
+        if (entry.target.dataset.originalHTML) {
+          entry.target.innerHTML = entry.target.dataset.originalHTML;
         }
       }
     });
   }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -5% 0px'
+    threshold: 0.05
   });
 
   function initScrambleObserver() {
