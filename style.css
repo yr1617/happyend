@@ -669,15 +669,14 @@ video {
 /* 캐릭터별 개별 위치/크기 조정 */
 .char-ata .char-img-placeholder img {
   object-fit: cover;
-  object-position: left center;
-  transform: scale(1.15);
-  transform-origin: left center;
+  object-position: right center; /* 오른쪽(얼굴) 기준으로 배치하여 잘림 방지 */
+  transform: scale(1.05);        /* 과도한 확대 방지 */
 }
 
 .char-ming .char-img-placeholder img {
   object-fit: cover;
-  object-position: 85% center;
-  transform: scale(1.35);
+  object-position: 85% 20%;     /* 머리 위쪽이 잘리지 않도록 y축 기준 조정 */
+  transform: scale(1.5);        /* 확대율 증가 */
 }
 
 .char-tom .char-img-placeholder img {
@@ -686,9 +685,7 @@ video {
   transform: scale(1.05);
 }
 
-.char-item:hover .char-img-placeholder img {
-  transform: scale(1.1); /* 마우스 호버 시 살짝 추가 확대 효과 */
-}
+.char-item:hover .char-img-placeholder img { transform: scale(1.1); }
 
 .char-details { display: flex; flex-direction: column; gap: 10px; }
 .char-header { border-bottom: 1px solid var(--color-signal-flare); padding-bottom: 8px; }
