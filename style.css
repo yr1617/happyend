@@ -650,7 +650,7 @@ video {
 .char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
 .char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
 
-/* TAB 3: MUSIC (GRAPHIC STACK & STAGING AREA - 수정 적용본) */
+/* TAB 3: MUSIC */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -666,7 +666,7 @@ video {
 
 .player-workspace {
   display: grid;
-  grid-template-columns: 480px 1fr; /* 플레이어 크게 확대 */
+  grid-template-columns: 480px 1fr;
   gap: 40px;
   align-items: start;
 }
@@ -684,20 +684,20 @@ video {
   overflow: visible !important;
 }
 
-/* 톤암 (바늘): 길이축소 및 pointer-events 차단 */
+/* 톤암 (바늘): 비율에 맞게 210px로 연장 */
 .tonearm {
   position: absolute;
   top: 40px;
   right: 40px;
   width: 8px;
-  height: 120px; /* 기존 220px -> 120px로 축소 */
+  height: 210px;
   background: #555555 !important;
   border-radius: 4px !important;
   transform-origin: 4px 12px;
   transform: rotate(-25deg);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
-  pointer-events: none !important; /* 클릭 이벤트 통과 */
+  pointer-events: none !important;
 }
 
 .tonearm::before {
@@ -841,10 +841,9 @@ video {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, opacity 0.3s ease;
   user-select: none;
   position: relative;
-  z-index: 25; /* 클릭 이벤트 안정성 상승 */
+  z-index: 25;
 }
 
-/* 불규칙 오프셋 스타일링 */
 .offset-left-1 { transform: translateX(-20px); }
 .offset-right-2 { transform: translateX(28px); }
 .offset-left-2 { transform: translateX(-10px); }
@@ -866,7 +865,7 @@ video {
 .spine-num { font-size: 11px; font-weight: bold; margin-right: 12px; }
 .spine-title { font-size: 12px; font-weight: bold; }
 
-/* 2. 클릭 시 이동해와서 오픈되는 독립 여백 공간 (STAGING AREA) */
+/* 2. STAGING AREA */
 .opened-case-stage {
   min-height: 240px;
   border: 1px dashed var(--color-signal-flare);
@@ -884,7 +883,7 @@ video {
   opacity: 0.5;
 }
 
-/* 펼쳐진 쥬얼 케이스 그래픽 */
+/* 펼쳐진 쥬얼 케이스 그래픽 (수정본) */
 .opened-jewel-case {
   display: none;
   width: 420px;
@@ -903,22 +902,23 @@ video {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* 외부로 펼쳐지는 커버 (Unfold) 및 투명도 조정 */
 .case-cover {
   width: 190px;
   height: 190px;
   border: 1px solid var(--color-signal-flare);
-  background-color: rgba(255, 26, 0, 0.08);
+  background-color: rgba(255, 26, 0, 0.02);
   padding: 16px;
   display: flex;
   align-items: flex-end;
-  transform-origin: right center;
+  transform-origin: left center;
   animation: openPlasticCover 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
   position: relative;
   z-index: 2;
 }
 
 @keyframes openPlasticCover {
-  to { transform: rotateY(-140deg); }
+  to { transform: rotateY(140deg); }
 }
 
 .cover-title { font-size: 11px; font-weight: bold; }
