@@ -188,6 +188,7 @@ video {
   justify-content: center;
   border-bottom: 1px solid var(--color-signal-flare);
   padding-bottom: 30px;
+  overflow: visible !important;
 }
 
 .album-tab-btn {
@@ -202,6 +203,7 @@ video {
   transition: opacity 0.3s ease;
   padding: 10px;
   pointer-events: auto !important;
+  overflow: visible !important;
 }
 
 .album-tab-btn:hover {
@@ -212,12 +214,12 @@ video {
   opacity: 1;
 }
 
-/* TAB GRAPHIC ICON FIX (CD 케이스 3D 오픈 메커니즘) */
+/* TAB GRAPHIC ICON FIX (잘림 방지 및 완전 열림 처리) */
 .tab-cd-player {
   position: relative;
   width: 54px;
   height: 54px;
-  perspective: 200px; /* 3D 회전을 위한 원근감 */
+  overflow: visible !important;
 }
 
 .tab-graphic-icon {
@@ -227,8 +229,9 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-signal-flare); /* 고정된 CD 케이스 뒷판 */
+  border: 1px solid var(--color-signal-flare);
   background-color: rgba(255, 26, 0, 0.03);
+  overflow: visible !important;
 }
 
 .tab-graphic-icon .icon-inner-cd {
@@ -244,7 +247,6 @@ video {
   left: 4px;
   background-color: var(--color-sun-baked-canvas);
   z-index: 1;
-  /* CD는 제자리에 고정 */
   transform: none !important;
 }
 
@@ -263,15 +265,13 @@ video {
   height: 54px;
   background-color: rgba(255, 26, 0, 0.15);
   border: 1px solid var(--color-signal-flare);
-  z-index: 2;
-  transform-origin: left center; /* 왼쪽 경첩 기준으로 열림 */
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
-  backface-visibility: hidden;
+  z-index: 10;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .tab-cd-cover::after {
   content: '';
-  width: 4px;
+  width: 6px;
   height: 100%;
   border-right: 1px solid var(--color-signal-flare);
   position: absolute;
@@ -280,10 +280,9 @@ video {
   background-color: rgba(255, 26, 0, 0.3);
 }
 
-/* 탭 활성화 시 뚜껑이 왼쪽 3D 방향으로 자연스럽게 열림 */
+/* active 시 왼쪽으로 100% 이동하여 완전히 열림 */
 .album-tab-btn.active .tab-cd-cover {
-  transform: rotateY(-70deg);
-  background-color: rgba(255, 26, 0, 0.08);
+  transform: translateX(-100%);
 }
 
 .tab-num {
