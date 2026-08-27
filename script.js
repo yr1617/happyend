@@ -1,100 +1,42 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
 
-  // 1. DARK MODE TOGGLE (다크모드 & 조명 플리커링 실행)
-  const themeToggle = document.getElementById('themeToggle');
-  const modeText = themeToggle.querySelector('.mode-text');
+  // 0. 다크 모드 토글 (우측 상단 뱃지 버튼)
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.classList.toggle('dark-mode');
+    });
+  }
 
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    
-    modeText.textContent = isDark ? 'DARK MODE: ON' : 'DARK MODE: OFF';
-
-    // 다크모드로 전환될 때마다 SVG 조명이 찌릿하며 켜지도록 애니메이션 리셋
-    if (isDark) {
-      const flickerTarget = document.querySelector('.flicker-light-target');
-      if (flickerTarget) {
-        flickerTarget.style.animation = 'none';
-        flickerTarget.offsetHeight; // trigger reflow
-        flickerTarget.style.animation = 'roomFlickerOn 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-      }
-    }
-  });
-
-  // 2. VIDEO PLAYER & TIMELINE SCRUBBER
+  // 1. 비디오 재생 / 일시정지
   const video = document.getElementById('teaserVideo');
+  const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
-  const bottomPlayBtn = document.getElementById('bottomPlayBtn');
-  const btnIcon = bottomPlayBtn.querySelector('.btn-icon');
-  
-  const currentTimeEl = document.getElementById('currentTime');
-  const durationTimeEl = document.getElementById('durationTime');
-  
-  const timelineContainer = document.getElementById('timelineContainer');
-  const timelineProgress = document.getElementById('timelineProgress');
-  const timelineThumb = document.getElementById('timelineThumb');
 
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  if (videoFrame && video) {
+    videoFrame.addEventListener('click', () => {
+      if (video.paused) {
+        video.play().catch(err => console.log("Video play error:", err));
+      } else {
+        video.pause();
+      }
+    });
+
+    video.addEventListener('play', () => {
+      if (playControl) playControl.classList.add('is-playing');
+    });
+
+    video.addEventListener('pause', () => {
+      if (playControl) playControl.classList.remove('is-playing');
+    });
+
+    video.addEventListener('ended', () => {
+      if (playControl) playControl.classList.remove('is-playing');
+    });
   }
 
-  function togglePlay() {
-    if (video.paused) {
-      video.play().catch(err => console.log('Video error:', err));
-    } else {
-      video.pause();
-    }
-  }
-
-  playControl.addEventListener('click', togglePlay);
-  bottomPlayBtn.addEventListener('click', togglePlay);
-
-  video.addEventListener('play', () => {
-    playControl.classList.add('is-playing');
-    btnIcon.textContent = '❚❚';
-  });
-
-  video.addEventListener('pause', () => {
-    playControl.classList.remove('is-playing');
-    btnIcon.textContent = '▶';
-  });
-
-  video.addEventListener('loadedmetadata', () => {
-    durationTimeEl.textContent = formatTime(video.duration);
-  });
-
-  video.addEventListener('timeupdate', () => {
-    if (!video.duration) return;
-    const percentage = (video.currentTime / video.duration) * 100;
-    timelineProgress.style.width = `${percentage}%`;
-    timelineThumb.style.left = `${percentage}%`;
-    currentTimeEl.textContent = formatTime(video.currentTime);
-  });
-
-  let isDragging = false;
-  function updateScrubber(e) {
-    const rect = timelineContainer.getBoundingClientRect();
-    let pos = (e.clientX - rect.left) / rect.width;
-    pos = Math.max(0, Math.min(1, pos));
-    video.currentTime = pos * video.duration;
-  }
-
-  timelineContainer.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    updateScrubber(e);
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (isDragging) updateScrubber(e);
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (isDragging) isDragging = false;
-  });
-
-  // 3. TAB CONTROLS (CD 케이스 열림 & CD 옆으로 나오는 애니메이션)
+  // 2. 탭 버튼 클릭 전환
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -108,18 +50,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       currentBtn.classList.add('active');
       const targetContent = document.getElementById(targetTabId);
-      if (targetContent) targetContent.classList.add('active');
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
     });
   });
 
-  // 4. MUSIC PLAYER DRAG & DROP
+  // 3. CD 플레이어 드래그 앤 드롭
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
   albumCovers.forEach(cover => {
     cover.addEventListener('click', (e) => {
       e.stopPropagation();
-      cover.parentElement.classList.toggle('open');
+      const parent = cover.parentElement;
+      parent.classList.toggle('open');
     });
   });
 
@@ -177,12 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
       activeCD.classList.remove('spinning', 'inserted');
       let targetAlbumId = 'album1';
       if (activeCD.id === 'cd2') targetAlbumId = 'album2';
+      if (activeCD.id === 'cd3') targetAlbumId = 'album3';
 
       const targetAlbum = document.getElementById(targetAlbumId);
-      if (targetAlbum) targetAlbum.appendChild(activeCD);
+      if (targetAlbum) {
+        targetAlbum.appendChild(activeCD);
+      }
       activeCD = null;
     }
   }
 
-  if (ejectBtn) ejectBtn.addEventListener('click', ejectCD);
+  if (ejectBtn) {
+    ejectBtn.addEventListener('click', ejectCD);
+  }
 });
