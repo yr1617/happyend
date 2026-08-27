@@ -1,125 +1,656 @@
 :root {
-  --color-sun-baked-canvas: #f4f1ea;
   --color-signal-flare: #ff1a00;
-  --bg-color: #f8f6f0;
-  --text-color: #111111;
+  --color-sun-baked-canvas: #f2ece1;
+  --color-midnight-frame: #0a0a0a;
+
+  --font-pressura: 'JetBrains Mono', monospace;
+  --font-monument: 'Space Grotesk', sans-serif;
+
+  --text-caption: 12px;
+  --text-body: 16px;
 }
 
 body.dark-mode {
-  --bg-color: #121212;
-  --text-color: #f4f1ea;
-  --color-sun-baked-canvas: #1e1e1e;
+  --color-sun-baked-canvas: #0a0a0a;
+  --color-signal-flare: #ff4d36;
 }
+
+html { scroll-behavior: smooth; }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: monospace, sans-serif;
+  box-shadow: none !important;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 20px;
+  background-color: var(--color-sun-baked-canvas);
+  color: var(--color-signal-flare);
+  font-family: var(--font-pressura);
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+}
+
+/* CORNER NAV & BADGE */
+.corner-nav {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 5px;
+  font-size: var(--text-caption);
+  text-transform: uppercase;
+  pointer-events: none;
 }
 
-.header {
-  width: 100%;
-  max-width: 900px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.dark-toggle-btn {
+.corner-badge {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 999999;
+  text-align: right;
+  font-size: var(--text-caption);
+  color: var(--color-signal-flare);
+  text-decoration: none;
+  cursor: pointer !important;
   background: none;
-  border: 1px solid var(--text-color);
-  color: var(--text-color);
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 11px;
+  border: none;
 }
 
-.tab-nav {
+.badge-circle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-signal-flare);
+  border-radius: 50% !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  transition: all 0.25s ease;
+}
+
+.corner-badge:hover .badge-circle {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+}
+
+.top-scroll-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
+  color: var(--color-signal-flare);
+  border-radius: 50% !important;
   display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 900px;
-  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer !important;
+  transition: all 0.25s ease;
 }
 
-.album-tab-btn {
+.top-scroll-btn:hover {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+}
+
+/* HERO SECTION */
+.hero {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-sun-baked-canvas);
+}
+
+.brand-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.title-image {
+  width: 85vw;
+  max-width: 1100px;
+  height: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.club-room-backdrop {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: #0d0c0c;
+  overflow: hidden;
+}
+
+body.dark-mode .club-room-backdrop {
+  display: block;
+  animation: flickerIn 0.8s ease-in-out forwards;
+}
+
+@keyframes flickerIn {
+  0% { opacity: 0; }
+  15% { opacity: 0.6; }
+  25% { opacity: 0.1; }
+  45% { opacity: 0.85; }
+  55% { opacity: 0.3; }
+  70% { opacity: 0.95; }
+  85% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.corridor-scene {
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.wall-perspective {
+  width: 110%;
+  height: 110%;
+  transform: rotateY(-18deg) rotateX(2deg) scale(1.05);
+  transform-origin: right center;
+  position: relative;
   background: transparent;
-  border: 1px solid var(--text-color);
-  color: var(--text-color);
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.window-zone {
+  position: absolute;
+  right: 15%;
+  top: 25%;
+  width: 420px;
+  height: 280px;
+  display: flex;
+  gap: 16px;
+}
+
+.window-pane {
+  flex: 1;
+  height: 100%;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 210, 120, 0.85) 0%, rgba(200, 140, 50, 0.4) 70%, rgba(40, 30, 20, 0.8) 100%);
+  border: 4px solid #222;
+  box-shadow: 0 0 50px rgba(255, 210, 120, 0.25), inset 0 0 20px rgba(0,0,0,0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.kanji-text {
+  position: absolute;
+  left: 20px;
+  top: 30px;
+  font-family: serif;
+  font-size: 20px;
+  writing-mode: vertical-rl;
+  color: rgba(20, 15, 10, 0.85);
+  letter-spacing: 6px;
   font-weight: bold;
 }
 
-.album-tab-btn.active {
-  background-color: var(--color-signal-flare);
-  color: #fff;
-  border-color: var(--color-signal-flare);
+.shadow-figures-group {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 240px;
+  height: 220px;
+  pointer-events: none;
 }
 
-.main-container {
-  width: 100%;
-  max-width: 900px;
+.shadow-person {
+  position: absolute;
+  bottom: 0;
+  background: #120e0a;
+  filter: blur(4px);
 }
 
-.tab-content {
-  display: none;
+.person-back {
+  right: 80px;
+  width: 100px;
+  height: 180px;
+  opacity: 0.85;
+  border-radius: 50px 50px 0 0 !important;
 }
 
-.tab-content.active {
-  display: block;
+.person-back::before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42px;
+  height: 48px;
+  background: #120e0a;
+  border-radius: 50% !important;
 }
 
-/* 비디오 영역 */
-.video-container {
-  width: 100%;
-  background: #000;
+.person-front {
+  right: 15px;
+  width: 95px;
+  height: 160px;
+  opacity: 0.95;
+  border-radius: 45px 45px 0 0 !important;
+}
+
+.person-front::before {
+  content: '';
+  position: absolute;
+  top: -22px;
+  left: 30%;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 44px;
+  background: #120e0a;
+  border-radius: 50% !important;
+}
+
+.sliding-door {
+  position: absolute;
+  right: 2%;
+  top: 25%;
+  width: 180px;
+  height: 400px;
+  border: 4px solid #1c1a19;
+  background-color: #111010;
+}
+
+.door-poster {
+  width: 60px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px stroke rgba(255, 255, 255, 0.1);
+  margin: 20px auto;
+}
+
+/* TRAILER VIDEO SECTION */
+.media-container {
+  max-width: 1200px;
+  margin: 0 auto 100px auto;
+  padding: 0 24px;
   position: relative;
+  z-index: 2;
+}
+
+.video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  cursor: pointer !important;
+  overflow: hidden;
+  z-index: 10;
+  border: 1px solid var(--color-signal-flare);
 }
 
 video {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
-.video-controls {
+.play-control {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border: 2px solid var(--color-signal-flare);
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: #222;
-  color: #fff;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.4);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+.play-triangle {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid var(--color-signal-flare);
+  margin-left: 3px;
+}
+
+.play-control.is-playing { opacity: 0; }
+.video-frame:hover .play-control.is-playing { opacity: 0.8; }
+
+.play-control.is-playing .play-triangle {
+  width: 12px;
+  height: 16px;
+  border: none;
+  margin-left: 0;
+  border-left: 4px solid var(--color-signal-flare);
+  border-right: 4px solid var(--color-signal-flare);
+}
+
+.video-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-signal-flare);
+  font-size: var(--text-caption);
+}
+
+.video-btn {
+  background: none;
+  border: 1px solid var(--color-signal-flare);
+  color: var(--color-signal-flare);
+  padding: 4px 10px;
+  font-family: var(--font-pressura);
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+}
+
+.video-btn:hover {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
 }
 
 .timeline-container {
   flex: 1;
-  height: 6px;
-  background: #444;
-  cursor: pointer;
+  height: 14px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: rgba(255, 26, 0, 0.05);
+  cursor: pointer !important;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .timeline-progress {
-  width: 0%;
   height: 100%;
-  background: var(--color-signal-flare);
+  width: 0%;
+  background-color: var(--color-signal-flare);
+  transition: width 0.1s linear;
+  pointer-events: none;
 }
 
-/* ==========================================
-   MUSIC TAB (STACKED RACK & TURNTABLE)
-   ========================================== */
+.video-time-display {
+  display: flex;
+  gap: 4px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+/* TAB SELECTOR BAR */
+.album-tab-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.tab-selector-bar {
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-signal-flare);
+  padding-bottom: 30px;
+  overflow: visible !important;
+}
+
+.album-tab-btn {
+  background: none;
+  border: none;
+  cursor: pointer !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  padding: 10px;
+  pointer-events: auto !important;
+  overflow: visible !important;
+  color: var(--color-signal-flare);
+}
+
+.album-tab-btn:hover { opacity: 0.8; }
+.album-tab-btn.active { opacity: 1; }
+
+.tab-cd-player {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  perspective: 400px;
+  overflow: visible !important;
+}
+
+.tab-graphic-icon {
+  width: 54px;
+  height: 54px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-signal-flare);
+  background-color: rgba(255, 26, 0, 0.03);
+  transform-style: preserve-3d;
+  overflow: visible !important;
+}
+
+.tab-graphic-icon .icon-inner-cd {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-signal-flare);
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background-color: var(--color-sun-baked-canvas);
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tab-graphic-icon .icon-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-signal-flare);
+  border-radius: 50% !important;
+}
+
+.tab-cd-cover {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 54px;
+  height: 54px;
+  background-color: rgba(255, 26, 0, 0.15);
+  border: 1px solid var(--color-signal-flare);
+  z-index: 10;
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-cd-cover::after {
+  content: '';
+  width: 6px;
+  height: 100%;
+  border-right: 1px solid var(--color-signal-flare);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(255, 26, 0, 0.3);
+}
+
+.album-tab-btn.active .tab-cd-cover { transform: rotateY(-120deg); }
+.album-tab-btn.active .icon-inner-cd { transform: translateX(18px) !important; }
+
+.tab-num {
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  pointer-events: none !important;
+}
+
+/* TAB CONTENT PANELS & REVEAL ANIMATIONS */
+@keyframes textSlideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.tab-content {
+  display: none;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+
+.tab-content.active { display: block; }
+
+.tab-content.active .analysis-text,
+.tab-content.active .char-desc {
+  animation: textSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* TAB 1: STORY */
+.story-node {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 120px;
+}
+
+.story-node:nth-child(even) .node-media { order: 2; }
+
+.node-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-midnight-frame);
+  overflow: hidden;
+}
+
+.node-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bounding-box {
+  position: absolute;
+  border: 1.5px solid var(--color-signal-flare);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.bounding-box .box-tag {
+  position: absolute;
+  top: -18px;
+  left: -1.5px;
+  background-color: var(--color-signal-flare);
+  color: #ffffff;
+  font-family: var(--font-pressura);
+  font-size: 9px;
+  font-weight: bold;
+  padding: 1px 4px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.analysis-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analysis-meta {
+  font-size: 11px;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--color-signal-flare);
+  padding-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.analysis-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-signal-flare);
+  word-break: keep-all;
+}
+
+/* TAB 2: CHARACTERS */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 60px 30px;
+}
+
+.char-item { display: flex; flex-direction: column; gap: 16px; }
+.char-yuta { grid-column: span 3; }
+.char-kou { grid-column: span 3; }
+.char-ata { grid-column: span 2; }
+.char-ming { grid-column: span 2; }
+.char-tom { grid-column: span 2; }
+
+.char-img-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-midnight-frame);
+  border: 1px solid var(--color-signal-flare);
+  border-radius: 0px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.char-img-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.char-item:hover .char-img-placeholder img { transform: scale(1.04); }
+
+.char-details { display: flex; flex-direction: column; gap: 10px; }
+.char-header { border-bottom: 1px solid var(--color-signal-flare); padding-bottom: 8px; }
+.char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
+.char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
+
+/* TAB 3: MUSIC (세워진 CD 랙 오디오 플레이어) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -130,113 +661,56 @@ video {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  margin-bottom: 25px;
-  font-weight: bold;
+  margin-bottom: 30px;
 }
 
 .player-workspace {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 40px;
-  align-items: start;
+  align-items: center;
 }
 
-/* 턴테이블 디바이스 본체 */
 .cd-player-device {
-  background-color: #e5e5e5;
-  border-radius: 16px;
-  padding: 25px;
+  background-color: #e2e2e2 !important;
+  border-radius: 20px !important;
+  padding: 30px;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  border: 2px solid #333;
-  box-shadow: 6px 6px 0px #111;
+  gap: 20px;
+  border: 2px solid #cccccc !important;
 }
 
-/* 턴테이블 바늘 (Tone Arm) 연출 */
-.tone-arm {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  width: 80px;
-  height: 180px;
-  z-index: 50;
-  pointer-events: none;
-  transform-origin: 65px 25px;
-  transform: rotate(-35deg); /* 기본 멈춤 위치 */
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 재생 시작 시 바늘이 CD 위로 이동 */
-.cd-player-device.playing .tone-arm {
-  transform: rotate(0deg);
-}
-
-.arm-base {
-  position: absolute;
-  top: 10px;
-  right: 5px;
-  width: 36px;
-  height: 36px;
-  background: #333;
-  border-radius: 50%;
-  border: 3px solid #888;
-}
-
-.arm-rod {
-  position: absolute;
-  top: 30px;
-  right: 20px;
-  width: 6px;
-  height: 120px;
-  background: #777;
-  border-radius: 3px;
-}
-
-.arm-head {
-  position: absolute;
-  bottom: 20px;
-  right: 14px;
-  width: 18px;
-  height: 28px;
-  background: #ff1a00;
-  border-radius: 2px;
-  transform: rotate(15deg);
-}
-
-/* 턴테이블 판 */
 .turntable-surface {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #222;
-  border-radius: 50%;
+  background-color: #d0d0d0 !important;
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 4px solid #111;
 }
 
 .player-deck {
-  width: 92%;
-  height: 92%;
-  background-color: #333;
-  border-radius: 50%;
+  width: 90%;
+  height: 90%;
+  background-color: #888888 !important;
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease;
 }
 
-.player-deck.drag-over {
-  background-color: #ff1a00 !important;
-}
+.player-deck.drag-over { background-color: #ffb4a8 !important; }
 
 .cd-tray {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  width: 92%;
+  height: 92%;
+  background-color: #2b2b2b !important;
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -244,235 +718,194 @@ video {
 }
 
 .tray-center-pin {
-  width: 14px;
-  height: 14px;
-  background-color: #fff;
-  border: 2px solid #111;
-  border-radius: 50%;
-  z-index: 40;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff !important;
+  border-radius: 50% !important;
+  z-index: 30;
   pointer-events: none;
 }
 
 .tray-text {
   position: absolute;
-  font-size: 10px;
-  font-weight: bold;
-  color: #777;
+  font-size: 11px;
+  color: #888888 !important;
   pointer-events: none;
 }
 
-/* 플레이어 컨트롤 바 */
+.cd-player-device::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  width: 65px;
+  height: 65px;
+  background: #333333 !important;
+  border-radius: 50% !important;
+  z-index: 5;
+}
+
+.cd-player-device::after {
+  content: '';
+  position: absolute;
+  top: 75px;
+  right: 60px;
+  width: 10px;
+  height: 170px;
+  background: #777777 !important;
+  border-radius: 5px !important;
+  transform: rotate(-25deg);
+  transform-origin: top center;
+  z-index: 6;
+  pointer-events: none;
+}
+
 .player-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #111;
+  background-color: #ffffff !important;
+  padding: 12px 20px;
+  border-radius: 10px !important;
 }
 
-.track-status-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #aaa;
-}
-
-.cd-player-device.playing .status-indicator {
-  background-color: #00e676;
-  box-shadow: 0 0 8px #00e676;
-  animation: blink 1s infinite alternate;
-}
-
-@keyframes blink { from { opacity: 0.4; } to { opacity: 1; } }
-
-.track-display {
-  font-size: 11px;
-  color: #111;
+.track-display { 
+  font-size: 11px; 
+  color: #333333 !important;
   font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 160px;
-  text-overflow: ellipsis;
 }
 
 .eject-btn {
-  background: #ff1a00;
-  border: 1px solid #111;
-  color: #fff;
-  padding: 6px 12px;
+  background: #ff1a00 !important;
+  border: none;
+  color: #ffffff !important;
+  padding: 8px 16px;
   font-size: 10px;
   font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: opacity 0.2s ease;
 }
 
-.eject-btn:hover { background: #d01100; }
+.eject-btn:hover { opacity: 0.8; }
 
-/* ==========================================
-   수직으로 쌓여있는 CD 케이스 랙 (Accordion Drop)
-   ========================================== */
-.cd-stack-rack {
+/* 5개 CD 세워진 슬롯 형태의 랙 (Stack / Shelf Style) */
+.album-rack-stacked {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 100%;
+  gap: 12px;
+  border: 1px solid var(--color-signal-flare);
+  padding: 16px;
+  background-color: rgba(255, 26, 0, 0.02);
 }
 
-.cd-case-item {
+.album-item-slot {
   position: relative;
   width: 100%;
-  background-color: var(--color-sun-baked-canvas, #f4f1ea);
-  border: 1.5px solid var(--color-signal-flare, #ff1a00);
-  border-radius: 4px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.case-cover {
-  padding: 14px 18px;
+  height: 70px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  background-color: var(--color-sun-baked-canvas, #f4f1ea);
-  z-index: 10;
+  border-bottom: 1px dashed rgba(255, 26, 0, 0.3);
+  padding-bottom: 8px;
+}
+
+.album-item-slot:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.album-cover {
+  width: 70px;
+  height: 70px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
   position: relative;
-}
-
-.case-num {
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--color-signal-flare, #ff1a00);
-}
-
-.case-title {
-  font-size: 12px;
-  font-weight: bold;
-}
-
-/* 케이스 내부 (펼쳐졌을 때 들어남) */
-.case-inside {
-  max-height: 0;
-  opacity: 0;
-  padding: 0 18px;
-  background-color: #eae6df;
+  z-index: 20;
+  padding: 6px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer !important;
+  flex-shrink: 0;
 }
 
-/* 케이스 선택 시 아래로 스르륵 빠지며 펴짐 */
-.cd-case-item.active-selected {
-  margin: 10px 0;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+.cover-no { font-size: 9px; font-weight: bold; }
+.cover-title { 
+  font-size: 10px; 
+  font-weight: bold; 
+  line-height: 1.1;
+  word-break: break-word;
 }
 
-.cd-case-item.active-selected .case-inside {
-  max-height: 200px;
-  opacity: 1;
-  padding: 20px 18px;
-  border-top: 1px dashed var(--color-signal-flare, #ff1a00);
-}
-
-/* ==========================================
-   CD Graphic (원본 빨간 원 & 회전 시각화)
-   ========================================== */
 .cd-disc {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #222 0%, #111 70%);
+  width: 64px;
+  height: 64px;
+  background: repeating-radial-gradient(
+    circle at center,
+    #111111 0,
+    #111111 3px,
+    #222222 4px,
+    #222222 6px
+  ) !important;
+  border-radius: 50% !important;
   position: relative;
+  margin-left: -20px;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: grab;
-  box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, margin 0.3s ease;
+  cursor: grab !important;
+  flex-shrink: 0;
 }
 
-.cd-disc:active { cursor: grabbing; }
-
-/* 회전 여부를 명확히 보여주는 비대칭 패턴 & 빛반사 */
-.cd-label-pattern {
-  position: absolute;
-  top: 15px;
-  left: 20px;
-  width: 25px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-  transform: rotate(-30deg);
-  pointer-events: none;
+.album-item-slot:hover .cd-disc {
+  transform: translateX(15px);
 }
 
-.cd-disc::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(
-    transparent 0deg, 
-    rgba(255,255,255,0.08) 45deg, 
-    transparent 90deg, 
-    rgba(255,255,255,0.08) 225deg, 
-    transparent 270deg
-  );
-  pointer-events: none;
-}
-
-/* 원본 크기의 빨간 센터링 원 */
 .cd-center-ring {
-  width: 54px; /* 원본 크기 복원 */
-  height: 54px;
-  background-color: var(--color-signal-flare, #ff1a00);
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-signal-flare);
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 5;
   pointer-events: none;
 }
 
 .cd-center-hole {
-  width: 18px;
-  height: 18px;
-  background-color: #eae6df;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-sun-baked-canvas);
+  border-radius: 50% !important;
 }
 
-/* 턴테이블 안으로 드래그되어 들어갔을 때 */
 .cd-disc.inserted {
   position: absolute !important;
-  width: 230px !important;  
-  height: 230px !important;
   top: 50% !important;
   left: 50% !important;
+  margin-left: 0 !important;
   transform: translate(-50%, -50%) !important;
-  z-index: 20;
-  margin: 0 !important;
+  width: 90% !important;
+  height: 90% !important;
+  z-index: 15 !important;
 }
 
-.cd-disc.inserted .cd-center-hole {
-  background-color: #222 !important;
+.cd-disc.spinning {
+  animation: spinVinyl 2.5s linear infinite !important;
 }
 
-/* 재생 중 회전 애니메이션 */
-.cd-player-device.playing .cd-disc.inserted {
-  animation: spinRecord 2s linear infinite !important;
-}
-
-@keyframes spinRecord {
+@keyframes spinVinyl {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 반응형 처리 */
+@media (max-width: 900px) {
+  .story-node, .story-node:nth-child(even) { grid-template-columns: 1fr; }
+  .story-node:nth-child(even) .node-media { order: 0; }
+  .character-grid { grid-template-columns: 1fr; }
+  .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
+  .player-workspace { grid-template-columns: 1fr; }
 }
