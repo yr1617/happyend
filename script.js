@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-  // 0. 다크 모드 토글 (우측 상단 뱃지 버튼)
+  // 0. 다크 모드 토글 (안전한 null 검사 추가)
   const darkModeToggle = document.getElementById('darkModeToggle');
   if (darkModeToggle) {
     darkModeToggle.addEventListener('click', (e) => {
@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 1. 비디오 재생 / 일시정지
+  // 1. 비디오 재생 / 일시정지 (에러 방지 방어 코드 적용)
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
@@ -40,23 +40,25 @@ window.addEventListener('DOMContentLoaded', () => {
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const currentBtn = e.currentTarget;
-      const targetTabId = currentBtn.getAttribute('data-tab');
+  if (tabBtns.length > 0) {
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const currentBtn = e.currentTarget;
+        const targetTabId = currentBtn.getAttribute('data-tab');
 
-      tabBtns.forEach(b => b.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
 
-      currentBtn.classList.add('active');
-      const targetContent = document.getElementById(targetTabId);
-      if (targetContent) {
-        targetContent.classList.add('active');
-      }
+        currentBtn.classList.add('active');
+        const targetContent = document.getElementById(targetTabId);
+        if (targetContent) {
+          targetContent.classList.add('active');
+        }
+      });
     });
-  });
+  }
 
-  // 3. CD 플레이어 드래그 앤 드롭
+  // 3. CD 플레이어 드래그 앤 드롭 (완전 복원 및 에러 방지)
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
@@ -64,7 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
     cover.addEventListener('click', (e) => {
       e.stopPropagation();
       const parent = cover.parentElement;
-      parent.classList.toggle('open');
+      if (parent) parent.classList.toggle('open');
     });
   });
 
@@ -72,7 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', cd.id);
-      e.dataTransfer.setData('title', cd.getAttribute('data-title'));
+      e.dataTransfer.setData('title', cd.getAttribute('data-title') || '');
     });
   });
 
@@ -83,7 +85,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const trayText = document.getElementById('trayText');
   const ejectBtn = document.getElementById('ejectBtn');
 
-  if (dropZone) {
+  if (dropZone && playerDeck && cdTray) {
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
       playerDeck.classList.add('drag-over');
