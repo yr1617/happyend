@@ -22,79 +22,41 @@
     <div class="badge-circle">◐</div>
   </button>
 
-  <a href="#top" class="top-scroll-btn" aria-label="Scroll to top">TOP</a>
+  <!-- 원래대로 위쪽 화살표(↑) 복원 및 호버 반전 효과 적용 -->
+  <a href="#top" class="top-scroll-btn" aria-label="Scroll to top">↑</a>
 
-  <!-- HERO TITLE & CLUB ROOM CORRIDOR BACKDROP -->
+  <!-- HERO TITLE & PERSPECTIVE CORRIDOR BACKDROP -->
   <section class="hero">
     <div class="brand-logo-wrap">
       <img src="HAPPYEND_title_transparent.svg" alt="HAPPYEND" class="title-image">
     </div>
 
-    <!-- 이미지 복도 뷰 구도를 완벽하게 재현한 SVG 그래픽 -->
+    <!-- 비스듬한 복도 구도 및 은은한 노란 빛 동아리실 실루엣 비주얼 -->
     <div class="club-room-backdrop">
-      <svg class="club-bg-svg" viewBox="0 0 1200 675" fill="none" stroke="var(--color-signal-flare)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-        
-        <!-- 천장 천장등 & 벽 라인 -->
-        <line x1="0" y1="80" x2="1200" y2="80" stroke-dasharray="4 4" />
-        <rect x="500" y="20" width="200" height="15" rx="3" />
+      <div class="corridor-scene">
+        <div class="wall-perspective">
+          
+          <!-- 은은하게 빛나는 창문 2개 -->
+          <div class="window-zone">
+            <!-- 창문 1: 음악연구부 텍스트 -->
+            <div class="window-pane">
+              <span class="kanji-text">音樂研究部</span>
+            </div>
+            
+            <!-- 창문 2: 고개 숙여 음악 듣는 사람 실루엣 -->
+            <div class="window-pane">
+              <div class="shadow-figure"></div>
+              <div class="shadow-headphone"></div>
+            </div>
+          </div>
 
-        <!-- 좌측: 사물함 (Locker) -->
-        <rect x="100" y="220" width="90" height="260" />
-        <line x1="100" y1="350" x2="190" y2="350" />
-        <line x1="145" y1="220" x2="145" y2="480" />
+          <!-- 복도 미세기문 -->
+          <div class="sliding-door">
+            <div class="door-poster"></div>
+          </div>
 
-        <!-- 좌측 중앙: 적재된 테이블 & 의자 2개 -->
-        <rect x="200" y="360" width="230" height="120" />
-        <line x1="200" y1="380" x2="430" y2="380" />
-        <line x1="200" y1="400" x2="430" y2="400" />
-        
-        <!-- 의자 1 -->
-        <path d="M 290 380 C 290 350, 310 350, 310 380 Z" stroke-width="1.8" />
-        <rect x="280" y="380" width="40" height="40" rx="4" fill="var(--color-sun-baked-canvas)" opacity="0.3" />
-        
-        <!-- 의자 2 -->
-        <path d="M 360 380 C 360 350, 380 350, 380 380 Z" stroke-width="1.8" />
-        <rect x="350" y="380" width="40" height="40" rx="4" fill="var(--color-sun-baked-canvas)" opacity="0.3" />
-
-        <!-- 서랍장 -->
-        <rect x="430" y="410" width="80" height="70" />
-        <line x1="430" y1="445" x2="510" y2="445" />
-
-        <!-- 복도 벽 구분선 -->
-        <line x1="0" y1="480" x2="1200" y2="480" />
-
-        <!-- 중앙: 동아리실 창문 2개 -->
-        <!-- 창문 1 (왼쪽) -->
-        <rect x="440" y="180" width="120" height="160" />
-        <rect x="440" y="180" width="120" height="160" class="window-light" stroke="none" />
-        <text x="490" y="230" fill="var(--color-signal-flare)" font-family="sans-serif" font-weight="bold" font-size="14" writing-mode="vertical-rl" letter-spacing="4">音樂研究部</text>
-
-        <!-- 창문 2 (오른쪽 - 인물 실루엣) -->
-        <rect x="580" y="180" width="130" height="160" />
-        <rect x="580" y="180" width="130" height="160" class="window-light" stroke="none" />
-        
-        <!-- 실루엣 (고개 숙이고 헤드폰 쓴 인물) -->
-        <g class="person-silhouette" fill="var(--color-signal-flare)">
-          <path d="M 620 340 C 620 280, 640 250, 660 240 C 675 232, 690 240, 695 260 C 700 280, 680 300, 685 340 Z" />
-          <circle cx="670" cy="245" r="14" /> <!-- 머리 -->
-          <path d="M 660 238 C 655 242, 655 250, 660 254" stroke="var(--color-sun-baked-canvas)" stroke-width="2" /> <!-- 헤드폰 -->
-        </g>
-
-        <!-- 우측: 미세기문 (Sliding Doors) -->
-        <!-- 문 1 -->
-        <rect x="740" y="180" width="140" height="300" />
-        <rect x="760" y="210" width="100" height="120" />
-        <!-- 문 1 안의 포스터들 -->
-        <rect x="770" y="220" width="35" height="45" stroke-dasharray="2 2" />
-        <rect x="815" y="230" width="35" height="50" stroke-dasharray="2 2" />
-        <rect x="770" y="275" width="40" height="45" stroke-dasharray="2 2" />
-
-        <!-- 문 2 -->
-        <rect x="880" y="180" width="140" height="300" />
-        <rect x="900" y="210" width="100" height="120" />
-        <rect x="910" y="220" width="40" height="50" stroke-dasharray="2 2" />
-
-      </svg>
+        </div>
+      </div>
     </div>
   </section>
 
