@@ -882,14 +882,14 @@ video {
   opacity: 0.5;
 }
 
-/* 펼쳐진 쥬얼 케이스 스테이지 컨테이너 */
+/* 펼쳐진 쥬얼 케이스 컨테이너: CD 트레이가 스테이지 중앙에 위치하도록 정렬 */
 .opened-jewel-case {
   display: none;
   width: 380px;
   height: 190px;
   position: relative;
   perspective: 1000px;
-  margin-left: 190px; /* 왼쪽으로 열릴 공간 확보 */
+  margin-right: 95px; /* 왼쪽 커버가 150도 열렸을 때 CD(오른쪽 트레이)가 전체 중앙에 오도록 맞춤 */
 }
 
 .opened-jewel-case.active {
@@ -917,23 +917,18 @@ video {
   z-index: 1;
 }
 
-/* 덮여있다가 왼쪽으로 180도 열리는 완전한 사각형 커버 */
+/* 왼쪽으로 150도 회전하는 커버 컨테이너 */
 .case-cover {
   position: absolute;
   top: 0;
   right: 0;
   width: 190px;
   height: 190px;
-  border: 1px solid var(--color-signal-flare);
-  background-color: var(--color-sun-baked-canvas); /* 완전히 덮어서 안쪽 CD를 가림 */
-  padding: 16px;
-  display: flex;
-  align-items: flex-end;
-  transform-origin: left center; /* 왼쪽 가장자리를 축으로 회전 */
+  transform-origin: left center;
+  transform-style: preserve-3d;
   transform: rotateY(0deg);
-  animation: openCaseLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  animation: openCaseLeft 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.1s forwards;
   z-index: 10;
-  backface-visibility: visible;
 }
 
 @keyframes openCaseLeft {
@@ -941,8 +936,38 @@ video {
     transform: rotateY(0deg);
   }
   to {
-    transform: rotateY(-180deg); /* 완전한 책 펼치기 형태 */
+    transform: rotateY(-150deg); /* 180도 대신 입체감이 남는 150도로 조정 */
   }
+}
+
+/* 커버 앞면 (닫혀있을 때 보이는 면) */
+.cover-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
+  padding: 16px;
+  display: flex;
+  align-items: flex-end;
+  backface-visibility: hidden; /* 뒤집혔을 때 글자가 반대로 비쳐 보이는 현상 방지 */
+  z-index: 2;
+}
+
+/* 커버 뒷면 (열렸을 때 보이는 반대편 면) */
+.cover-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  z-index: 1;
 }
 
 .cover-title { 
@@ -1031,4 +1056,5 @@ video {
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
   .player-workspace { grid-template-columns: 1fr; }
   .case-item { transform: none !important; }
+  .opened-jewel-case { margin-right: 0; }
 }
