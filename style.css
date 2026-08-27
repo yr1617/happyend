@@ -523,11 +523,6 @@ video {
 }
 
 /* TAB CONTENT PANELS & REVEAL ANIMATIONS */
-@keyframes textSlideUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
 .tab-content {
   display: none;
   max-width: 1200px;
@@ -537,9 +532,16 @@ video {
 
 .tab-content.active { display: block; }
 
-.tab-content.active .analysis-text,
-.tab-content.active .char-desc {
-  animation: textSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* 스크롤 모션 Reveal 클래스 */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* TAB 1: STORY */
@@ -684,6 +686,7 @@ video {
   overflow: visible !important;
 }
 
+/* [요청 1 반영] 바늘(tonearm) 레이어를 z-index: 100으로 최상단 배치 */
 .tonearm {
   position: absolute;
   top: 40px;
@@ -695,7 +698,7 @@ video {
   transform-origin: 4px 12px;
   transform: rotate(-25deg);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
+  z-index: 100 !important; 
   pointer-events: none !important;
 }
 
@@ -816,15 +819,15 @@ video {
   position: relative;
 }
 
-/* 1. 가로 불규칙 CD 케이스 스택 */
+/* [요청 2 반영] 1. CD 케이스 스택 테두리 제거 */
 .cd-stack-rack {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 20px;
+  padding: 20px 0;
   align-items: center;
-  background-color: rgba(255, 26, 0, 0.02);
-  border: 1px solid var(--color-signal-flare);
+  background-color: transparent;
+  border: none !important; /* 테두리 제거 */
 }
 
 .case-item {
@@ -864,16 +867,16 @@ video {
 .spine-num { font-size: 11px; font-weight: bold; margin-right: 12px; }
 .spine-title { font-size: 12px; font-weight: bold; }
 
-/* 2. STAGING AREA */
+/* [요청 2 반영] 2. STAGING AREA 테두리 제거 */
 .opened-case-stage {
   min-height: 240px;
-  border: 1px dashed var(--color-signal-flare);
-  padding: 20px;
+  border: none !important; /* 점선 테두리 제거 */
+  padding: 20px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: rgba(255, 26, 0, 0.015);
+  background-color: transparent;
 }
 
 .stage-placeholder {
@@ -882,14 +885,14 @@ video {
   opacity: 0.5;
 }
 
-/* 펼쳐진 쥬얼 케이스 컨테이너: CD 트레이가 스테이지 중앙에 위치하도록 정렬 */
+/* 펼쳐진 쥬얼 케이스 컨테이너 */
 .opened-jewel-case {
   display: none;
   width: 380px;
   height: 190px;
   position: relative;
   perspective: 1000px;
-  margin-right: 95px; /* 왼쪽 커버가 150도 열렸을 때 CD(오른쪽 트레이)가 전체 중앙에 오도록 맞춤 */
+  margin-right: 95px;
 }
 
 .opened-jewel-case.active {
@@ -902,7 +905,6 @@ video {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* 오른쪽 본체 (트레이 - CD가 담긴 영역) */
 .case-tray {
   width: 190px;
   height: 190px;
@@ -917,7 +919,6 @@ video {
   z-index: 1;
 }
 
-/* 왼쪽으로 150도 회전하는 커버 컨테이너 */
 .case-cover {
   position: absolute;
   top: 0;
@@ -932,15 +933,10 @@ video {
 }
 
 @keyframes openCaseLeft {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(-150deg); /* 180도 대신 입체감이 남는 150도로 조정 */
-  }
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-150deg); }
 }
 
-/* 커버 앞면 (닫혀있을 때 보이는 면) */
 .cover-front {
   position: absolute;
   top: 0;
@@ -952,11 +948,10 @@ video {
   padding: 16px;
   display: flex;
   align-items: flex-end;
-  backface-visibility: hidden; /* 뒤집혔을 때 글자가 반대로 비쳐 보이는 현상 방지 */
+  backface-visibility: hidden;
   z-index: 2;
 }
 
-/* 커버 뒷면 (열렸을 때 보이는 반대편 면) */
 .cover-back {
   position: absolute;
   top: 0;
@@ -976,7 +971,6 @@ video {
   color: var(--color-signal-flare);
 }
 
-/* CD Disc Graphic */
 .cd-disc {
   width: 160px;
   height: 160px;
@@ -1027,7 +1021,6 @@ video {
   border-radius: 50% !important;
 }
 
-/* 턴테이블 장착 및 회전 */
 .cd-disc.inserted {
   position: absolute !important;
   top: 50% !important;
@@ -1048,7 +1041,6 @@ video {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* 반응형 처리 */
 @media (max-width: 960px) {
   .story-node, .story-node:nth-child(even) { grid-template-columns: 1fr; }
   .story-node:nth-child(even) .node-media { order: 0; }
