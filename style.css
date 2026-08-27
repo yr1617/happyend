@@ -650,7 +650,7 @@ video {
 .char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
 .char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
 
-/* TAB 3: MUSIC (GRAPHIC STACK & STAGING AREA) */
+/* TAB 3: MUSIC (GRAPHIC STACK & STAGING AREA - 수정 적용본) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -666,8 +666,8 @@ video {
 
 .player-workspace {
   display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 50px;
+  grid-template-columns: 480px 1fr; /* 플레이어 크게 확대 */
+  gap: 40px;
   align-items: start;
 }
 
@@ -675,7 +675,7 @@ video {
 .cd-player-device {
   background-color: #e2e2e2 !important;
   border-radius: 20px !important;
-  padding: 24px;
+  padding: 28px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -684,45 +684,48 @@ video {
   overflow: visible !important;
 }
 
+/* 톤암 (바늘): 길이축소 및 pointer-events 차단 */
 .tonearm {
   position: absolute;
-  top: 30px;
-  right: 30px;
-  width: 10px;
-  height: 220px;
+  top: 40px;
+  right: 40px;
+  width: 8px;
+  height: 120px; /* 기존 220px -> 120px로 축소 */
   background: #555555 !important;
-  border-radius: 5px !important;
-  transform-origin: 5px 15px;
-  transform: rotate(-35deg);
+  border-radius: 4px !important;
+  transform-origin: 4px 12px;
+  transform: rotate(-25deg);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 90;
-  pointer-events: none;
+  z-index: 10;
+  pointer-events: none !important; /* 클릭 이벤트 통과 */
 }
 
 .tonearm::before {
   content: '';
   position: absolute;
   top: -8px;
-  left: -11px;
-  width: 32px;
-  height: 32px;
+  left: -10px;
+  width: 28px;
+  height: 28px;
   background: #222222 !important;
   border-radius: 50% !important;
   border: 2px solid #888888 !important;
+  pointer-events: none !important;
 }
 
 .tonearm-head {
   position: absolute;
-  bottom: -4px;
+  bottom: -2px;
   left: -3px;
-  width: 16px;
-  height: 28px;
+  width: 14px;
+  height: 22px;
   background: #111111 !important;
   border: 1px solid #ff1a00 !important;
+  pointer-events: none !important;
 }
 
 .tonearm.playing {
-  transform: rotate(38deg) !important;
+  transform: rotate(32deg) !important;
 }
 
 .turntable-surface {
@@ -781,7 +784,7 @@ video {
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff !important;
-  padding: 10px 16px;
+  padding: 12px 18px;
   border-radius: 8px !important;
 }
 
@@ -795,8 +798,8 @@ video {
   background: #ff1a00 !important;
   border: none;
   color: #ffffff !important;
-  padding: 6px 12px;
-  font-size: 10px;
+  padding: 6px 14px;
+  font-size: 11px;
   font-weight: bold;
   border-radius: 4px !important;
   cursor: pointer !important;
@@ -809,7 +812,9 @@ video {
 .interactive-archive {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 24px;
+  z-index: 20;
+  position: relative;
 }
 
 /* 1. 가로 불규칙 CD 케이스 스택 */
@@ -817,14 +822,15 @@ video {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 20px 40px;
+  padding: 20px;
   align-items: center;
   background-color: rgba(255, 26, 0, 0.02);
   border: 1px solid var(--color-signal-flare);
 }
 
 .case-item {
-  width: 340px;
+  width: 100%;
+  max-width: 380px;
   height: 38px;
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
@@ -834,6 +840,8 @@ video {
   cursor: pointer !important;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, opacity 0.3s ease;
   user-select: none;
+  position: relative;
+  z-index: 25; /* 클릭 이벤트 안정성 상승 */
 }
 
 /* 불규칙 오프셋 스타일링 */
@@ -846,8 +854,8 @@ video {
 .case-item:hover {
   background-color: var(--color-signal-flare);
   color: var(--color-sun-baked-canvas);
-  transform: scale(1.03) translateY(-2px) !important;
-  z-index: 10;
+  transform: scale(1.02) translateY(-2px) !important;
+  z-index: 30;
 }
 
 .case-item.active-selected {
@@ -860,9 +868,9 @@ video {
 
 /* 2. 클릭 시 이동해와서 오픈되는 독립 여백 공간 (STAGING AREA) */
 .opened-case-stage {
-  min-height: 260px;
+  min-height: 240px;
   border: 1px dashed var(--color-signal-flare);
-  padding: 30px;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -879,8 +887,8 @@ video {
 /* 펼쳐진 쥬얼 케이스 그래픽 */
 .opened-jewel-case {
   display: none;
-  width: 440px;
-  height: 200px;
+  width: 420px;
+  height: 190px;
   position: relative;
   perspective: 800px;
 }
@@ -891,13 +899,13 @@ video {
 }
 
 @keyframes casePopIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  from { opacity: 0; transform: translateY(15px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .case-cover {
-  width: 200px;
-  height: 200px;
+  width: 190px;
+  height: 190px;
   border: 1px solid var(--color-signal-flare);
   background-color: rgba(255, 26, 0, 0.08);
   padding: 16px;
@@ -916,8 +924,8 @@ video {
 .cover-title { font-size: 11px; font-weight: bold; }
 
 .case-tray {
-  width: 200px;
-  height: 200px;
+  width: 190px;
+  height: 190px;
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
   display: flex;
@@ -928,8 +936,8 @@ video {
 
 /* CD Disc Graphic */
 .cd-disc {
-  width: 170px;
-  height: 170px;
+  width: 160px;
+  height: 160px;
   background: repeating-radial-gradient(
     circle at center,
     #111111 0,
@@ -955,13 +963,13 @@ video {
   font-weight: bold;
   color: rgba(255, 255, 255, 0.6);
   letter-spacing: 2px;
-  top: 25px;
+  top: 22px;
   pointer-events: none;
 }
 
 .cd-center-ring {
-  width: 60px;
-  height: 60px;
+  width: 54px;
+  height: 54px;
   background-color: var(--color-signal-flare) !important;
   border-radius: 50% !important;
   display: flex;
@@ -971,8 +979,8 @@ video {
 }
 
 .cd-center-hole {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   background-color: var(--color-sun-baked-canvas) !important;
   border-radius: 50% !important;
 }
@@ -999,11 +1007,11 @@ video {
 }
 
 /* 반응형 처리 */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .story-node, .story-node:nth-child(even) { grid-template-columns: 1fr; }
   .story-node:nth-child(even) .node-media { order: 0; }
   .character-grid { grid-template-columns: 1fr; }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
   .player-workspace { grid-template-columns: 1fr; }
-  .case-item { width: 100%; transform: none !important; }
+  .case-item { transform: none !important; }
 }
