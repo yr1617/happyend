@@ -5,177 +5,309 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HAPPYEND ARCHIVE</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- 헤더 영역 -->
-  <header class="header">
-    <div class="logo">HAPPYEND ARCHIVE</div>
-    <button id="darkModeToggle" class="dark-toggle-btn">TOGGLE DARK MODE</button>
-  </header>
+  <!-- CORNER NAV & BADGE -->
+  <div class="corner-nav">
+    <span>HAPPYEND</span>
+    <span>ARCHIVE DATA</span>
+  </div>
 
-  <!-- 탭 네비게이션 -->
-  <nav class="tab-nav">
-    <button class="album-tab-btn active" data-tab="tab-video">TEASER VIDEO</button>
-    <button class="album-tab-btn" data-tab="tab-info">ANALYSIS</button>
-    <button class="album-tab-btn" data-tab="tab-music">AUDIO PLAYER</button>
-  </nav>
+  <button class="corner-badge" id="darkModeToggle">
+    <span>DARK MODE</span>
+    <div class="badge-circle">TOGGLE</div>
+  </button>
 
-  <!-- 메인 컨텐츠 영역 -->
-  <main class="main-container">
+  <a href="#" class="top-scroll-btn">↑</a>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="brand-logo-wrap">
+      <img src="title.png" alt="HAPPYEND" class="title-image">
+    </div>
+
+    <div class="club-room-backdrop">
+      <div class="corridor-scene">
+        <div class="wall-perspective">
+          <div class="window-zone">
+            <div class="window-pane">
+              <span class="kanji-text">ハッピーエンド</span>
+              <div class="shadow-figures-group">
+                <div class="shadow-person person-back"></div>
+                <div class="shadow-person person-front"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sliding-door">
+            <div class="door-poster"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAILER VIDEO SECTION -->
+  <section class="media-container">
+    <div class="video-frame" id="videoFrame">
+      <video id="teaserVideo" src="teaser.mp4" poster="poster.jpg"></video>
+      <div class="play-control" id="playControl">
+        <div class="play-triangle"></div>
+      </div>
+    </div>
     
-    <!-- 탭 1: 비디오 플레이어 -->
-    <section id="tab-video" class="tab-content active">
-      <div class="video-container" id="videoFrame">
-        <video id="teaserVideo" src="teaser.mp4" poster="poster.jpg"></video>
-        <div class="video-controls" id="playControl">
-          <button id="playPauseBtn">PLAY</button>
-          <div class="timeline-container" id="timelineContainer">
-            <div class="timeline-progress" id="timelineProgress"></div>
-          </div>
-          <div class="time-display">
-            <span id="currentTimeDisplay">00:00</span> / <span id="durationDisplay">00:00</span>
+    <div class="video-player-controls">
+      <button class="video-btn" id="playPauseBtn">PLAY</button>
+      <div class="timeline-container" id="timelineContainer">
+        <div class="timeline-progress" id="timelineProgress"></div>
+      </div>
+      <div class="video-time-display">
+        <span id="currentTimeDisplay">00:00</span> / <span id="durationDisplay">00:00</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB SELECTOR BAR -->
+  <div class="album-tab-container">
+    <div class="tab-selector-bar">
+      <button class="album-tab-btn active" data-tab="tab-story">
+        <div class="tab-cd-player">
+          <div class="tab-graphic-icon">
+            <div class="icon-inner-cd"><div class="icon-dot"></div></div>
+            <div class="tab-cd-cover"></div>
           </div>
         </div>
-      </div>
-    </section>
+        <span class="tab-num">01. STORY</span>
+      </button>
 
-    <!-- 탭 2: 분석 정보 -->
-    <section id="tab-info" class="tab-content">
-      <div class="analysis-box">
-        <span class="box-tag">ARCHIVE DATA</span>
-        <div class="analysis-meta">TRACK INFORMATION & ALBUM DETAILS</div>
-        <p>HAPPYEND OST ALBUM SOUNDTRACK DETAILS AND VISUAL CONTEXT.</p>
-      </div>
-    </section>
-
-    <!-- 탭 3: CD 오디오 플레이어 (개선완동) -->
-    <section id="tab-music" class="tab-content">
-      <div class="cd-section">
-        <div class="cd-section-title">
-          <span>AUDIO PLAYER ARCHIVE</span>
-          <span>SELECT CASE TO OPEN & DRAG CD TO TURNTABLE</span>
+      <button class="album-tab-btn" data-tab="tab-char">
+        <div class="tab-cd-player">
+          <div class="tab-graphic-icon">
+            <div class="icon-inner-cd"><div class="icon-dot"></div></div>
+            <div class="tab-cd-cover"></div>
+          </div>
         </div>
+        <span class="tab-num">02. CHARACTERS</span>
+      </button>
 
-        <div class="player-workspace">
-          <!-- 턴테이블 플레이어 본체 -->
-          <div class="cd-player-device" id="dropZone">
-            <!-- 시각 피드백: 톤암(바늘) -->
-            <div class="tone-arm" id="toneArm">
-              <div class="arm-base"></div>
-              <div class="arm-rod"></div>
-              <div class="arm-head"></div>
-            </div>
+      <button class="album-tab-btn" data-tab="tab-music">
+        <div class="tab-cd-player">
+          <div class="tab-graphic-icon">
+            <div class="icon-inner-cd"><div class="icon-dot"></div></div>
+            <div class="tab-cd-cover"></div>
+          </div>
+        </div>
+        <span class="tab-num">03. SOUNDTRACK</span>
+      </button>
+    </div>
+  </div>
 
-            <div class="turntable-surface">
-              <div class="player-deck" id="playerDeck">
-                <div class="cd-tray" id="cdTray">
-                  <div class="tray-center-pin"></div>
-                  <span class="tray-text" id="trayText">DRAG & DROP CD HERE</span>
-                </div>
+  <!-- TAB 1: STORY CONTENT -->
+  <section id="tab-story" class="tab-content active">
+    <div class="story-node">
+      <div class="node-media">
+        <img src="story1.jpg" alt="Story Node 1">
+        <div class="bounding-box" style="top: 20%; left: 15%; width: 35%; height: 50%;">
+          <span class="box-tag">SUBJECT_A</span>
+        </div>
+      </div>
+      <div class="analysis-block">
+        <div class="analysis-meta">LOCATION: CLUB ROOM / TIME: 16:40</div>
+        <p class="analysis-text">
+          근미래의 도쿄. 졸업을 앞둔 고등학생 유타와 코우는 학창 시절의 마지막 자유를 즐기며 소꿉친구들과 음악을 만들고 밤거리를 헤맨다.
+        </p>
+      </div>
+    </div>
+
+    <div class="story-node">
+      <div class="node-media">
+        <img src="story2.jpg" alt="Story Node 2">
+        <div class="bounding-box" style="top: 30%; left: 40%; width: 45%; height: 55%;">
+          <span class="box-tag">INCIDENT_01</span>
+        </div>
+      </div>
+      <div class="analysis-block">
+        <div class="analysis-meta">LOCATION: SCHOOL HALLWAY / TIME: 09:15</div>
+        <p class="analysis-text">
+          교장의 차에 장난을 친 사건을 계기로 학교에는 최첨단 AI 감시 시스템이 도입된다. 일상의 작은 균열은 아이들의 관계와 미래에 조금씩 영향을 미치기 시작한다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: CHARACTERS CONTENT -->
+  <section id="tab-char" class="tab-content">
+    <div class="character-grid">
+      <div class="char-item char-yuta">
+        <div class="char-img-placeholder"><img src="char_yuta.jpg" alt="YUTA"></div>
+        <div class="char-details">
+          <div class="char-header"><span class="char-name">YUTA</span></div>
+          <p class="char-desc">장난기 많고 감정적인 테크노 DJ 지망생. 변화하는 환경 속에서 자신의 위치를 고민한다.</p>
+        </div>
+      </div>
+
+      <div class="char-item char-kou">
+        <div class="char-img-placeholder"><img src="char_kou.jpg" alt="KOU"></div>
+        <div class="char-details">
+          <div class="char-header"><span class="char-name">KOU</span></div>
+          <p class="char-desc">유타의 오랜 친구. 조용하지만 사회적 불합리함에 민감하게 반응하며 자신만의 방식을 찾고자 한다.</p>
+        </div>
+      </div>
+
+      <div class="char-item char-ata">
+        <div class="char-img-placeholder"><img src="char_ata.jpg" alt="ATA"></div>
+        <div class="char-details">
+          <div class="char-header"><span class="char-name">ATA</span></div>
+          <p class="char-desc">친구들의 중심에서 밝은 에너지를 담당하며 분위기를 이끄는 멤버.</p>
+        </div>
+      </div>
+
+      <div class="char-item char-ming">
+        <div class="char-img-placeholder"><img src="char_ming.jpg" alt="MING"></div>
+        <div class="char-details">
+          <div class="char-header"><span class="char-name">MING</span></div>
+          <p class="char-desc">현실적인 감각을 지닌 친구. 상황의 변화를 침착하게 주시한다.</p>
+        </div>
+      </div>
+
+      <div class="char-item char-tom">
+        <div class="char-img-placeholder"><img src="char_tom.jpg" alt="TOM"></div>
+        <div class="char-details">
+          <div class="char-header"><span class="char-name">TOM</span></div>
+          <p class="char-desc">음악적 창작 과정에서 유타와 자주 교류하는 독특한 감성의 소유자.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: MUSIC (STACKED SLOTS & TURNTABLE) -->
+  <section id="tab-music" class="tab-content">
+    <div class="cd-section">
+      <div class="cd-section-title">
+        <span>AUDIO PLAYER ARCHIVE</span>
+        <span>CLICK CASE TO OPEN & DRAG CD TO TURNTABLE</span>
+      </div>
+
+      <div class="player-workspace">
+        <!-- 턴테이블 오디오 플레이어 -->
+        <div class="cd-player-device">
+          <!-- 턴테이블 암 (바늘) -->
+          <div class="tonearm" id="tonearm">
+            <div class="tonearm-head"></div>
+          </div>
+
+          <div class="turntable-surface" id="dropZone">
+            <div class="player-deck" id="playerDeck">
+              <div class="cd-tray" id="cdTray">
+                <div class="tray-center-pin"></div>
+                <span class="tray-text" id="trayText">DROP CD HERE TO PLAY</span>
               </div>
-            </div>
-
-            <div class="player-controls">
-              <div class="track-status-wrap">
-                <span class="status-indicator" id="statusIndicator"></span>
-                <div class="track-display" id="trackDisplay">NO RECORD LOADED</div>
-              </div>
-              <button class="eject-btn" id="ejectBtn">EJECT</button>
             </div>
           </div>
 
-          <!-- 쌓여있는 CD 케이스 랙 -->
-          <div class="cd-stack-rack" id="cdRack">
-            
-            <!-- Track 01 -->
-            <div class="cd-case-item" data-id="cd1">
-              <div class="case-cover">
-                <span class="case-num">01</span>
-                <span class="case-title">HAPPYEND Theme (Opening)</span>
-              </div>
-              <div class="case-inside">
-                <div class="cd-disc" id="cd1" draggable="true"
-                     data-title="HAPPYEND Theme (Opening)" 
-                     data-src="Lia Ouyang Rusli - HAPPYEND Theme (Opening)  Happyend (Original Motion Picture Soundtrack).mp3">
-                  <div class="cd-label-pattern"></div>
-                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Track 02 -->
-            <div class="cd-case-item" data-id="cd2">
-              <div class="case-cover">
-                <span class="case-num">02</span>
-                <span class="case-title">HAPPYEND Theme (Closing)</span>
-              </div>
-              <div class="case-inside">
-                <div class="cd-disc" id="cd2" draggable="true"
-                     data-title="HAPPYEND Theme (Closing)" 
-                     data-src="Lia Ouyang Rusli - HAPPYEND Theme (Closing)  Happyend (Original Motion Picture Soundtrack).mp3">
-                  <div class="cd-label-pattern"></div>
-                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Track 03 -->
-            <div class="cd-case-item" data-id="cd3">
-              <div class="case-cover">
-                <span class="case-num">03</span>
-                <span class="case-title">SUBWOOFER</span>
-              </div>
-              <div class="case-inside">
-                <div class="cd-disc" id="cd3" draggable="true"
-                     data-title="SUBWOOFER" 
-                     data-src="Lia Ouyang Rusli - SUBWOOFER  Happyend (Original Motion Picture Soundtrack).mp3">
-                  <div class="cd-label-pattern"></div>
-                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Track 04 -->
-            <div class="cd-case-item" data-id="cd4">
-              <div class="case-cover">
-                <span class="case-num">04</span>
-                <span class="case-title">WORLD (Variation 1)</span>
-              </div>
-              <div class="case-inside">
-                <div class="cd-disc" id="cd4" draggable="true"
-                     data-title="WORLD (Variation 1)" 
-                     data-src="WORLD (Variation 1).mp3">
-                  <div class="cd-label-pattern"></div>
-                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Track 05 -->
-            <div class="cd-case-item" data-id="cd5">
-              <div class="case-cover">
-                <span class="case-num">05</span>
-                <span class="case-title">LOVE (Variation 1)</span>
-              </div>
-              <div class="case-inside">
-                <div class="cd-disc" id="cd5" draggable="true"
-                     data-title="LOVE (Variation 1)" 
-                     data-src="Lia Ouyang Rusli - LOVE (Variation 1)  Happyend (Original Motion Picture Soundtrack).mp3">
-                  <div class="cd-label-pattern"></div>
-                  <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-                </div>
-              </div>
-            </div>
-
+          <div class="player-controls">
+            <div class="track-display" id="trackDisplay">NO RECORD LOADED</div>
+            <button class="eject-btn" id="ejectBtn">EJECT</button>
           </div>
         </div>
-      </div>
-    </section>
 
-  </main>
+        <!-- stacked CD 랙 -->
+        <div class="cd-rack-stack" id="cdRack">
+          
+          <!-- CD 1 -->
+          <div class="cd-slot-container" id="slot-cd1">
+            <div class="cd-case-header">
+              <span class="case-index">01</span>
+              <span class="case-title">HAPPYEND Theme (Opening)</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd1" draggable="true"
+                   data-title="HAPPYEND Theme (Opening)" 
+                   data-src="Lia Ouyang Rusli - HAPPYEND Theme (Opening)  Happyend (Original Motion Picture Soundtrack).mp3">
+                <div class="cd-label-pattern">TRK 01</div>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CD 2 -->
+          <div class="cd-slot-container" id="slot-cd2">
+            <div class="cd-case-header">
+              <span class="case-index">02</span>
+              <span class="case-title">HAPPYEND Theme (Closing)</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd2" draggable="true"
+                   data-title="HAPPYEND Theme (Closing)" 
+                   data-src="Lia Ouyang Rusli - HAPPYEND Theme (Closing)  Happyend (Original Motion Picture Soundtrack).mp3">
+                <div class="cd-label-pattern">TRK 02</div>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CD 3 -->
+          <div class="cd-slot-container" id="slot-cd3">
+            <div class="cd-case-header">
+              <span class="case-index">03</span>
+              <span class="case-title">SUBWOOFER</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd3" draggable="true"
+                   data-title="SUBWOOFER" 
+                   data-src="Lia Ouyang Rusli - SUBWOOFER  Happyend (Original Motion Picture Soundtrack).mp3">
+                <div class="cd-label-pattern">TRK 03</div>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CD 4 -->
+          <div class="cd-slot-container" id="slot-cd4">
+            <div class="cd-case-header">
+              <span class="case-index">04</span>
+              <span class="case-title">WORLD (Variation 1)</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd4" draggable="true"
+                   data-title="WORLD (Variation 1)" 
+                   data-src="WORLD (Variation 1).mp3">
+                <div class="cd-label-pattern">TRK 04</div>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CD 5 -->
+          <div class="cd-slot-container" id="slot-cd5">
+            <div class="cd-case-header">
+              <span class="case-index">05</span>
+              <span class="case-title">LOVE (Variation 1)</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd5" draggable="true"
+                   data-title="LOVE (Variation 1)" 
+                   data-src="Lia Ouyang Rusli - LOVE (Variation 1)  Happyend (Original Motion Picture Soundtrack).mp3">
+                <div class="cd-label-pattern">TRK 05</div>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
 
   <audio id="audioPlayer" style="display: none;"></audio>
-  <script src="gemini-code-1787861730799.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
