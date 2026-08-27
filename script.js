@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-  // 0. 다크 모드 토글 (안전한 null 검사 추가)
+  // 0. 다크 모드 토글 & 조명 깜빡임 연출
   const darkModeToggle = document.getElementById('darkModeToggle');
   if (darkModeToggle) {
     darkModeToggle.addEventListener('click', (e) => {
@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 1. 비디오 재생 / 일시정지 (에러 방지 방어 코드 적용)
+  // 1. 비디오 재생 / 일시정지 (오류 방지 Safe Guard)
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. 탭 버튼 클릭 전환
+  // 2. 탭 버튼 전환 이벤트
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. CD 플레이어 드래그 앤 드롭 (완전 복원 및 에러 방지)
+  // 3. CD 플레이어 드래그 앤 드롭
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
