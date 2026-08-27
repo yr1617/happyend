@@ -175,9 +175,7 @@ video {
   text-transform: uppercase;
 }
 
-/* =========================================================
-   TAB SELECTOR BAR (피드백 반영 완료)
-   ========================================================= */
+/* TAB SELECTOR BAR */
 .album-tab-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -186,7 +184,7 @@ video {
 
 .tab-selector-bar {
   display: flex;
-  gap: 80px; /* CD 인출 시 간격 확장 */
+  gap: 80px;
   justify-content: center;
   border-bottom: 1px solid var(--color-signal-flare);
   padding-bottom: 30px;
@@ -214,14 +212,12 @@ video {
   opacity: 1;
 }
 
-/* CD 케이스 전체 구조 */
 .tab-cd-player {
   position: relative;
   width: 54px;
   height: 54px;
 }
 
-/* CD 케이스 프레임 (잘림 방지) */
 .tab-graphic-icon {
   width: 54px;
   height: 54px;
@@ -232,10 +228,9 @@ video {
   overflow: visible !important;
 }
 
-/* 내부에 들어있는 CD */
 .tab-graphic-icon .icon-inner-cd {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--color-signal-flare);
   border-radius: 50% !important;
   display: flex;
@@ -244,7 +239,7 @@ video {
   position: absolute;
   top: 5px;
   left: 5px;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background-color: var(--color-sun-baked-canvas);
   z-index: 1;
 }
@@ -256,13 +251,12 @@ video {
   border-radius: 50% !important;
 }
 
-/* 반투명 빨간색 커버 (내부 CD 은은하게 비침) */
 .tab-cd-cover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 54px;
+  height: 54px;
   background-color: rgba(255, 26, 0, 0.12);
   border: 1px solid var(--color-signal-flare);
   z-index: 2;
@@ -278,21 +272,19 @@ video {
   position: absolute;
   left: 0;
   top: 0;
-  background-color: rgba(255, 26, 0, 0.2);
+  background-color: rgba(255, 26, 0, 0.25);
 }
 
-/* 탭 활성화 상태 (커버 접히고 CD 인출) */
 .album-tab-btn.active .tab-cd-cover {
-  transform: scaleX(0.2);
+  transform: scaleX(0.25);
   background-color: rgba(255, 26, 0, 0.25);
 }
 
 .album-tab-btn.active .icon-inner-cd {
-  transform: translateX(20px);
+  transform: translateX(18px);
   z-index: 3;
 }
 
-/* 탭 하단 숫자 전용 라벨 */
 .tab-num {
   font-size: 13px;
   letter-spacing: 1px;
