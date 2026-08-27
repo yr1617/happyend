@@ -91,8 +91,8 @@ body {
   height: 48px;
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
-  color: transparent; /* 기존 텍스트 가리기 */
-  font-size: 0; /* HTML 텍스트 공간 완전 제거 */
+  color: transparent;
+  font-size: 0;
   line-height: 0;
   border-radius: 50% !important;
   display: flex;
@@ -104,15 +104,15 @@ body {
   overflow: hidden;
 }
 
-/* 정중앙에 정렬된 납작한 위쪽 세모 */
+/* 적당한 높이감의 정중앙 위쪽 세모 화살표 */
 .top-scroll-btn::before {
   content: '';
   display: block;
   width: 0;
   height: 0;
-  border-left: 9px solid transparent;  /* 좌우 폭 */
-  border-right: 9px solid transparent;
-  border-bottom: 6px solid var(--color-signal-flare); /* 납작한 세모 높이 */
+  border-left: 7px solid transparent;   /* 좌우 폭 */
+  border-right: 7px solid transparent;
+  border-bottom: 9px solid var(--color-signal-flare); /* 높이를 늘려 덜 납작하게 조정 */
   transition: border-bottom-color 0.25s ease;
   margin: 0;
   padding: 0;
