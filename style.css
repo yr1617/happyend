@@ -650,7 +650,7 @@ video {
 .char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
 .char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
 
-/* TAB 3: MUSIC (TURNTABLE & STACKED RACK) */
+/* TAB 3: MUSIC (TURNTABLE & SLIDING DRAWER RACK) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -681,49 +681,51 @@ video {
   flex-direction: column;
   gap: 20px;
   border: 2px solid #cccccc !important;
+  overflow: visible !important;
 }
 
-/* 톤암 (턴테이블 바늘) 디자인 및 회전 위치 보정 */
+/* 톤암 (턴테이블 바늘): 길이를 대폭 연장하여 CD 중앙부까지 무조건 닿도록 수정 */
 .tonearm {
   position: absolute;
-  top: 20px;
-  right: 25px;
-  width: 10px;
-  height: 150px;
+  top: 35px;
+  right: 35px;
+  width: 12px;
+  height: 230px; /* 길이를 150px -> 230px로 대폭 증가 */
   background: #555555 !important;
-  border-radius: 4px !important;
-  transform-origin: 5px 15px;
-  transform: rotate(-30deg);
+  border-radius: 6px !important;
+  transform-origin: 6px 18px;
+  transform: rotate(-35deg);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 50;
+  z-index: 90;
   pointer-events: none;
 }
 
 .tonearm::before {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -11px;
-  width: 32px;
-  height: 32px;
+  top: -10px;
+  left: -13px;
+  width: 38px;
+  height: 38px;
   background: #222222 !important;
   border-radius: 50% !important;
-  border: 2px solid #888888 !important;
+  border: 3px solid #888888 !important;
 }
 
 .tonearm-head {
   position: absolute;
-  bottom: -4px;
-  left: -3px;
-  width: 16px;
-  height: 26px;
+  bottom: -6px;
+  left: -4px;
+  width: 20px;
+  height: 32px;
   background: #111111 !important;
-  border-radius: 2px !important;
+  border-radius: 3px !important;
+  border: 1px solid #ff1a00 !important;
 }
 
-/* 음원 재생 시 톤암 동작 (CD 홈 위로 진입) */
+/* 음원 재생 시 톤암 회전 - CD 안쪽 트랙 위에 정확히 조준 */
 .tonearm.playing {
-  transform: rotate(26deg) !important;
+  transform: rotate(38deg) !important;
 }
 
 .turntable-surface {
@@ -806,35 +808,45 @@ video {
 
 .eject-btn:hover { opacity: 0.8; }
 
-/* 5개 CD 케이스 드로어 랙 (Rack) */
+/* CD RACK & DRAWER (진짜 슬라이딩 서랍 형태 연출) */
 .cd-rack-stack {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   border: 1px solid var(--color-signal-flare);
   padding: 16px;
   background-color: rgba(255, 26, 0, 0.02);
 }
 
 .cd-slot-container {
+  position: relative;
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
-  overflow: hidden;
-  transition: all 0.3s ease;
+  transition: margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible !important;
+}
+
+/* 클릭하여 서랍을 열었을 때 슬롯 아래 여백 확보 */
+.cd-slot-container.open {
+  margin-bottom: 210px;
 }
 
 .cd-case-header {
+  position: relative;
+  z-index: 20;
   padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer !important;
   user-select: none;
-  background-color: rgba(255, 26, 0, 0.04);
+  background-color: var(--color-sun-baked-canvas);
+  border-bottom: 1px solid transparent;
 }
 
-.cd-case-header:hover {
-  background-color: rgba(255, 26, 0, 0.1);
+.cd-slot-container.open .cd-case-header {
+  border-bottom-color: var(--color-signal-flare);
+  background-color: rgba(255, 26, 0, 0.08);
 }
 
 .case-index {
@@ -858,28 +870,36 @@ video {
   transform: rotate(180deg);
 }
 
-/* 케이스 열림 연출 */
+/* 서랍(Drawer): 상단 슬롯 밑에서 아래로 쭉 미끄러져 나오는 연출 */
 .cd-drawer {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background-color: rgba(255, 26, 0, 0.04);
+  border: 1px solid var(--color-signal-flare);
+  border-top: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.03);
+  z-index: 10;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
 .cd-slot-container.open .cd-drawer {
-  max-height: 240px;
+  transform: translateY(0);
   opacity: 1;
-  padding: 20px 0;
+  pointer-events: auto;
 }
 
-/* CD Graphic */
+/* CD Disc Graphic */
 .cd-disc {
-  width: 180px;
-  height: 180px;
+  width: 170px;
+  height: 170px;
   background: repeating-radial-gradient(
     circle at center,
     #111111 0,
@@ -912,8 +932,8 @@ video {
 }
 
 .cd-center-ring {
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   background-color: var(--color-signal-flare) !important;
   border-radius: 50% !important;
   display: flex;
@@ -923,8 +943,8 @@ video {
 }
 
 .cd-center-hole {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   background-color: var(--color-sun-baked-canvas) !important;
   border-radius: 50% !important;
 }
