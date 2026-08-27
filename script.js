@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 1. 비디오 재생 / 일시정지 (Safe Guard)
+  // 1. 비디오 재생 / 일시정지
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
