@@ -143,7 +143,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   function observeScrambleTargets(container) {
-    const targets = container.querySelectorAll('.box-tag, .analysis-meta, .char-tag');
+    const targets = container.querySelectorAll('.box-tag, .analysis-meta');
     targets.forEach(target => {
       scrambleObserver.observe(target);
     });
