@@ -84,57 +84,78 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeContent = document.getElementById(targetTab);
       if (activeContent) {
         activeContent.classList.add('active');
-        // 탭 전환 시 화면에 들어온 요소 재관찰 및 애니메이션 재생
         triggerReveals();
       }
     });
   });
 
   /* -------------------------------------------------------------
-   * 4. [요청 4 반영] SCROLL REVEAL & FAST TEXT DECODE EFFECT
+   * 4. [개선] REFERO DESIGN 스타일 디코딩 & 스크롤 연출
    * ------------------------------------------------------------- */
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#$&@';
+  const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
 
-  function scrambleText(element) {
-    if (element.dataset.scrambled === 'true') return;
-    element.dataset.scrambled = 'true';
+  function playMatrixDecode(element) {
+    // 기존 애니메이션이 진행 중이라면 중단
+    if (element.decodeInterval) clearInterval(element.decodeInterval);
 
-    const originalText = element.textContent.trim();
-    const length = originalText.length;
-    let iteration = 0;
+    // 원본 텍스트 백업
+    if (!element.dataset.originalText) {
+      element.dataset.originalText = element.textContent.trim();
+    }
+    const targetText = element.dataset.originalText;
+    const length = targetText.length;
     
-    // 빠른 로딩을 위해 간격(12ms)과 채움 단계(4 step)로 단축
-    const interval = setInterval(() => {
-      element.textContent = originalText
-        .split('')
-        .map((char, index) => {
-          if (char === ' ' || char === '\n') return char;
-          if (index < iteration) return originalText[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        })
-        .join('');
+    let revealedCount = 0; // 확정된 글자 수
+    const revealSpeed = 2;  // 한 번 프레임에 확정할 글자 수 (숫자가 클수록 빠름)
 
-      if (iteration >= length) {
-        clearInterval(interval);
-        element.textContent = originalText;
+    element.decodeInterval = setInterval(() => {
+      let result = '';
+
+      for (let i = 0; i < length; i++) {
+        const char = targetText[i];
+
+        if (i < revealedCount) {
+          // 이미 확정된 글자
+          result += char;
+        } else if (char === ' ' || char === '\n') {
+          // 공백 및 줄바꿈 유지
+          result += char;
+        } else {
+          // 아직 안 열린 글자: 무작위 노이즈 글자 생성
+          const randomChar = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          result += `<span class="scramble-noise">${randomChar}</span>`;
+        }
       }
-      iteration += Math.ceil(length / 25); // 약 0.3~0.4초 내 고속 완료
-    }, 12);
+
+      element.innerHTML = result;
+
+      // 조금씩 확정 글자 수를 늘려감
+      revealedCount += revealSpeed;
+
+      // 전체 텍스트가 모두 완성되면 정지
+      if (revealedCount > length) {
+        clearInterval(element.decodeInterval);
+        element.innerHTML = targetText;
+      }
+    }, 25); // 25ms 간격으로 무작위 글자가 틱틱거림
   }
 
   const observerOptions = {
-    threshold: 0.15
+    threshold: 0.2 // 요소가 20% 이상 보일 때 작동
   };
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        // 화면 진입 시 올라오는 애니메이션
         entry.target.classList.add('is-visible');
-        const textNode = entry.target.querySelector('.scramble-text');
-        if (textNode) {
-          scrambleText(textNode);
-        }
-        observer.unobserve(entry.target);
+
+        // 해당 요소 내부의 텍스트 디코딩 시작
+        const textNodes = entry.target.querySelectorAll('.scramble-text');
+        textNodes.forEach(node => playMatrixDecode(node));
+      } else {
+        // 화면 밖으로 나가면 클래스를 제거하여 재스크롤 시 다시 동작하도록 설정
+        entry.target.classList.remove('is-visible');
       }
     });
   }, observerOptions);
@@ -165,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentLoadedDisc = null;
 
-  // Case Click to Open
   caseItems.forEach(item => {
     item.addEventListener('click', () => {
       const caseId = item.getAttribute('data-case');
@@ -183,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Drag & Drop
   cdDiscs.forEach(disc => {
     disc.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', disc.id);
