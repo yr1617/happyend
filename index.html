@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AUDIO PLAYER ARCHIVE</title>
+  <title>HAPPYEND ARCHIVE</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- 헤더 & 다크모드 -->
+  <!-- 헤더 영역 -->
   <header class="header">
     <div class="logo">HAPPYEND ARCHIVE</div>
     <button id="darkModeToggle" class="dark-toggle-btn">TOGGLE DARK MODE</button>
   </header>
 
-  <!-- 메인 네비게이션 탭 -->
+  <!-- 탭 네비게이션 -->
   <nav class="tab-nav">
     <button class="album-tab-btn active" data-tab="tab-video">TEASER VIDEO</button>
     <button class="album-tab-btn" data-tab="tab-info">ANALYSIS</button>
     <button class="album-tab-btn" data-tab="tab-music">AUDIO PLAYER</button>
   </nav>
 
+  <!-- 메인 컨텐츠 영역 -->
   <main class="main-container">
     
-    <!-- TAB 1: TEASER VIDEO -->
+    <!-- 탭 1: 비디오 플레이어 -->
     <section id="tab-video" class="tab-content active">
       <div class="video-container" id="videoFrame">
         <video id="teaserVideo" src="teaser.mp4" poster="poster.jpg"></video>
@@ -39,7 +40,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: ANALYSIS INFO -->
+    <!-- 탭 2: 분석 정보 -->
     <section id="tab-info" class="tab-content">
       <div class="analysis-box">
         <span class="box-tag">ARCHIVE DATA</span>
@@ -48,7 +49,7 @@
       </div>
     </section>
 
-    <!-- TAB 3: AUDIO PLAYER -->
+    <!-- 탭 3: CD 오디오 플레이어 (개선완동) -->
     <section id="tab-music" class="tab-content">
       <div class="cd-section">
         <div class="cd-section-title">
@@ -57,9 +58,9 @@
         </div>
 
         <div class="player-workspace">
-          <!-- 턴테이블 오디오 플레이어 -->
+          <!-- 턴테이블 플레이어 본체 -->
           <div class="cd-player-device" id="dropZone">
-            <!-- 턴테이블 바늘 (Tone Arm) -->
+            <!-- 시각 피드백: 톤암(바늘) -->
             <div class="tone-arm" id="toneArm">
               <div class="arm-base"></div>
               <div class="arm-rod"></div>
@@ -84,7 +85,7 @@
             </div>
           </div>
 
-          <!-- 쌓여있는 CD 랙 (Stacked Shelf) -->
+          <!-- 쌓여있는 CD 케이스 랙 -->
           <div class="cd-stack-rack" id="cdRack">
             
             <!-- Track 01 -->
@@ -174,9 +175,7 @@
 
   </main>
 
-  <!-- 오디오 태그 -->
   <audio id="audioPlayer" style="display: none;"></audio>
-
   <script src="gemini-code-1787861730799.js"></script>
 </body>
 </html>
