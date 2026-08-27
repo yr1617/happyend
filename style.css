@@ -223,48 +223,63 @@ body.dark-mode .club-room-backdrop {
   font-weight: bold;
 }
 
-/* 인물 그림자 연출: 부드러운 곡선의 두 사람 실루엣 */
+/* 인물 그림자 연출: 머리와 몸통 곡선을 분리하여 사람 실루엣으로 재구성 */
 .shadow-figures-group {
   position: absolute;
-  right: -10px;
-  bottom: -10px;
-  width: 220px;
-  height: 240px;
+  right: 0px;
+  bottom: 0px;
+  width: 240px;
+  height: 220px;
+  pointer-events: none;
 }
 
 .shadow-person {
   position: absolute;
   bottom: 0;
   background: #120e0a;
-  filter: blur(3px);
-  opacity: 0.9;
+  filter: blur(4px);
 }
 
-/* 뒤쪽 인물 (두상을 동그랗게 정돈) */
+/* 뒤쪽 인물 (고개 숙이거나 서있는 실루엣) */
 .person-back {
-  right: 40px;
-  width: 150px;
-  height: 210px;
-  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
-  clip-path: polygon(
-    20% 100%, 20% 65%, 10% 50%, 20% 35%, 
-    38% 12%, 62% 12%, 80% 35%, 85% 50%, 
-    80% 65%, 90% 100%
-  );
+  right: 80px;
+  width: 100px;
+  height: 180px;
+  opacity: 0.85;
+  border-radius: 50px 50px 0 0 !important;
 }
 
-/* 앞쪽 인물 (자연스러운 고개 각도 및 어깨 라인) */
+.person-back::before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42px;
+  height: 48px;
+  background: #120e0a;
+  border-radius: 50% !important;
+}
+
+/* 앞쪽 인물 (바짝 마주보는 인물 실루엣) */
 .person-front {
-  right: 0px;
-  width: 140px;
-  height: 190px;
+  right: 15px;
+  width: 95px;
+  height: 160px;
   opacity: 0.95;
-  border-radius: 50% 50% 0 0 / 45% 45% 0 0;
-  clip-path: polygon(
-    10% 100%, 15% 60%, 5% 45%, 18% 28%, 
-    40% 8%, 65% 8%, 82% 28%, 90% 45%, 
-    85% 60%, 95% 100%
-  );
+  border-radius: 45px 45px 0 0 !important;
+}
+
+.person-front::before {
+  content: '';
+  position: absolute;
+  top: -22px;
+  left: 30%;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 44px;
+  background: #120e0a;
+  border-radius: 50% !important;
 }
 
 .sliding-door {
@@ -545,14 +560,13 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (요청된 비대칭 비대칭 비연속 Grid 레이아웃 적용) */
+/* TAB 2: CHARACTERS */
 .character-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* 3컬럼 Grid */
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 30px 40px;
 }
 
-/* 각 카드 기본 스타일 */
 .char-item {
   border-top: 1px solid var(--color-signal-flare);
   padding-top: 20px;
@@ -561,7 +575,6 @@ video {
   gap: 20px;
 }
 
-/* 주연 (왼쪽 1, 2번째 열 연속 배치) */
 .char-yuta {
   grid-column: 1 / 2;
   grid-row: 1;
@@ -572,7 +585,6 @@ video {
   grid-row: 2;
 }
 
-/* 조연 3명 (우측 2,3열에 수평 일렬로 배치) */
 .char-ata {
   grid-column: 2 / 3;
   grid-row: 2;
@@ -584,7 +596,7 @@ video {
 }
 
 .char-tom {
-  grid-column: 2 / 4; /* 넓은 2열 확장 카드 배치로 잡음 */
+  grid-column: 2 / 4;
   grid-row: 3;
 }
 
