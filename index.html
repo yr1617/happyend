@@ -6,7 +6,7 @@
   <title>HAPPYEND</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
@@ -17,15 +17,115 @@
     <div>2026.08</div>
   </div>
 
-  <a href="#top" class="corner-badge">
-    <div>EST. IN 2026</div>
-    <div class="badge-circle">▲</div>
-  </a>
+  <div class="top-right-controls">
+    <!-- 다크모드 토글 버튼 -->
+    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
+      <span class="mode-text">DARK MODE: OFF</span>
+      <span class="toggle-indicator"></span>
+    </button>
+    
+    <a href="#top" class="corner-badge">
+      <div>EST. IN 2026</div>
+      <div class="badge-circle">▲</div>
+    </a>
+  </div>
 
   <!-- HERO TITLE -->
   <section class="hero">
     <div class="brand-logo-wrap">
       <img src="HAPPYEND_title_transparent.svg" alt="HAPPYEND" class="title-image">
+    </div>
+  </section>
+
+  <!-- DARK MODE DEDICATED ILLUSTRATION (다크모드 전용 2D Editorial Graphic) -->
+  <section class="dark-graphic-section" id="darkGraphicSection">
+    <div class="graphic-container">
+      <svg viewBox="0 0 1200 675" class="editorial-illustration" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- 노이즈 질감 (Grain Effect) -->
+          <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
+            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.07 0" />
+            <feComposite operator="in" in2="SourceGraphic" />
+          </filter>
+
+          <!-- 연구실 내부 따뜻한 글로우 빛 -->
+          <radialGradient id="roomGlow" cx="65%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#ffd580" stop-opacity="0.9" />
+            <stop offset="60%" stop-color="#e69c24" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="#b35900" stop-opacity="0.3" />
+          </radialGradient>
+
+          <!-- 복도로 새어나오는 그라데이션 빛 -->
+          <linearGradient id="lightSpill" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffd580" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#0a0a0c" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+
+        <!-- 배경: 칠흑같이 어두운 학교 복도 (Large Dark Solid Block) -->
+        <rect width="1200" height="675" fill="#090a0f" />
+
+        <!-- 천장 소형 형광등 구조물 -->
+        <rect x="520" y="10" width="160" height="6" fill="#181a20" />
+
+        <!-- 오른쪽: 음악연구실 벽면 & 개프 구조 -->
+        <!-- 벽체 차콜 면 -->
+        <path d="M 520 0 L 1200 0 L 1200 675 L 520 675 Z" fill="#12131a" />
+        
+        <!-- 유리 창문 내부 (실제 불빛이 깜빡이며 켜지는 주체) -->
+        <g class="flicker-light-target">
+          <!-- 연구실 내부 백그라운드 빛 -->
+          <rect x="560" y="140" width="230" height="180" fill="url(#roomGlow)" />
+          
+          <!-- 창문 너머 사람 인물 실루엣 (Silhouette) -->
+          <!-- 인물 1 (고개 숙인 실루엣) -->
+          <path d="M 640 320 C 630 260, 660 210, 710 200 C 730 220, 750 250, 740 320 Z" fill="#0d0e12" />
+          <circle cx="675" cy="190" r="22" fill="#0d0e12" />
+          
+          <!-- 유리창 텍스트: '音楽研究部' (미니멀 그래픽 폰트 표현) -->
+          <text x="585" y="210" font-family="'JetBrains Mono', serif" font-size="20" fill="#12131a" font-weight="bold" letter-spacing="4" writing-mode="tb">音楽研究部</text>
+
+          <!-- 우측 문 유리창 1 & 2 -->
+          <rect x="830" y="140" width="160" height="260" fill="url(#roomGlow)" opacity="0.85" />
+          <rect x="1010" y="140" width="160" height="260" fill="url(#roomGlow)" opacity="0.65" />
+          
+          <!-- 문 유리창 내부 포스터/게시물 실루엣 면 -->
+          <rect x="850" y="170" width="50" height="70" fill="#221810" opacity="0.7" />
+          <rect x="1030" y="200" width="60" height="80" fill="#2a1a10" opacity="0.8" />
+          
+          <!-- 바닥으로 새어나오는 빛 (Spill Light) -->
+          <polygon points="560,320 1200,450 1200,675 480,675" fill="url(#lightSpill)" />
+        </g>
+
+        <!-- 유리 창틀 & 문 프레임 (검은 선 및 면) -->
+        <!-- 창문 1 프레임 -->
+        <rect x="555" y="135" width="240" height="190" fill="none" stroke="#060709" stroke-width="8" />
+        <!-- 문 프레임 -->
+        <rect x="820" y="110" width="370" height="565" fill="none" stroke="#060709" stroke-width="10" />
+        <line x1="1000" y1="110" x2="1000" y2="675" stroke="#060709" stroke-width="6" />
+
+        <!-- 복도 실루엣 가구들 (어두운 그래픽 면으로 표현) -->
+        <!-- 캐비닛/사물함 -->
+        <rect x="120" y="200" width="130" height="350" fill="#0d0e14" />
+        <line x1="120" y1="200" x2="250" y2="200" stroke="#1c1e28" stroke-width="2" />
+
+        <!-- 낮은 테이블 & 겹쳐진 수납장 -->
+        <rect x="250" y="340" width="270" height="210" fill="#0b0c10" />
+        <rect x="420" y="380" width="100" height="170" fill="#101218" />
+
+        <!-- 벤치 의자 2개 실루엣 -->
+        <path d="M 290 410 C 290 380, 320 380, 330 410 L 330 550 L 290 550 Z" fill="#07080b" />
+        <path d="M 345 410 C 345 380, 375 380, 385 410 L 385 550 L 345 550 Z" fill="#07080b" />
+
+        <!-- 원근감 투시 바닥선 -->
+        <line x1="0" y1="550" x2="1200" y2="550" stroke="#141620" stroke-width="2" />
+        <line x1="0" y1="675" x2="520" y2="550" stroke="#101118" stroke-width="1.5" />
+
+        <!-- 미세 그래픽 Grain 덮개 -->
+        <rect width="1200" height="675" fill="#ffffff" filter="url(#grain)" style="mix-blend-mode: overlay;" pointer-events="none" />
+      </svg>
+      <div class="graphic-caption">NIGHT AT THE MUSIC RESEARCH CLUB — VISUAL ARCHIVE</div>
     </div>
   </section>
 
@@ -35,13 +135,33 @@
       <video id="teaserVideo" playsinline preload="metadata">
         <source src="YTDown.com_YouTube_Media_IZI1INOARtc_001_1080p.mp4" type="video/mp4">
       </video>
+      
+      <!-- 중앙 재생 버튼 -->
       <div class="play-control" id="playControl">
         <div class="play-triangle"></div>
+      </div>
+
+      <!-- 하단 타임라인 컨트롤러 -->
+      <div class="video-controls" id="videoControls">
+        <button type="button" class="video-btn" id="bottomPlayBtn" aria-label="Play/Pause">
+          <span class="btn-icon">▶</span>
+        </button>
+        
+        <span class="time-display" id="currentTime">00:00</span>
+        
+        <div class="timeline-container" id="timelineContainer">
+          <div class="timeline-track">
+            <div class="timeline-progress" id="timelineProgress"></div>
+            <div class="timeline-thumb" id="timelineThumb"></div>
+          </div>
+        </div>
+        
+        <span class="time-display" id="durationTime">00:00</span>
       </div>
     </div>
     <div class="section-metadata">
       <div>OFFICIAL TEASER FOOTAGE</div>
-      <div>CLICK TO PLAY / PAUSE</div>
+      <div>TIMELINE CONTROL ENABLED</div>
     </div>
   </section>
 
@@ -88,7 +208,6 @@
 
   <!-- TAB 1: STORY -->
   <section id="tab-story" class="tab-content active">
-
     <article class="story-node">
       <div class="node-media">
         <img src="01_club.jpg" alt="Scene 01">
@@ -98,7 +217,7 @@
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 01]<br>LOCATION: CLUB INTERIOR<br>TIME: MIDNIGHT</div>
-        <div class="analysis-text">어두운 클럽 안에서 유타와 코우는 음악과 친구들 사이에서 자유로운 시간을 보낸다. 학교에서는 교복을 입은 학생이지만, 이곳에서만큼은 정해진 규칙이나 시선에서 벗어나 자신들만의 문화를 만들어간다. 화면을 가득 채우는 어둠과 인물 주변의 제한된 조명은 이 공간을 학교와 분리된 또 하나의 세계처럼 보이게 한다. 특히 서로 마주 보며 웃고 있는 두 사람의 모습은 영화 초반 두 사람의 관계가 얼마나 가깝고 자연스러운지를 보여준다. 음악은 단순한 취미가 아니라 두 사람을 연결하는 매개이며, 함께 음악을 즐기는 시간은 영화 속에서 가장 자유로운 순간으로 기능한다. 이후 학교에 감시 시스템이 도입되고 두 사람의 가치관이 달라지면서 이 자유로운 공간의 의미도 변하게 된다. 따라서 이 장면은 단순한 청춘의 한 순간이 아니라, 통제가 시작되기 전 두 사람이 공유했던 자유와 우정의 출발점이다.</div>
+        <div class="analysis-text">어두운 클럽 안에서 유타와 코우는 음악과 친구들 사이에서 자유로운 시간을 보낸다. 학교에서는 교복을 입은 학생이지만, 이곳에서만큼은 정해진 규칙이나 시선에서 벗어나 자신들만의 문화를 만들어간다. 화면을 가득 채우는 어둠과 인물 주변의 제한된 조명은 이 공간을 학교와 분리된 또 하나의 세계처럼 보이게 한다.</div>
       </div>
     </article>
 
@@ -111,7 +230,7 @@
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 02]<br>LOCATION: SCHOOL YARD<br>TIME: DAYLIGHT</div>
-        <div class="analysis-text">학교 안에 갑작스럽게 등장한 노란색 자동차와 이를 둘러싼 학생들의 모습은 영화의 분위기가 본격적으로 변하기 시작하는 순간을 보여준다. 유타와 코우가 교장의 차를 가지고 벌인 장난은 처음에는 친구들 사이에서 벌어진 단순한 사건처럼 보이지만, 그 결과는 예상보다 훨씬 크게 이어진다. 영화는 이 장면에서 학생들의 장난스러운 에너지와 학교라는 제도적 공간을 한 화면에 배치한다. 회색빛 건물 사이에서 유독 선명하게 드러나는 노란색 자동차는 평범하게 반복되는 학교의 일상에 갑작스럽게 발생한 ‘사건’을 시각적으로 강조한다. 중요한 것은 이 작은 반항이 학교의 감시 체계를 강화하는 계기가 된다는 점이다. 자유를 표현하기 위해 벌인 장난이 오히려 더 강한 통제를 불러온다. 이 역설을 통해 영화는 개인의 행동과 사회의 통제가 서로 영향을 주고받는 구조를 본격적으로 드러내기 시작한다.</div>
+        <div class="analysis-text">학교 안에 갑작스럽게 등장한 노란색 자동차와 이를 둘러싼 학생들의 모습은 영화의 분위기가 본격적으로 변하기 시작하는 순간을 보여준다. 유타와 코우가 교장의 차를 가지고 벌인 장난은 처음에는 친구들 사이에서 벌어진 단순한 사건처럼 보이지만, 그 결과는 예상보다 훨씬 크게 이어진다.</div>
       </div>
     </article>
 
@@ -124,125 +243,29 @@
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 03]<br>LOCATION: MONITORED ZONE<br>ANGLE: SURVEILLANCE</div>
-        <div class="analysis-text">학생들의 얼굴 위에 주황색 사각형과 번호가 표시된 화면은 Happyend가 바라보는 감시 사회를 가장 직접적으로 보여주는 장면이다. 화면 속 인물들은 더 이상 이름이나 표정, 성격을 가진 개인으로 보이지 않고 하나의 번호가 부여된 데이터처럼 보인다. 실제 학생들의 모습 위에 인공적인 그래픽이 겹쳐지는 방식은 자연스러운 일상에 기술적 통제가 침투하고 있다는 느낌을 만든다. 특히 한 명이 아닌 여러 사람의 얼굴이 동시에 인식되고 있다는 점에서 감시는 특정한 개인을 대상으로 하는 것이 아니라 사회 전체를 향하고 있음을 보여준다. 영화 초반의 클럽 장면에서 사람들은 음악을 통해 서로를 직접 바라보고 관계를 만들어갔지만, 이 장면에서는 기계가 사람을 바라보고 분류한다. 사람을 연결하던 시선이 사람을 관리하는 시선으로 바뀌는 것이다. 이 장면을 기점으로 감시는 단순한 학교의 안전장치를 넘어 인물들의 행동과 관계, 그리고 자신이 어떤 사회에서 살아가고 있는지를 생각하게 만드는 중요한 서사적 장치가 된다.</div>
+        <div class="analysis-text">학생들의 얼굴 위에 주황색 사각형과 번호가 표시된 화면은 Happyend가 바라보는 감시 사회를 가장 직접적으로 보여주는 장면이다. 화면 속 인물들은 더 이상 이름이나 표정, 성격을 가진 개인으로 보이지 않고 하나의 번호가 부여된 데이터처럼 보인다.</div>
       </div>
     </article>
-
-    <article class="story-node">
-      <div class="node-media">
-        <img src="04_conflict.jpg" alt="Scene 04">
-        <div class="bounding-box" style="top: 14%; left: 63%; width: 23%; height: 83%;">
-          <span class="box-tag">TARGET: PRINCIPAL</span>
-        </div>
-      </div>
-      <div class="analysis-block">
-        <div class="analysis-meta">[SCENE 04]<br>LOCATION: SCHOOL INTERIOR<br>STATE: EMOTIONAL</div>
-        <div class="analysis-text">교장과 세 명의 학생이 마주 서 있는 이 장면에서는 영화 속 갈등이 개인적인 문제에서 제도와 개인 사이의 충돌로 확대되는 모습을 볼 수 있다. 화면 양쪽에 나뉘어 배치된 인물들은 같은 공간에 존재하면서도 서로 다른 편에 서 있는 듯한 인상을 준다. 특히 학생들의 교복과 교장의 정장은 두 집단 사이의 위치와 권력의 차이를 자연스럽게 드러낸다. 주변의 문과 벽, 직선적인 구조물 역시 인물 사이에 보이지 않는 경계가 존재한다는 느낌을 강화한다. 하지만 영화가 보여주는 갈등은 단순히 학생과 어른의 대립에 머무르지 않는다. 감시와 통제를 받아들이는 방식이 달라지면서 학생들 사이에도 서로 다른 입장이 생기고, 이는 결국 가장 가까웠던 유타와 코우의 관계에도 영향을 미친다. 같은 학교에 있고 같은 시간을 보내더라도 서로 다른 세계를 바라볼 수 있다는 것, 이 장면은 그 관계의 균열이 시작되는 지점을 보여준다.</div>
-      </div>
-    </article>
-
-    <article class="story-node">
-      <div class="node-media">
-        <img src="05_hug.jpg" alt="Scene 05">
-        <div class="bounding-box" style="top: 15%; left: 30%; width: 40%; height: 70%;">
-          <span class="box-tag">02042-GROUP-UNITY</span>
-        </div>
-      </div>
-      <div class="analysis-block">
-        <div class="analysis-meta">[SCENE 05]<br>LOCATION: QUIET STREET<br>ACTION: RECONCILIATION</div>
-        <div class="analysis-text">서로를 붙잡고 있는 학생들의 모습은 영화 속에서 공동체가 가장 강하게 드러나는 순간 중 하나다. 여러 인물이 한 사람을 중심으로 겹쳐 있는 구성은 개별 인물의 경계를 흐리며, 서로의 몸을 붙잡는 행동 자체가 연대의 감정을 전달한다. 이는 바로 앞선 감시 장면과 극명하게 대비된다. 감시 시스템은 사람들의 얼굴을 각각의 데이터로 분리하지만, 이 장면에서는 사람들이 서로에게 몸을 기대면서 하나의 집단을 이룬다. 카메라 역시 인물들을 가까이 담아내며 화면의 빈 공간을 줄이고, 사람과 사람 사이의 물리적인 거리를 거의 없앤다. 영화에서 공동체는 거창한 선언보다 함께 음악을 듣고, 장난을 치고, 서로를 지켜주는 일상적인 행동을 통해 만들어진다. 그렇기에 이 장면은 단순한 감정적 화해나 포옹을 넘어, 통제와 분열이 강해지는 상황에서도 서로를 선택하려는 사람들의 모습을 보여주는 장면으로 읽을 수 있다.</div>
-      </div>
-    </article>
-
-    <article class="story-node">
-      <div class="node-media">
-        <img src="06_bridge.jpg" alt="Scene 06">
-        <div class="bounding-box" style="top: 52%; left: 35%; width: 35%; height: 45%;">
-          <span class="box-tag">02042-4-11-OVERPASS</span>
-        </div>
-      </div>
-      <div class="analysis-block">
-        <div class="analysis-meta">[SCENE 06]<br>LOCATION: OVERPASS BRIDGE<br>STATE: FINAL</div>
-        <div class="analysis-text">다리 위에 떨어져 서 있는 두 사람의 모습은 영화 전체의 관계 변화를 가장 압축적으로 보여준다. 처음의 클럽 장면에서 서로 가까이 붙어 음악을 즐기던 두 사람과 달리, 이 장면에서는 두 사람 사이에 넓은 공간과 기둥이 놓여 있다. 같은 다리 위에 있지만 서로에게 다가가지 않는 모습은 두 사람이 여전히 서로를 알고 있음에도 이전과 같은 관계로 돌아갈 수 없게 되었음을 보여준다. 특히 화면 대부분을 차지하는 건물과 다리의 구조에 비해 인물은 작게 배치되어 있어, 개인의 감정보다 훨씬 거대한 사회적 변화 속에 놓인 두 사람의 모습을 강조한다. 다리는 본래 서로 다른 공간을 연결하는 구조물이지만, 여기에서는 오히려 가까웠던 두 사람이 서로 다른 방향으로 나아가고 있음을 보여주는 경계처럼 기능한다. 영화의 제목인 Happyend 역시 이러한 순간과 맞닿아 있다. ‘끝’은 단순한 관계의 단절이나 사건의 종결이 아니라, 함께했던 청춘이 끝나고 각자가 자신의 방향으로 나아가기 시작하는 순간이다. 결국 이 마지막 장면은 영화가 말하고자 하는 성장과 이별을 거대한 사건이 아닌, 두 사람 사이에 생겨난 거리를 통해 조용하게 보여준다.</div>
-      </div>
-    </article>
-
   </section>
 
-  <!-- TAB 2: CHARACTERS (요청하신 신규 등장인물 소개 완벽 적용) -->
+  <!-- TAB 2: CHARACTERS -->
   <section id="tab-characters" class="tab-content">
     <div class="character-list">
-      
       <article class="char-item">
-        <div class="char-img-placeholder">
-          <span>YUTA</span>
-        </div>
+        <div class="char-img-placeholder"><span>YUTA</span></div>
         <div class="char-details">
-          <div class="char-header">
-            <div class="char-name">YUTA — 유타</div>
-          </div>
-          <p class="char-desc">
-            유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다. 학교에 감시 시스템이 도입된 이후에도 사회의 변화에 적극적으로 문제를 제기하기보다는 남은 고등학교 생활을 평소처럼 즐기려 한다. 이러한 태도는 점점 사회에 대한 문제의식을 갖게 되는 코우와 대비되며, 두 사람 사이의 균열을 만들어낸다. 유타는 영화에서 특별히 정치적이거나 급진적인 인물이라기보다, 변화가 다가오는 상황에서도 지금의 일상을 지키고 싶어 하는 평범한 청춘을 상징한다.
-          </p>
+          <div class="char-header"><div class="char-name">YUTA — 유타</div></div>
+          <p class="char-desc">유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다.</p>
         </div>
       </article>
 
       <article class="char-item">
-        <div class="char-img-placeholder">
-          <span>KOU</span>
-        </div>
+        <div class="char-img-placeholder"><span>KOU</span></div>
         <div class="char-details">
-          <div class="char-header">
-            <div class="char-name">KOU — 코우</div>
-          </div>
-          <p class="char-desc">
-            코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다. 재일교포 4세라는 배경을 가진 그는 일상 속에서 자신이 완전히 받아들여지지 않는다는 감각을 경험하며, 감시와 차별이 개인의 문제가 아니라 사회 전체의 문제라는 사실에 민감하게 반응한다. 이후 사회개혁을 위한 모임에 참여하면서 점차 자신의 목소리를 내기 시작한다. 친구들과 함께 즐기던 청춘에서 사회의 문제를 바라보는 주체로 변화하는 인물이며, 이러한 변화는 유타와의 관계를 흔드는 가장 중요한 계기가 된다.
-          </p>
+          <div class="char-header"><div class="char-name">KOU — 코우</div></div>
+          <p class="char-desc">코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다.</p>
         </div>
       </article>
-
-      <article class="char-item">
-        <div class="char-img-placeholder">
-          <span>ATA</span>
-        </div>
-        <div class="char-details">
-          <div class="char-header">
-            <div class="char-name">ATA — 아타</div>
-          </div>
-          <p class="char-desc">
-            아타는 다섯 친구들 가운데 분위기를 이끌며 장난과 농담을 즐기는 인물이다. 유타와 마찬가지로 학교생활을 무겁게 받아들이기보다는 친구들과 함께하는 즐거운 시간을 중요하게 생각하며, 특유의 활기찬 성격으로 그룹에 에너지를 더한다. 사회의 갈등이 점차 심각해지는 상황에서도 아타는 친구들과의 관계를 자연스럽게 이어가는 모습을 보여준다. 그래서 아타는 영화 속에서 거대한 사회적 변화와 대비되는 평범하고 밝은 청춘의 모습을 담당한다. 동시에 서로 다른 배경을 가진 친구들이 함께 어울리는 그룹 안에서, 이들의 관계가 단순한 친구 관계를 넘어 하나의 공동체로 기능하고 있음을 보여주는 인물이기도 하다.
-          </p>
-        </div>
-      </article>
-
-      <article class="char-item">
-        <div class="char-img-placeholder">
-          <span>MING</span>
-        </div>
-        <div class="char-details">
-          <div class="char-header">
-            <div class="char-name">MING — 밍</div>
-          </div>
-          <p class="char-desc">
-            밍은 유타, 코우, 아타, 톰과 함께 음악을 중심으로 관계를 맺고 있는 친구다. 중국계 배경을 가진 인물로, 일본에서 살아가면서도 자신의 문화적 배경과 가족 사이에서 복합적인 정체성을 경험한다. 영화 속에서 밍은 친구들과 자연스럽게 어울리면서도, 다섯 명의 관계가 단순히 같은 학교를 다니는 학생들의 모임이 아니라 서로 다른 배경을 가진 사람들이 함께 만들어가는 공동체라는 점을 보여준다. 특히 가족과 언어를 둘러싼 장면은 밍이 자신의 정체성을 하나의 방식으로만 정의하기 어려운 인물임을 드러낸다. 영화가 다루는 감시와 사회적 불안은 모든 인물에게 동일하게 작용하지 않으며, 밍은 그 차이를 보여주는 중요한 인물이다.
-          </p>
-        </div>
-      </article>
-
-      <article class="char-item">
-        <div class="char-img-placeholder">
-          <span>TOM</span>
-        </div>
-        <div class="char-details">
-          <div class="char-header">
-            <div class="char-name">TOM — 톰</div>
-          </div>
-          <p class="char-desc">
-            톰은 일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 다섯 친구 중에서도 자신이 속한 곳에 대한 질문을 가장 직접적으로 보여주는 인물이다. 친구들과 함께 음악을 즐기며 학교생활을 보내지만, 그의 가족과 정체성은 일본 사회 안에서 살아가는 것이 단순하지만은 않다는 사실을 드러낸다. 영화 후반부에 톰이 미국에 있는 아버지를 만나기 위해 떠나는 선택은 특히 의미가 크다. 유타와 코우가 같은 공간에 남아 서로 다른 방향으로 나아가게 되는 것과 달리, 톰은 실제로 공간을 이동하며 새로운 삶을 향해 나아간다. 그래서 톰의 이야기는 영화가 반복해서 보여주는 ‘어디에 속해 있는가’와 ‘어디로 나아갈 것인가’라는 질문을 가장 직접적으로 보여준다.
-          </p>
-        </div>
-      </article>
-
     </div>
   </section>
 
@@ -288,16 +311,6 @@
               <span class="cover-title">SURVEILLANCE</span>
             </div>
             <div class="cd-disc" id="cd2" draggable="true" data-title="TRACK 02: SURVEILLANCE">
-              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-            </div>
-          </div>
-
-          <div class="album-item" id="album3">
-            <div class="album-cover">
-              <span class="cover-no">03</span>
-              <span class="cover-title">OVERPASS BRIDGE</span>
-            </div>
-            <div class="cd-disc" id="cd3" draggable="true" data-title="TRACK 03: OVERPASS">
               <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
             </div>
           </div>
