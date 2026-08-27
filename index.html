@@ -22,7 +22,6 @@
     <div class="badge-circle">◐</div>
   </button>
 
-  <!-- 원래대로 위쪽 화살표(↑) 복원 및 호버 반전 효과 적용 -->
   <a href="#top" class="top-scroll-btn" aria-label="Scroll to top">↑</a>
 
   <!-- HERO TITLE & PERSPECTIVE CORRIDOR BACKDROP -->
@@ -43,10 +42,12 @@
               <span class="kanji-text">音樂研究部</span>
             </div>
             
-            <!-- 창문 2: 고개 숙여 음악 듣는 사람 실루엣 -->
+            <!-- 창문 2: 겹쳐진 두 사람의 그림자 실루엣 -->
             <div class="window-pane">
-              <div class="shadow-figure"></div>
-              <div class="shadow-headphone"></div>
+              <div class="shadow-figures-group">
+                <div class="shadow-person person-back"></div>
+                <div class="shadow-person person-front"></div>
+              </div>
             </div>
           </div>
 
@@ -200,11 +201,12 @@
 
   </section>
 
-  <!-- TAB 2: CHARACTERS -->
+  <!-- TAB 2: CHARACTERS (유타, 코우 왼쪽 / 나머지 3명 오른쪽 일렬 레이아웃) -->
   <section id="tab-characters" class="tab-content">
-    <div class="character-list">
+    <div class="character-grid">
       
-      <article class="char-item">
+      <!-- 주연 1: 유타 (좌측 1번) -->
+      <article class="char-item main-char char-yuta">
         <div class="char-img-placeholder">
           <span>YUTA</span>
         </div>
@@ -213,12 +215,13 @@
             <div class="char-name">YUTA — 유타</div>
           </div>
           <p class="char-desc">
-            유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다. 학교에 감시 시스템이 도입된 이후에도 사회의 변화에 적극적으로 문제를 제기하기보다는 남은 고등학교 생활을 평소처럼 즐기려 한다. 이러한 태도는 점점 사회에 대한 문제의식을 갖게 되는 코우와 대비되며, 두 사람 사이의 균열을 만들어낸다. 유타는 영화에서 특별히 정치적이거나 급진적인 인물이라기보다, 변화가 다가오는 상황에서도 지금의 일상을 지키고 싶어 하는 평범한 청춘을 상징한다.
+            유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다. 학교에 감시 시스템이 도입된 이후에도 사회의 변화에 적극적으로 문제를 제기하기보다는 남은 고등학교 생활을 평소처럼 즐기려 한다.
           </p>
         </div>
       </article>
 
-      <article class="char-item">
+      <!-- 주연 2: 코우 (좌측 2번 바로 아래) -->
+      <article class="char-item main-char char-kou">
         <div class="char-img-placeholder">
           <span>KOU</span>
         </div>
@@ -227,12 +230,13 @@
             <div class="char-name">KOU — 코우</div>
           </div>
           <p class="char-desc">
-            코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다. 재일교포 4세라는 배경을 가진 그는 일상 속에서 자신이 완전히 받아들여지지 않는다는 감각을 경험하며, 감시와 차별이 개인의 문제가 아니라 사회 전체의 문제라는 사실에 민감하게 반응한다. 이후 사회개혁을 위한 모임에 참여하면서 점차 자신의 목소리를 내기 시작한다. 친구들과 함께 즐기던 청춘에서 사회의 문제를 바라보는 주체로 변화하는 인물이며, 이러한 변화는 유타와의 관계를 흔드는 가장 중요한 계기가 된다.
+            코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다. 재일교포 4세라는 배경을 가진 그는 감시와 차별이 개인의 문제가 아니라 사회 전체의 문제라는 사실에 민감하게 반응한다.
           </p>
         </div>
       </article>
 
-      <article class="char-item">
+      <!-- 조연 1: 아타 (우측 1번) -->
+      <article class="char-item sub-char char-ata">
         <div class="char-img-placeholder">
           <span>ATA</span>
         </div>
@@ -241,12 +245,13 @@
             <div class="char-name">ATA — 아타</div>
           </div>
           <p class="char-desc">
-            아타는 다섯 친구들 가운데 분위기를 이끌며 장난과 농담을 즐기는 인물이다. 유타와 마찬가지로 학교생활을 무겁게 받아들이기보다는 친구들과 함께하는 즐거운 시간을 중요하게 생각하며, 특유의 활기찬 성격으로 그룹에 에너지를 더한다. 사회의 갈등이 점차 심각해지는 상황에서도 아타는 친구들과의 관계를 자연스럽게 이어가는 모습을 보여준다. 그래서 아타는 영화 속에서 거대한 사회적 변화와 대비되는 평범하고 밝은 청춘의 모습을 담당한다. 동시에 서로 다른 배경을 가진 친구들이 함께 어울리는 그룹 안에서, 이들의 관계가 단순한 친구 관계를 넘어 하나의 공동체로 기능하고 있음을 보여주는 인물이기도 하다.
+            아타는 다섯 친구들 가운데 분위기를 이끌며 장난과 농담을 즐기는 인물이다. 특유의 활기찬 성격으로 그룹에 에너지를 더하며 거대한 사회적 변화와 대비되는 평범하고 밝은 청춘의 모습을 담당한다.
           </p>
         </div>
       </article>
 
-      <article class="char-item">
+      <!-- 조연 2: 밍 (우측 2번) -->
+      <article class="char-item sub-char char-ming">
         <div class="char-img-placeholder">
           <span>MING</span>
         </div>
@@ -255,12 +260,13 @@
             <div class="char-name">MING — 밍</div>
           </div>
           <p class="char-desc">
-            밍은 유타, 코우, 아타, 톰과 함께 음악을 중심으로 관계를 맺고 있는 친구다. 중국계 배경을 가진 인물로, 일본에서 살아가면서도 자신의 문화적 배경과 가족 사이에서 복합적인 정체성을 경험한다. 영화 속에서 밍은 친구들과 자연스럽게 어울리면서도, 다섯 명의 관계가 단순히 같은 학교를 다니는 학생들의 모임이 아니라 서로 다른 배경을 가진 사람들이 함께 만들어가는 공동체라는 점을 보여준다. 특히 가족과 언어를 둘러싼 장면은 밍이 자신의 정체성을 하나의 방식으로만 정의하기 어려운 인물임을 드러낸다. 영화가 다루는 감시와 사회적 불안은 모든 인물에게 동일하게 작용하지 않으며, 밍은 그 차이를 보여주는 중요한 인물이다.
+            밍은 중국계 배경을 가진 인물로, 일본에서 살아가면서도 자신의 문화적 배경과 가족 사이에서 복합적인 정체성을 경험하며 다섯 명의 관계가 서로 다른 배경을 지닌 연대임을 보여준다.
           </p>
         </div>
       </article>
 
-      <article class="char-item">
+      <!-- 조연 3: 톰 (우측 3번) -->
+      <article class="char-item sub-char char-tom">
         <div class="char-img-placeholder">
           <span>TOM</span>
         </div>
@@ -269,7 +275,7 @@
             <div class="char-name">TOM — 톰</div>
           </div>
           <p class="char-desc">
-            톰은 일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 다섯 친구 중에서도 자신이 속한 곳에 대한 질문을 가장 직접적으로 보여주는 인물이다. 친구들과 함께 음악을 즐기며 학교생활을 보내지만, 그의 가족과 정체성은 일본 사회 안에서 살아가는 것이 단순하지만은 않다는 사실을 드러낸다. 영화 후반부에 톰이 미국에 있는 아버지를 만나기 위해 떠나는 선택은 특히 의미가 크다. 유타와 코우가 같은 공간에 남아 서로 다른 방향으로 나아가게 되는 것과 달리, 톰은 실제로 공간을 이동하며 새로운 삶을 향해 나아간다. 그래서 톰의 이야기는 영화가 반복해서 보여주는 ‘어디에 속해 있는가’와 ‘어디로 나아갈 것인가’라는 질문을 가장 직접적으로 보여준다.
+            톰은 일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 공간을 이동하며 새로운 삶을 향해 나아가는 ‘어디에 속해 있는가’라는 질문을 직관적으로 보여준다.
           </p>
         </div>
       </article>
