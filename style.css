@@ -214,11 +214,12 @@ video {
   opacity: 1;
 }
 
-/* TAB GRAPHIC ICON FIX (잘림 방지 및 완전 열림 처리) */
+/* TAB GRAPHIC ICON (왼쪽 척추 축 기반 3D 문 열림 회전 메커니즘) */
 .tab-cd-player {
   position: relative;
   width: 54px;
   height: 54px;
+  perspective: 400px; /* 3D입체 원근감 제공 */
   overflow: visible !important;
 }
 
@@ -231,6 +232,7 @@ video {
   justify-content: center;
   border: 1px solid var(--color-signal-flare);
   background-color: rgba(255, 26, 0, 0.03);
+  transform-style: preserve-3d;
   overflow: visible !important;
 }
 
@@ -257,6 +259,7 @@ video {
   border-radius: 50% !important;
 }
 
+/* 앞쪽 뚜껑: 회전 축(transform-origin)을 왼쪽 끝으로 고정 */
 .tab-cd-cover {
   position: absolute;
   top: -1px;
@@ -266,7 +269,8 @@ video {
   background-color: rgba(255, 26, 0, 0.15);
   border: 1px solid var(--color-signal-flare);
   z-index: 10;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: left center; /* 왼쪽 경첩(척추) 축 기준 */
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-cd-cover::after {
@@ -280,9 +284,9 @@ video {
   background-color: rgba(255, 26, 0, 0.3);
 }
 
-/* active 시 왼쪽으로 100% 이동하여 완전히 열림 */
+/* active 시 왼쪽 척추 축을 기준으로 문처럼 120도 회전해서 열림 */
 .album-tab-btn.active .tab-cd-cover {
-  transform: translateX(-100%);
+  transform: rotateY(-120deg);
 }
 
 .tab-num {
