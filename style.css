@@ -205,7 +205,7 @@ body.dark-mode .club-room-backdrop {
   flex: 1;
   height: 100%;
   background: radial-gradient(circle at 50% 40%, rgba(255, 210, 120, 0.85) 0%, rgba(200, 140, 50, 0.4) 70%, rgba(40, 30, 20, 0.8) 100%);
-  border: 4px solid #222; /* 어두운 오리지널 테두리 복원 */
+  border: 4px solid #222;
   box-shadow: 0 0 50px rgba(255, 210, 120, 0.25), inset 0 0 20px rgba(0,0,0,0.6);
   position: relative;
   overflow: hidden;
@@ -223,32 +223,45 @@ body.dark-mode .club-room-backdrop {
   font-weight: bold;
 }
 
-/* 인물 그림자 연출 */
-.shadow-figure {
+/* 인물 그림자 연출: 겹쳐진 두 사람 (원래 이상한 검은 원 제거) */
+.shadow-figures-group {
   position: absolute;
   right: -10px;
   bottom: -10px;
-  width: 180px;
-  height: 220px;
+  width: 220px;
+  height: 240px;
+}
+
+.shadow-person {
+  position: absolute;
+  bottom: 0;
   background: #120e0a;
-  clip-path: polygon(
-    20% 100%, 15% 70%, 25% 45%, 40% 35%, 
-    50% 15%, 62% 10%, 75% 18%, 80% 30%, 
-    72% 42%, 85% 60%, 90% 100%
-  );
   filter: blur(4px);
   opacity: 0.9;
 }
 
-.shadow-headphone {
-  position: absolute;
-  right: 42px;
-  bottom: 145px;
-  width: 32px;
-  height: 32px;
-  border: 5px solid #120e0a;
-  border-radius: 50%;
-  filter: blur(2px);
+/* 뒤쪽 인물 (고개 숙인 실루엣) */
+.person-back {
+  right: 40px;
+  width: 150px;
+  height: 210px;
+  clip-path: polygon(
+    20% 100%, 15% 70%, 25% 45%, 38% 30%, 
+    55% 10%, 72% 15%, 78% 35%, 70% 50%, 
+    85% 70%, 90% 100%
+  );
+}
+
+/* 앞쪽 인물 (바짝 마주보듯 겹쳐진 실루엣) */
+.person-front {
+  right: 0px;
+  width: 140px;
+  height: 190px;
+  opacity: 0.95;
+  clip-path: polygon(
+    10% 100%, 18% 65%, 10% 40%, 28% 18%, 
+    50% 8%, 68% 22%, 62% 48%, 80% 75%, 95% 100%
+  );
 }
 
 .sliding-door {
@@ -257,7 +270,7 @@ body.dark-mode .club-room-backdrop {
   top: 25%;
   width: 180px;
   height: 400px;
-  border: 4px solid #1c1a19; /* 원본 어두운 테두리 복원 */
+  border: 4px solid #1c1a19;
   background-color: #111010;
 }
 
@@ -529,24 +542,52 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS */
-.character-list {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
+/* TAB 2: CHARACTERS (요청된 비대칭 비대칭 비연속 Grid 레이아웃 적용) */
+.character-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3컬럼 Grid */
+  gap: 30px 40px;
 }
 
+/* 각 카드 기본 스타일 */
 .char-item {
-  display: grid;
-  grid-template-columns: 1fr 2.5fr;
-  gap: 40px;
   border-top: 1px solid var(--color-signal-flare);
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 주연 (왼쪽 1, 2번째 열 연속 배치) */
+.char-yuta {
+  grid-column: 1 / 2;
+  grid-row: 1;
+}
+
+.char-kou {
+  grid-column: 1 / 2;
+  grid-row: 2;
+}
+
+/* 조연 3명 (우측 2,3열에 수평 일렬로 배치) */
+.char-ata {
+  grid-column: 2 / 3;
+  grid-row: 2;
+}
+
+.char-ming {
+  grid-column: 3 / 4;
+  grid-row: 2;
+}
+
+.char-tom {
+  grid-column: 2 / 4; /* 넓은 2열 확장 카드 배치로 잡음 */
+  grid-row: 3;
 }
 
 .char-img-placeholder {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 16 / 9;
   border: 1px dashed var(--color-signal-flare);
   display: flex;
   flex-direction: column;
@@ -561,21 +602,21 @@ video {
 .char-details {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .char-header {
   border-bottom: 1px solid rgba(255, 26, 0, 0.2);
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
 .char-name {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .char-desc {
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--color-signal-flare);
   word-break: keep-all;
@@ -817,9 +858,17 @@ video {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+/* 반응형 처리 (모바일에서는 1컬럼 배치) */
 @media (max-width: 768px) {
   .hero { height: 100vh; }
-  .analysis-block, .char-item, .player-workspace {
+  .analysis-block, .player-workspace {
     grid-template-columns: 1fr;
+  }
+  .character-grid {
+    grid-template-columns: 1fr;
+  }
+  .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom {
+    grid-column: 1 / -1;
+    grid-row: auto;
   }
 }
