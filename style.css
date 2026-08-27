@@ -109,7 +109,7 @@ body {
   color: var(--color-sun-baked-canvas);
 }
 
-/* HERO SECTION (100vh 전면 독립 차지) */
+/* HERO SECTION */
 .hero {
   width: 100vw;
   height: 100vh;
@@ -127,57 +127,71 @@ body {
   align-items: center;
   width: 100%;
   position: relative;
-  z-index: 10; /* 타이틀이 그래픽보다 위에 위치 */
+  z-index: 10;
 }
 
 .title-image {
   width: 85vw;
   max-width: 1100px;
   height: auto;
-  filter: none;
   position: relative;
   z-index: 10;
 }
 
-/* 동아리실 그래픽 (타이틀 뒤에 배치되는 배경 백드롭) */
+/* 동아리실 복도 뷰 백드롭 그래픽 */
 .club-room-backdrop {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
-  max-width: 1300px;
-  height: 70vh;
-  z-index: 1; /* 타이틀 뒤쪽 레이어 */
-  opacity: 0.15; /* 일반 모드 기본 연한 노출 */
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  opacity: 0.15;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .club-bg-svg {
   width: 100%;
   height: 100%;
-  stroke: var(--color-signal-flare);
 }
 
-/* 다크모드 활성화 시 동아리실 그래픽 네온 깜빡임 애니메이션 */
+/* 창문 조명 스위치 요소 */
+.window-light {
+  fill: transparent;
+  transition: fill 0.3s ease;
+}
+
+.person-silhouette {
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+/* 다크모드 활성화 시 창문 불빛 네온 이펙트 및 복도 대비 강화 */
 body.dark-mode .club-room-backdrop {
   opacity: 0.85;
-  animation: roomFlicker 0.8s ease-in-out forwards;
 }
 
-@keyframes roomFlicker {
-  0% { opacity: 0; }
-  15% { opacity: 0.7; }
-  25% { opacity: 0.1; }
-  40% { opacity: 0.9; }
-  55% { opacity: 0.2; }
-  70% { opacity: 1; }
-  85% { opacity: 0.5; }
-  100% { opacity: 0.85; }
+body.dark-mode .window-light {
+  fill: rgba(255, 77, 54, 0.25);
+  animation: lightFlicker 1s ease-in-out forwards;
 }
 
-/* TRAILER VIDEO SECTION (첫 화면 하단에 독립적으로 위치) */
+body.dark-mode .person-silhouette {
+  opacity: 0.9;
+}
+
+@keyframes lightFlicker {
+  0% { fill: transparent; }
+  20% { fill: rgba(255, 77, 54, 0.4); }
+  35% { fill: transparent; }
+  50% { fill: rgba(255, 77, 54, 0.3); }
+  70% { fill: rgba(255, 77, 54, 0.1); }
+  100% { fill: rgba(255, 77, 54, 0.25); }
+}
+
+/* TRAILER VIDEO SECTION */
 .media-container {
   max-width: 1200px;
   margin: 0 auto 100px auto;
@@ -290,15 +304,9 @@ video {
   color: var(--color-signal-flare);
 }
 
-.album-tab-btn:hover {
-  opacity: 0.8;
-}
+.album-tab-btn:hover { opacity: 0.8; }
+.album-tab-btn.active { opacity: 1; }
 
-.album-tab-btn.active {
-  opacity: 1;
-}
-
-/* TAB GRAPHIC ICON & ANIMATION */
 .tab-cd-player {
   position: relative;
   width: 54px;
@@ -367,13 +375,8 @@ video {
   background-color: rgba(255, 26, 0, 0.3);
 }
 
-.album-tab-btn.active .tab-cd-cover {
-  transform: rotateY(-120deg);
-}
-
-.album-tab-btn.active .icon-inner-cd {
-  transform: translateX(18px) !important;
-}
+.album-tab-btn.active .tab-cd-cover { transform: rotateY(-120deg); }
+.album-tab-btn.active .icon-inner-cd { transform: translateX(18px) !important; }
 
 .tab-num {
   font-size: 13px;
@@ -390,14 +393,10 @@ video {
   padding: 0 24px;
 }
 
-.tab-content.active {
-  display: block;
-}
+.tab-content.active { display: block; }
 
 /* TAB 1: STORY */
-.story-node {
-  margin-bottom: 100px;
-}
+.story-node { margin-bottom: 100px; }
 
 .node-media {
   position: relative;
@@ -509,7 +508,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 3: MUSIC (다크모드 영향 제외 - 정적 색상 고정) */
+/* TAB 3: MUSIC (정적 색상 유지) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -562,9 +561,7 @@ video {
   justify-content: center;
 }
 
-.player-deck.drag-over {
-  background-color: #ffb4a8 !important;
-}
+.player-deck.drag-over { background-color: #ffb4a8 !important; }
 
 .cd-tray {
   width: 92%;
