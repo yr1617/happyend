@@ -81,13 +81,13 @@ body {
   color: var(--color-sun-baked-canvas);
 }
 
-/* HERO SECTION (타이틀 독립 영역) */
+/* HERO SECTION (첫 화면 단독 차지하도록 높이 및 여백 수정) */
 .hero {
-  min-height: 50vh;
+  min-height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 80px 24px 40px 24px;
+  padding: 100px 24px 60px 24px;
   position: relative;
 }
 
@@ -99,16 +99,16 @@ body {
 }
 
 .title-image {
-  width: 90vw;
-  max-width: 1200px;
+  width: 85vw;
+  max-width: 1100px;
   height: auto;
   filter: none;
 }
 
-/* TRAILER VIDEO SECTION (독립 여백 확보) */
+/* TRAILER VIDEO SECTION (첫 화면을 침범하지 않도록 상단 여백 확보) */
 .media-container {
   max-width: 1200px;
-  margin: 20px auto 60px auto;
+  margin: 40px auto 100px auto;
   padding: 0 24px;
   position: relative;
   z-index: 1;
@@ -322,7 +322,7 @@ video {
   display: block;
 }
 
-/* TAB 1: STORY (스틸컷 6개 노드 유지) */
+/* TAB 1: STORY */
 .story-node {
   margin-bottom: 100px;
 }
@@ -385,7 +385,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (5인 유지) */
+/* TAB 2: CHARACTERS */
 .character-list {
   display: flex;
   flex-direction: column;
@@ -671,6 +671,7 @@ video {
 }
 
 @media (max-width: 768px) {
+  .hero { min-height: 50vh; }
   .analysis-block, .char-item, .player-workspace {
     grid-template-columns: 1fr;
   }
