@@ -223,7 +223,7 @@ body.dark-mode .club-room-backdrop {
   font-weight: bold;
 }
 
-/* 인물 그림자 연출: 머리와 몸통 곡선을 분리하여 사람 실루엣으로 재구성 */
+/* 인물 그림자 연출: 곡선을 살린 두 사람 실루엣 */
 .shadow-figures-group {
   position: absolute;
   right: 0px;
@@ -240,7 +240,7 @@ body.dark-mode .club-room-backdrop {
   filter: blur(4px);
 }
 
-/* 뒤쪽 인물 (고개 숙이거나 서있는 실루엣) */
+/* 뒤쪽 인물 */
 .person-back {
   right: 80px;
   width: 100px;
@@ -261,7 +261,7 @@ body.dark-mode .club-room-backdrop {
   border-radius: 50% !important;
 }
 
-/* 앞쪽 인물 (바짝 마주보는 인물 실루엣) */
+/* 앞쪽 인물 */
 .person-front {
   right: 15px;
   width: 95px;
@@ -560,11 +560,11 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS */
+/* TAB 2: CHARACTERS (수정: 상단 2열, 하단 3열 Grid 레이아웃) */
 .character-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 30px 40px;
+  grid-template-columns: repeat(6, 1fr); /* 6분할 그리드로 2열/3열 유연한 배치 */
+  gap: 40px 30px;
 }
 
 .char-item {
@@ -572,37 +572,46 @@ video {
   padding-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
+/* 상단 2명: 유타, 코우 (화면 1/2씩 크게 배치) */
 .char-yuta {
-  grid-column: 1 / 2;
-  grid-row: 1;
+  grid-column: span 3;
 }
 
 .char-kou {
-  grid-column: 1 / 2;
-  grid-row: 2;
+  grid-column: span 3;
 }
 
+/* 하단 3명: 아타, 밍, 톰 (화면 1/3씩 나란히 배치) */
 .char-ata {
-  grid-column: 2 / 3;
-  grid-row: 2;
+  grid-column: span 2;
 }
 
 .char-ming {
-  grid-column: 3 / 4;
-  grid-row: 2;
+  grid-column: span 2;
 }
 
 .char-tom {
-  grid-column: 2 / 4;
-  grid-row: 3;
+  grid-column: span 2;
+}
+
+/* 상단 주연 캐릭터 이미지 영역 (크게 강조) */
+.char-yuta .char-img-placeholder,
+.char-kou .char-img-placeholder {
+  aspect-ratio: 16 / 9;
+}
+
+/* 하단 조연 캐릭터 이미지 영역 (비율 다듬음) */
+.char-ata .char-img-placeholder,
+.char-ming .char-img-placeholder,
+.char-tom .char-img-placeholder {
+  aspect-ratio: 16 / 10;
 }
 
 .char-img-placeholder {
   width: 100%;
-  aspect-ratio: 16 / 9;
   border: 1px dashed var(--color-signal-flare);
   display: flex;
   flex-direction: column;
@@ -883,7 +892,6 @@ video {
     grid-template-columns: 1fr;
   }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom {
-    grid-column: 1 / -1;
-    grid-row: auto;
+    grid-column: span 1;
   }
 }
