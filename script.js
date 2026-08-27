@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 3. TAB NAVIGATION SYSTEM
+   * 3. [수정] TAB NAVIGATION SYSTEM
    * ------------------------------------------------------------- */
   const tabButtons = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -84,32 +84,33 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeContent = document.getElementById(targetTab);
       if (activeContent) {
         activeContent.classList.add('active');
-        triggerReveals();
+        // 탭 변경 시 새로 노출된 요소 감지 재등록
+        initScrambleObserver();
       }
     });
   });
 
-/* -------------------------------------------------------------
-   * 4. [완벽 수정] 스크롤 감지 및 한글 디코딩 연출
+  /* -------------------------------------------------------------
+   * 4. [완벽 수정] Refero 스타일 한글 디코딩 & 스크롤 감지
    * ------------------------------------------------------------- */
   const koreanNoiseChars = '가나다라마바사아자차카타파하한글음악청춘엔딩해피미래도쿄감시학교자유';
+
+  // 페이지 로드 즉시 모든 원본 텍스트 안전 백업 (innerText 대신 textContent 활용)
+  document.querySelectorAll('.scramble-text').forEach(node => {
+    if (!node.dataset.originalText) {
+      node.dataset.originalText = node.textContent.trim();
+    }
+  });
 
   function playFastKoreanDecode(element) {
     if (element.decodeInterval) clearInterval(element.decodeInterval);
 
-    // 원본 텍스트가 없으면 태그 내부 순수 텍스트 백업
-    if (!element.dataset.originalText) {
-      element.dataset.originalText = element.innerText;
-    }
+    const targetText = element.dataset.originalText || element.textContent.trim();
+    if (!targetText) return;
 
-    const targetText = element.dataset.originalText;
     const charArray = Array.from(targetText);
-    const length = charArray.length;
-
-    if (length === 0) return;
-
     let frameCount = 0;
-    const totalFrames = 5; // 아주 짧은 틱틱거림 (0.15초)
+    const totalFrames = 6; // 0.15초간 틱틱 연출
 
     element.decodeInterval = setInterval(() => {
       frameCount++;
@@ -119,7 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
           return char;
         }
 
-        if (frameCount >= totalFrames || Math.random() > 0.3) {
+        // 끝부분 몇 글자만 무작위 한글로 틱틱거리다가 완성
+        if (frameCount >= totalFrames || Math.random() > 0.35) {
           return char;
         } else {
           const randomKorean = koreanNoiseChars[Math.floor(Math.random() * koreanNoiseChars.length)];
@@ -131,30 +133,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (frameCount >= totalFrames) {
         clearInterval(element.decodeInterval);
-        element.innerText = targetText; // 원본 글자로 완전히 정착
+        element.textContent = targetText; // 원본 텍스트 완전 정착
       }
-    }, 30);
+    }, 25);
   }
 
-  // 스크롤 감지 뷰포트 설정
   const scrambleObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 화면 안으로 들어오면 디코딩 실행
+        // 화면 진입 시 한글 디코딩 애니메이션 실행
         playFastKoreanDecode(entry.target);
       } else {
-        // 화면 밖으로 벗어나면 원본 텍스트로 미리 복원해둠
+        // 화면 이탈 시 원본 텍스트로 미리 복원 (재스크롤 준비)
         if (entry.target.dataset.originalText) {
-          entry.target.innerText = entry.target.dataset.originalText;
+          entry.target.textContent = entry.target.dataset.originalText;
         }
       }
     });
   }, {
-    threshold: 0, // 텍스트가 화면에 1px이라도 보이면 즉시 실행
-    rootMargin: '0px 0px -10% 0px' // 화면 하단 10% 영역 안으로 들어올 때 구동
+    threshold: 0.1,
+    rootMargin: '0px 0px -5% 0px'
   });
 
-  // 페이지 로드 후 및 동적 탭 전환 시 재실행을 위한 함수
   function initScrambleObserver() {
     const textNodes = document.querySelectorAll('.scramble-text');
     textNodes.forEach(node => {
@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 초기 실행
   initScrambleObserver();
 
   /* -------------------------------------------------------------
