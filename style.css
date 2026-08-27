@@ -223,7 +223,7 @@ body.dark-mode .club-room-backdrop {
   font-weight: bold;
 }
 
-/* 인물 그림자 연출: 겹쳐진 두 사람 (원래 이상한 검은 원 제거) */
+/* 인물 그림자 연출: 부드러운 곡선의 두 사람 실루엣 */
 .shadow-figures-group {
   position: absolute;
   right: -10px;
@@ -236,31 +236,34 @@ body.dark-mode .club-room-backdrop {
   position: absolute;
   bottom: 0;
   background: #120e0a;
-  filter: blur(4px);
+  filter: blur(3px);
   opacity: 0.9;
 }
 
-/* 뒤쪽 인물 (고개 숙인 실루엣) */
+/* 뒤쪽 인물 (두상을 동그랗게 정돈) */
 .person-back {
   right: 40px;
   width: 150px;
   height: 210px;
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
   clip-path: polygon(
-    20% 100%, 15% 70%, 25% 45%, 38% 30%, 
-    55% 10%, 72% 15%, 78% 35%, 70% 50%, 
-    85% 70%, 90% 100%
+    20% 100%, 20% 65%, 10% 50%, 20% 35%, 
+    38% 12%, 62% 12%, 80% 35%, 85% 50%, 
+    80% 65%, 90% 100%
   );
 }
 
-/* 앞쪽 인물 (바짝 마주보듯 겹쳐진 실루엣) */
+/* 앞쪽 인물 (자연스러운 고개 각도 및 어깨 라인) */
 .person-front {
   right: 0px;
   width: 140px;
   height: 190px;
   opacity: 0.95;
+  border-radius: 50% 50% 0 0 / 45% 45% 0 0;
   clip-path: polygon(
-    10% 100%, 18% 65%, 10% 40%, 28% 18%, 
-    50% 8%, 68% 22%, 62% 48%, 80% 75%, 95% 100%
+    10% 100%, 15% 60%, 5% 45%, 18% 28%, 
+    40% 8%, 65% 8%, 82% 28%, 90% 45%, 
+    85% 60%, 95% 100%
   );
 }
 
