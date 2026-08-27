@@ -359,7 +359,6 @@ video {
   border-right: 4px solid var(--color-signal-flare);
 }
 
-/* REAL VIDEO CONTROLLER & TIMELINE BAR */
 .video-player-controls {
   display: flex;
   align-items: center;
@@ -551,7 +550,7 @@ video {
   animation: textSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* TAB 1: STORY (Editorial Grid Layout) */
+/* TAB 1: STORY */
 .story-node {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -622,7 +621,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (Asymmetric Poster Grid) */
+/* TAB 2: CHARACTERS (사진 크롭 방지 및 태그 제거 적용) */
 .character-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -644,22 +643,12 @@ video {
 
 .char-img-placeholder {
   width: 100%;
+  aspect-ratio: 16 / 9; /* 모든 캐릭터 동일 원본 16:9 비율 유지 */
   background-color: var(--color-midnight-frame);
   border: 1px solid var(--color-signal-flare);
   border-radius: 0px !important;
   position: relative;
   overflow: hidden;
-}
-
-.char-yuta .char-img-placeholder,
-.char-kou .char-img-placeholder {
-  aspect-ratio: 16 / 10;
-}
-
-.char-ata .char-img-placeholder,
-.char-ming .char-img-placeholder,
-.char-tom .char-img-placeholder {
-  aspect-ratio: 1 / 1;
 }
 
 .char-img-placeholder img {
@@ -672,19 +661,6 @@ video {
 
 .char-item:hover .char-img-placeholder img {
   transform: scale(1.04);
-}
-
-.char-tag {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: var(--color-signal-flare);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 2px 6px;
-  letter-spacing: 0.5px;
-  z-index: 5;
 }
 
 .char-details {
