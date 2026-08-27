@@ -172,7 +172,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. CD 선택(클릭) 및 랙 개폐 연출
+  // 5. CD 슬롯 클릭 시 서랍(Drawer) 아래로 슬라이딩 개폐 연출
   const slotContainers = document.querySelectorAll('.cd-slot-container');
 
   slotContainers.forEach(slot => {
@@ -180,7 +180,7 @@ window.addEventListener('DOMContentLoaded', () => {
     header.addEventListener('click', () => {
       const isOpen = slot.classList.contains('open');
       
-      // 클릭 시 다른 케이스는 닫히고 클릭한 케이스만 열림
+      // 하나의 슬롯만 슬라이딩 오픈되도록 제어
       slotContainers.forEach(s => s.classList.remove('open'));
       if (!isOpen) {
         slot.classList.add('open');
@@ -212,7 +212,7 @@ window.addEventListener('DOMContentLoaded', () => {
         trackDisplay.innerText = title + ' [PLAYING]';
         scrambleText(trackDisplay);
       }
-      // 턴테이블 바늘(톤암)을 CD 위로 이동
+      // 음원 재생 시작 시 연장된 톤암을 CD 중심부 위로 이동
       if (tonearm) tonearm.classList.add('playing');
     }).catch(err => {
       console.warn("Audio Load/Play Error:", err);
@@ -234,7 +234,6 @@ window.addEventListener('DOMContentLoaded', () => {
   function mountCDToPlayer(cdElement) {
     if (!cdElement) return;
 
-    // 이미 장착된 CD가 있는 경우 기존 CD를 제자리로 복구(Eject)
     if (activeCD) {
       ejectCD();
     }
@@ -274,7 +273,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Eject 기능 (자기 원래 드로어 슬롯 위치로 완전 복구)
+  // Eject 기능 (원래의 서랍 슬롯 위치로 원복)
   function ejectCD() {
     if (audioPlayer) {
       audioPlayer.pause();
