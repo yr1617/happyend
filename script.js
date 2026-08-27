@@ -172,18 +172,24 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. CD 슬롯 클릭 시 서랍(Drawer) 아래로 슬라이딩 개폐 연출
-  const slotContainers = document.querySelectorAll('.cd-slot-container');
+  // 5. CD 케이스 클릭 시 여백 영역(Stage)으로 이동 및 뚜껑 오픈
+  const stackItems = document.querySelectorAll('.case-item');
+  const stagePlaceholder = document.getElementById('stagePlaceholder');
+  const openedCases = document.querySelectorAll('.opened-jewel-case');
 
-  slotContainers.forEach(slot => {
-    const header = slot.querySelector('.cd-case-header');
-    header.addEventListener('click', () => {
-      const isOpen = slot.classList.contains('open');
-      
-      // 하나의 슬롯만 슬라이딩 오픈되도록 제어
-      slotContainers.forEach(s => s.classList.remove('open'));
-      if (!isOpen) {
-        slot.classList.add('open');
+  stackItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const targetId = item.getAttribute('data-case');
+
+      stackItems.forEach(i => i.classList.remove('active-selected'));
+      item.classList.add('active-selected');
+
+      if (stagePlaceholder) stagePlaceholder.style.display = 'none';
+
+      openedCases.forEach(c => c.classList.remove('active'));
+      const targetCase = document.getElementById(`jewel-${targetId}`);
+      if (targetCase) {
+        targetCase.classList.add('active');
       }
     });
   });
@@ -212,7 +218,6 @@ window.addEventListener('DOMContentLoaded', () => {
         trackDisplay.innerText = title + ' [PLAYING]';
         scrambleText(trackDisplay);
       }
-      // 음원 재생 시작 시 연장된 톤암을 CD 중심부 위로 이동
       if (tonearm) tonearm.classList.add('playing');
     }).catch(err => {
       console.warn("Audio Load/Play Error:", err);
@@ -273,7 +278,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Eject 기능 (원래의 서랍 슬롯 위치로 원복)
+  // Eject 기능 (펼쳐진 쥬얼 케이스 트레이 위치로 복귀)
   function ejectCD() {
     if (audioPlayer) {
       audioPlayer.pause();
@@ -293,10 +298,10 @@ window.addEventListener('DOMContentLoaded', () => {
     if (activeCD) {
       activeCD.classList.remove('spinning', 'inserted');
       const caseId = activeCD.id;
-      const targetDrawer = document.querySelector(`#slot-${caseId} .cd-drawer`);
+      const targetTray = document.querySelector(`#jewel-${caseId} .case-tray`);
       
-      if (targetDrawer) {
-        targetDrawer.appendChild(activeCD);
+      if (targetTray) {
+        targetTray.appendChild(activeCD);
       }
       activeCD = null;
     }
