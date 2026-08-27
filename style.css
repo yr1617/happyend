@@ -666,7 +666,29 @@ video {
   transition: transform 0.4s ease;
 }
 
-.char-item:hover .char-img-placeholder img { transform: scale(1.04); }
+/* 캐릭터별 개별 위치/크기 조정 */
+.char-ata .char-img-placeholder img {
+  object-fit: cover;
+  object-position: left center;
+  transform: scale(1.15);
+  transform-origin: left center;
+}
+
+.char-ming .char-img-placeholder img {
+  object-fit: cover;
+  object-position: 85% center;
+  transform: scale(1.35);
+}
+
+.char-tom .char-img-placeholder img {
+  object-fit: cover;
+  object-position: center 20%;
+  transform: scale(1.05);
+}
+
+.char-item:hover .char-img-placeholder img {
+  transform: scale(1.1); /* 마우스 호버 시 살짝 추가 확대 효과 */
+}
 
 .char-details { display: flex; flex-direction: column; gap: 10px; }
 .char-header { border-bottom: 1px solid var(--color-signal-flare); padding-bottom: 8px; }
