@@ -1,38 +1,112 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
 
-  // 1. TAB NAVIGATION LOGIC
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
+  // 0. 다크 모드 토글
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.classList.toggle('dark-mode');
+    });
+  }
 
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const targetTab = button.getAttribute('data-tab');
+  // 1. 커스텀 비디오 플레이어 & 실시간 타임라인
+  const video = document.getElementById('teaserVideo');
+  const videoFrame = document.getElementById('videoFrame');
+  const playControl = document.getElementById('playControl');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const timelineProgress = document.getElementById('timelineProgress');
+  const timelineContainer = document.getElementById('timelineContainer');
+  const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+  const durationDisplay = document.getElementById('durationDisplay');
 
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      tabContents.forEach(content => content.classList.remove('active'));
+  function togglePlay() {
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(err => console.log("Video play error:", err));
+    } else {
+      video.pause();
+    }
+  }
 
-      button.classList.add('active');
-      const targetElement = document.getElementById(targetTab);
-      if (targetElement) {
-        targetElement.classList.add('active');
+  if (videoFrame && video) {
+    videoFrame.addEventListener('click', togglePlay);
+    if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
+
+    video.addEventListener('play', () => {
+      if (playControl) playControl.classList.add('is-playing');
+      if (playPauseBtn) playPauseBtn.innerText = 'PAUSE';
+    });
+
+    video.addEventListener('pause', () => {
+      if (playControl) playControl.classList.remove('is-playing');
+      if (playPauseBtn) playPauseBtn.innerText = 'PLAY';
+    });
+
+    video.addEventListener('timeupdate', () => {
+      if (video.duration) {
+        const progressPercent = (video.currentTime / video.duration) * 100;
+        if (timelineProgress) timelineProgress.style.width = `${progressPercent}%`;
+        if (currentTimeDisplay) currentTimeDisplay.innerText = formatTime(video.currentTime);
       }
     });
-  });
 
-  // 2. TEXT SCRAMBLE EFFECT
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
-  
+    video.addEventListener('loadedmetadata', () => {
+      if (durationDisplay) durationDisplay.innerText = formatTime(video.duration);
+    });
+
+    if (timelineContainer) {
+      let isSeeking = false;
+
+      const seek = (e) => {
+        const rect = timelineContainer.getBoundingClientRect();
+        const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        if (video.duration) {
+          video.currentTime = pos * video.duration;
+        }
+      };
+
+      timelineContainer.addEventListener('mousedown', (e) => {
+        isSeeking = true;
+        seek(e);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isSeeking) seek(e);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isSeeking) isSeeking = false;
+      });
+    }
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  // 2. 텍스트 스크램블 애니메이션
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#@$&*';
+
   function scrambleText(element) {
-    if (!element) return;
-    const originalText = element.innerText;
+    if (!element || element.dataset.scrambling === 'true') return;
+    
+    if (!element.dataset.originalText) {
+      element.dataset.originalText = element.innerText;
+    }
+    
+    const originalText = element.dataset.originalText;
+    element.dataset.scrambling = 'true';
     let iteration = 0;
     
-    clearInterval(element.interval);
+    clearInterval(element.scrambleInterval);
 
-    element.interval = setInterval(() => {
+    element.scrambleInterval = setInterval(() => {
       element.innerText = originalText
         .split('')
         .map((char, index) => {
+          if (char === ' ' || char === '\n') return char;
           if (index < iteration) {
             return originalText[index];
           }
@@ -41,13 +115,66 @@ document.addEventListener('DOMContentLoaded', () => {
         .join('');
 
       if (iteration >= originalText.length) {
-        clearInterval(element.interval);
+        clearInterval(element.scrambleInterval);
+        element.innerText = originalText;
+        element.dataset.scrambling = 'false';
       }
-      iteration += 1 / 3;
-    }, 30);
+
+      iteration += 1 / 2;
+    }, 25);
   }
 
-  // 3. TAB 3: CD AUDIO PLAYER (DRAG & DROP ONLY)
+  // 3. Intersection Observer
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -10% 0px',
+    threshold: 0.1
+  };
+
+  const scrambleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        scrambleText(el);
+      }
+    });
+  }, observerOptions);
+
+  function observeScrambleTargets(container) {
+    const targets = container.querySelectorAll('.box-tag, .analysis-meta');
+    targets.forEach(target => {
+      scrambleObserver.observe(target);
+    });
+  }
+
+  observeScrambleTargets(document);
+
+  // 4. 탭 전환
+  const tabBtns = document.querySelectorAll('.album-tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  if (tabBtns.length > 0) {
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const currentBtn = e.currentTarget;
+        const targetTabId = currentBtn.getAttribute('data-tab');
+
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        currentBtn.classList.add('active');
+        const targetContent = document.getElementById(targetTabId);
+        if (targetContent) {
+          targetContent.classList.add('active');
+          observeScrambleTargets(targetContent);
+        }
+      });
+    });
+  }
+
+  // =========================================================
+  // 5. CD 오디오 플레이어 (수정 완료: 드래그 앤 드롭 전용)
+  // =========================================================
   let activeCD = null;
   const audioPlayer = document.getElementById('audioPlayer');
 
@@ -61,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const trayText = document.getElementById('trayText');
   const ejectBtn = document.getElementById('ejectBtn');
 
-  // 안전한 Audio 재생 함수
+  // 오디오 안전 재생 (파일명 공백 인코딩 포함)
   function playAudioTrack(src, title) {
     if (!audioPlayer) return;
 
@@ -81,10 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 케이스 클릭 시 CD 꺼내기/넣기 토글 (드래그와 이벤트 분리)
+  // 케이스 클릭 시 CD 튀어나오기 (자동 장착 안 됨)
   cdCases.forEach(caseItem => {
     caseItem.addEventListener('click', (e) => {
-      // CD 알맹이를 눌렀을 때는 케이스 토글 방지
+      // CD 알맹이를 눌렀을 때는 케이스 토글 작동 방지
       if (e.target.closest('.cd-disc')) return;
 
       const isAlreadyActive = caseItem.classList.contains('active-selected');
@@ -96,15 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // CD 드래그 이벤트 등록
+  // CD 드래그 시작 (이벤트 전파 차단으로 버튼 먹통 방지)
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
-      e.stopPropagation(); // 이벤트 전파 중단
+      e.stopPropagation();
       e.dataTransfer.setData('text/plain', cd.id);
     });
   });
 
-  // 턴테이블에 장착 함수
+  // 턴테이블 CD 장착 처리
   function mountCDToPlayer(cdElement) {
     if (!cdElement) return;
 
@@ -121,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trayText) trayText.innerText = '';
   }
 
-  // Drop Zone 이벤트
+  // Drop Zone Drag & Drop
   if (dropZone && playerDeck && cdTray) {
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -145,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // EJECT 버튼 구현
+  // EJECT 버튼
   function ejectCD() {
     if (audioPlayer) {
       audioPlayer.pause();
@@ -175,5 +302,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ejectBtn) {
     ejectBtn.addEventListener('click', ejectCD);
   }
-
 });
