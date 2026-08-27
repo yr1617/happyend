@@ -173,7 +173,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================
-  // 5. CD 오디오 플레이어 (수정 완료: 드래그 앤 드롭 전용)
+  // 5. CD 오디오 플레이어 (개선완벽판)
   // =========================================================
   let activeCD = null;
   const audioPlayer = document.getElementById('audioPlayer');
@@ -182,48 +182,49 @@ window.addEventListener('DOMContentLoaded', () => {
   const cds = document.querySelectorAll('.cd-disc');
 
   const dropZone = document.getElementById('dropZone');
+  const playerDevice = document.querySelector('.cd-player-device');
   const playerDeck = document.getElementById('playerDeck');
   const cdTray = document.getElementById('cdTray');
   const trackDisplay = document.getElementById('trackDisplay');
   const trayText = document.getElementById('trayText');
   const ejectBtn = document.getElementById('ejectBtn');
 
-  // 오디오 안전 재생 (파일명 공백 인코딩 포함)
+  // 음악 재생
   function playAudioTrack(src, title) {
     if (!audioPlayer) return;
 
-    const safeSrc = encodeURI(src);
-    audioPlayer.src = safeSrc;
+    audioPlayer.src = encodeURI(src);
     
     audioPlayer.play().then(() => {
+      if (playerDevice) playerDevice.classList.add('playing'); // 톤암 바늘 다운 & 비주얼 애니메이션
       if (trackDisplay) {
-        trackDisplay.innerText = title + ' [PLAYING]';
+        trackDisplay.innerText = title;
         scrambleText(trackDisplay);
       }
     }).catch(err => {
-      console.warn("Audio Load/Play Error:", err);
+      console.warn("Audio Play Error:", err);
       if (trackDisplay) {
-        trackDisplay.innerText = title + ' [ERROR]';
+        trackDisplay.innerText = title + ' (ERROR)';
       }
     });
   }
 
-  // 케이스 클릭 시 CD 튀어나오기 (자동 장착 안 됨)
+  // 케이스 선택 시 아래로 스르륵 펼치기
   cdCases.forEach(caseItem => {
     caseItem.addEventListener('click', (e) => {
-      // CD 알맹이를 눌렀을 때는 케이스 토글 작동 방지
+      // CD 알맹이를 드래그하려고 클릭한 경우 케이스 닫힘 방지
       if (e.target.closest('.cd-disc')) return;
 
-      const isAlreadyActive = caseItem.classList.contains('active-selected');
+      const isSelected = caseItem.classList.contains('active-selected');
       cdCases.forEach(c => c.classList.remove('active-selected'));
       
-      if (!isAlreadyActive) {
+      if (!isSelected) {
         caseItem.classList.add('active-selected');
       }
     });
   });
 
-  // CD 드래그 시작 (이벤트 전파 차단으로 버튼 먹통 방지)
+  // CD 드래그 이벤트
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
       e.stopPropagation();
@@ -231,15 +232,16 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 턴테이블 CD 장착 처리
+  // CD 장착 제어
   function mountCDToPlayer(cdElement) {
     if (!cdElement) return;
 
+    // 이미 장착된 CD가 존재하면 미리 Eject 처리
     if (activeCD) ejectCD();
 
     activeCD = cdElement;
     cdTray.appendChild(cdElement);
-    cdElement.classList.add('inserted', 'spinning');
+    cdElement.classList.add('inserted');
 
     const title = cdElement.getAttribute('data-title');
     const audioSrc = cdElement.getAttribute('data-src');
@@ -248,7 +250,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (trayText) trayText.innerText = '';
   }
 
-  // Drop Zone Drag & Drop
+  // Drop Zone 이벤트 핸들러
   if (dropZone && playerDeck && cdTray) {
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -272,31 +274,33 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // EJECT 버튼
+  // EJECT 버튼 (음악 정지, 톤암 복귀, CD 제자리 복원)
   function ejectCD() {
     if (audioPlayer) {
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
     }
 
+    if (playerDevice) playerDevice.classList.remove('playing');
+
     if (trackDisplay) {
       trackDisplay.innerText = 'NO RECORD LOADED';
       scrambleText(trackDisplay);
     }
-    if (trayText) trayText.innerText = 'DROP CD HERE TO PLAY';
+    if (trayText) trayText.innerText = 'DRAG & DROP CD HERE';
 
     if (activeCD) {
-      activeCD.classList.remove('spinning', 'inserted');
-      const caseId = activeCD.id;
-      const targetCase = document.querySelector(`.cd-case-item[data-id="${caseId}"]`);
+      activeCD.classList.remove('inserted');
       
-      if (targetCase) {
-        targetCase.appendChild(activeCD);
+      // 원래 케이스의 .case-inside 안으로 정확하게 복귀
+      const caseId = activeCD.id; // 예: cd1
+      const targetCaseInside = document.querySelector(`.cd-case-item[data-id="${caseId}"] .case-inside`);
+      
+      if (targetCaseInside) {
+        targetCaseInside.appendChild(activeCD);
       }
       activeCD = null;
     }
-
-    cdCases.forEach(c => c.classList.remove('active-selected'));
   }
 
   if (ejectBtn) {
