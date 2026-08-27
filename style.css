@@ -690,7 +690,7 @@ video {
   top: 35px;
   right: 35px;
   width: 12px;
-  height: 230px; /* 길이를 150px -> 230px로 대폭 증가 */
+  height: 230px;
   background: #555555 !important;
   border-radius: 6px !important;
   transform-origin: 6px 18px;
