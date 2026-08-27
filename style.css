@@ -8,17 +8,12 @@
 
   --text-caption: 12px;
   --text-body: 16px;
-  
-  --bg-current: var(--color-sun-baked-canvas);
-  --text-current: var(--color-signal-flare);
 }
 
-/* DARK MODE VARIABLE OVERRIDES */
+/* DARK MODE VARS */
 body.dark-mode {
-  --bg-current: #08080a;
-  --text-current: #ff3b20;
-  --color-sun-baked-canvas: #08080a;
-  --color-signal-flare: #ff3b20;
+  --color-sun-baked-canvas: #0a0a0a;
+  --color-signal-flare: #ff4d36;
 }
 
 html { scroll-behavior: smooth; }
@@ -31,57 +26,17 @@ html { scroll-behavior: smooth; }
 }
 
 body {
-  background-color: var(--bg-current);
-  color: var(--text-current);
+  background-color: var(--color-sun-baked-canvas);
+  color: var(--color-signal-flare);
   font-family: var(--font-pressura);
   font-weight: 400;
   line-height: 1.2;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* TOP RIGHT CONTROLS & DARK MODE TOGGLE */
-.top-right-controls {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.theme-toggle-btn {
-  background: transparent;
-  border: 1px solid var(--color-signal-flare);
-  color: var(--color-signal-flare);
-  padding: 8px 14px;
-  font-family: var(--font-pressura);
-  font-size: var(--text-caption);
-  cursor: pointer !important;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-
-.theme-toggle-btn:hover {
-  background-color: var(--color-signal-flare);
-  color: var(--color-sun-baked-canvas);
-}
-
-.toggle-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50% !important;
-  background-color: var(--color-signal-flare);
-}
-
-body.dark-mode .toggle-indicator {
-  background-color: #00ff66; /* 다크모드 활성화 시 green dot */
-}
-
+/* CORNER NAV & BADGE */
 .corner-nav {
   position: fixed;
   top: 24px;
@@ -96,32 +51,43 @@ body.dark-mode .toggle-indicator {
 }
 
 .corner-badge {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 999999;
   text-align: right;
   font-size: var(--text-caption);
   color: var(--color-signal-flare);
   text-decoration: none;
   cursor: pointer !important;
+  background: none;
+  border: none;
 }
 
 .badge-circle {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--color-signal-flare);
   border-radius: 50% !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 4px;
+  margin-top: 8px;
   transition: all 0.2s ease;
 }
 
-/* HERO SECTION */
+.corner-badge:hover .badge-circle {
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+}
+
+/* HERO SECTION (타이틀 독립 영역) */
 .hero {
-  min-height: 80vh;
+  min-height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding: 80px 24px 40px 24px;
   position: relative;
 }
 
@@ -136,73 +102,16 @@ body.dark-mode .toggle-indicator {
   width: 90vw;
   max-width: 1200px;
   height: auto;
-  transition: filter 0.5s ease;
+  filter: none;
 }
 
-body.dark-mode .title-image {
-  filter: invert(15%) sepia(95%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(105%);
-}
-
-/* DARK MODE EXCLUSIVE GRAPHIC SECTION */
-.dark-graphic-section {
-  max-width: 1200px;
-  margin: 0 auto 60px auto;
-  padding: 0 24px;
-  display: none; /* 기본 라이트모드에서는 숨김 */
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-body.dark-mode .dark-graphic-section {
-  display: block;
-  opacity: 1;
-}
-
-.graphic-container {
-  width: 100%;
-  border: 1px solid var(--color-signal-flare);
-  background-color: #060709;
-  position: relative;
-  overflow: hidden;
-}
-
-.editorial-illustration {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.graphic-caption {
-  font-size: 10px;
-  letter-spacing: 2px;
-  padding: 8px 12px;
-  background-color: #060709;
-  color: rgba(255, 59, 32, 0.7);
-  border-top: 1px solid rgba(255, 59, 32, 0.3);
-}
-
-/* 실제로 불이 깜빡이며 켜지는 조명 효과 애니메이션 (Flicker) */
-body.dark-mode .flicker-light-target {
-  animation: roomFlickerOn 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes roomFlickerOn {
-  0% { opacity: 0; }
-  15% { opacity: 0.8; }
-  22% { opacity: 0.1; }
-  30% { opacity: 0.95; }
-  38% { opacity: 0.15; }
-  45% { opacity: 0.85; }
-  52% { opacity: 0.4; }
-  65% { opacity: 1; }
-  100% { opacity: 1; }
-}
-
-/* TRAILER VIDEO SECTION & TIMELINE CONTROLS */
+/* TRAILER VIDEO SECTION (독립 여백 확보) */
 .media-container {
   max-width: 1200px;
-  margin: 0 auto 60px auto;
+  margin: 20px auto 60px auto;
   padding: 0 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .video-frame {
@@ -210,9 +119,10 @@ body.dark-mode .flicker-light-target {
   width: 100%;
   aspect-ratio: 16 / 9;
   background-color: #000;
+  cursor: pointer !important;
   overflow: hidden;
   z-index: 10;
-  border: 1px solid var(--color-signal-flare);
+  border: none;
 }
 
 video {
@@ -220,6 +130,7 @@ video {
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 .play-control {
@@ -234,15 +145,10 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(10, 10, 10, 0.5);
-  cursor: pointer !important;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  background: rgba(10, 10, 10, 0.4);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
   z-index: 20;
-}
-
-.play-control:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-  background: rgba(255, 26, 0, 0.25);
 }
 
 .play-triangle {
@@ -256,102 +162,19 @@ video {
 
 .play-control.is-playing {
   opacity: 0;
-  pointer-events: none;
 }
 
 .video-frame:hover .play-control.is-playing {
   opacity: 0.8;
-  pointer-events: auto;
 }
 
-/* VIDEO CONTROLS TIMELINE BAR */
-.video-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 12px 20px;
-  background: linear-gradient(to top, rgba(8, 8, 10, 0.9), transparent);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  z-index: 30;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.video-frame:hover .video-controls {
-  opacity: 1;
-}
-
-.video-btn {
-  background: none;
-  border: none;
-  color: var(--color-signal-flare);
-  font-size: 14px;
-  cursor: pointer !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-.time-display {
-  font-size: var(--text-caption);
-  color: var(--color-sun-baked-canvas);
-  font-family: var(--font-pressura);
-  letter-spacing: 1px;
-  min-width: 45px;
-}
-
-body.dark-mode .time-display {
-  color: #ffffff;
-}
-
-.timeline-container {
-  flex: 1;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  cursor: pointer !important;
-  position: relative;
-}
-
-.timeline-track {
-  width: 100%;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.2);
-  position: relative;
-  transition: height 0.15s ease;
-}
-
-.timeline-container:hover .timeline-track {
-  height: 6px;
-}
-
-.timeline-progress {
-  height: 100%;
-  width: 0%;
-  background-color: var(--color-signal-flare);
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.timeline-thumb {
+.play-control.is-playing .play-triangle {
   width: 12px;
-  height: 12px;
-  background-color: var(--color-signal-flare);
-  border-radius: 50% !important;
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.15s ease;
-}
-
-.timeline-container:hover .timeline-thumb {
-  transform: translate(-50%, -50%) scale(1);
+  height: 16px;
+  border: none;
+  margin-left: 0;
+  border-left: 4px solid var(--color-signal-flare);
+  border-right: 4px solid var(--color-signal-flare);
 }
 
 .section-metadata {
@@ -392,11 +215,18 @@ body.dark-mode .time-display {
   padding: 10px;
   pointer-events: auto !important;
   overflow: visible !important;
+  color: var(--color-signal-flare);
 }
 
-.album-tab-btn:hover { opacity: 0.8; }
-.album-tab-btn.active { opacity: 1; }
+.album-tab-btn:hover {
+  opacity: 0.8;
+}
 
+.album-tab-btn.active {
+  opacity: 1;
+}
+
+/* TAB GRAPHIC ICON & ANIMATION */
 .tab-cd-player {
   position: relative;
   width: 54px;
@@ -454,15 +284,30 @@ body.dark-mode .time-display {
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.album-tab-btn.active .tab-cd-cover { transform: rotateY(-120deg); }
-.album-tab-btn.active .icon-inner-cd { transform: translateX(18px) !important; }
+.tab-cd-cover::after {
+  content: '';
+  width: 6px;
+  height: 100%;
+  border-right: 1px solid var(--color-signal-flare);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(255, 26, 0, 0.3);
+}
+
+.album-tab-btn.active .tab-cd-cover {
+  transform: rotateY(-120deg);
+}
+
+.album-tab-btn.active .icon-inner-cd {
+  transform: translateX(18px) !important;
+}
 
 .tab-num {
   font-size: 13px;
   letter-spacing: 1px;
   font-weight: bold;
   pointer-events: none !important;
-  color: var(--color-signal-flare);
 }
 
 /* TAB CONTENT PANELS */
@@ -473,10 +318,14 @@ body.dark-mode .time-display {
   padding: 0 24px;
 }
 
-.tab-content.active { display: block; }
+.tab-content.active {
+  display: block;
+}
 
-/* STORY NODES & CHARACTERS */
-.story-node { margin-bottom: 100px; }
+/* TAB 1: STORY (스틸컷 6개 노드 유지) */
+.story-node {
+  margin-bottom: 100px;
+}
 
 .node-media {
   position: relative;
@@ -513,9 +362,10 @@ body.dark-mode .time-display {
   padding: 1px 4px;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  line-height: 1;
 }
 
-.analysis-block, .char-item {
+.analysis-block {
   display: grid;
   grid-template-columns: 1fr 2.5fr;
   gap: 40px;
@@ -523,30 +373,71 @@ body.dark-mode .time-display {
   padding-top: 15px;
 }
 
-.analysis-meta { font-size: 11px; line-height: 1.5; }
-.analysis-text, .char-desc {
+.analysis-meta {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.analysis-text {
   font-size: 15px;
   line-height: 1.6;
   color: var(--color-signal-flare);
   word-break: keep-all;
 }
 
-.character-list { display: flex; flex-direction: column; gap: 60px; }
+/* TAB 2: CHARACTERS (5인 유지) */
+.character-list {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.char-item {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  gap: 40px;
+  border-top: 1px solid var(--color-signal-flare);
+  padding-top: 20px;
+}
+
 .char-img-placeholder {
   width: 100%;
   aspect-ratio: 3 / 4;
   border: 1px dashed var(--color-signal-flare);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: bold;
+  color: var(--color-signal-flare);
   background-color: rgba(255, 26, 0, 0.02);
 }
 
-.char-name { font-size: 22px; font-weight: bold; }
+.char-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-/* TAB 3: MUSIC PLAYER */
+.char-header {
+  border-bottom: 1px solid rgba(255, 26, 0, 0.2);
+  padding-bottom: 10px;
+}
+
+.char-name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.char-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-signal-flare);
+  word-break: keep-all;
+}
+
+/* TAB 3: MUSIC (다크모드 영향 제외 - 색상 정적 고정) */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -568,21 +459,21 @@ body.dark-mode .time-display {
 }
 
 .cd-player-device {
-  background-color: #1a1b20;
+  background-color: #e2e2e2 !important;
   border-radius: 20px !important;
   padding: 30px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border: 2px solid #2a2c36;
+  border: 2px solid #cccccc !important;
 }
 
 .turntable-surface {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #111216;
+  background-color: #d0d0d0 !important;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -592,17 +483,21 @@ body.dark-mode .time-display {
 .player-deck {
   width: 90%;
   height: 90%;
-  background-color: #22242e;
+  background-color: #888888 !important;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.player-deck.drag-over {
+  background-color: #ffb4a8 !important;
+}
+
 .cd-tray {
   width: 92%;
   height: 92%;
-  background-color: #0a0b0e;
+  background-color: #2b2b2b !important;
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -613,32 +508,65 @@ body.dark-mode .time-display {
 .tray-center-pin {
   width: 16px;
   height: 16px;
-  background-color: #ffffff;
+  background-color: #ffffff !important;
   border-radius: 50% !important;
   z-index: 30;
+  pointer-events: none;
 }
 
 .tray-text {
   position: absolute;
   font-size: 11px;
-  color: #666;
+  color: #888888 !important;
+  pointer-events: none;
+}
+
+.cd-player-device::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  width: 65px;
+  height: 65px;
+  background: #333333 !important;
+  border-radius: 50% !important;
+  z-index: 5;
+}
+
+.cd-player-device::after {
+  content: '';
+  position: absolute;
+  top: 75px;
+  right: 60px;
+  width: 10px;
+  height: 170px;
+  background: #777777 !important;
+  border-radius: 5px !important;
+  transform: rotate(-25deg);
+  transform-origin: top center;
+  z-index: 6;
+  pointer-events: none;
 }
 
 .player-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0e0f14;
+  background-color: #ffffff !important;
   padding: 12px 20px;
   border-radius: 10px !important;
 }
 
-.track-display { font-size: 11px; color: #aaa; font-weight: bold; }
+.track-display { 
+  font-size: 11px; 
+  color: #333333 !important;
+  font-weight: bold;
+}
 
 .eject-btn {
-  background: var(--color-signal-flare);
+  background: #ff1a00 !important;
   border: none;
-  color: #ffffff;
+  color: #ffffff !important;
   padding: 8px 16px;
   font-size: 10px;
   font-weight: bold;
@@ -646,7 +574,11 @@ body.dark-mode .time-display {
   cursor: pointer !important;
 }
 
-.album-rack { display: flex; flex-direction: column; gap: 20px; }
+.album-rack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
 .album-item {
   position: relative;
@@ -679,7 +611,13 @@ body.dark-mode .time-display {
 .cd-disc {
   width: 110px;
   height: 110px;
-  background: repeating-radial-gradient(circle at center, #111 0, #111 4px, #222 5px, #222 8px);
+  background: repeating-radial-gradient(
+    circle at center,
+    #111111 0,
+    #111111 4px,
+    #222222 5px,
+    #222222 8px
+  ) !important;
   border-radius: 50% !important;
   position: absolute;
   top: 5px;
@@ -700,6 +638,7 @@ body.dark-mode .time-display {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .cd-center-hole {
@@ -735,5 +674,4 @@ body.dark-mode .time-display {
   .analysis-block, .char-item, .player-workspace {
     grid-template-columns: 1fr;
   }
-  .tab-selector-bar { gap: 30px; }
 }
