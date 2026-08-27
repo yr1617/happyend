@@ -66,9 +66,18 @@
         <div class="play-triangle"></div>
       </div>
     </div>
-    <div class="section-metadata">
-      <div>OFFICIAL TEASER FOOTAGE</div>
-      <div>CLICK TO PLAY / PAUSE</div>
+    
+    <!-- REAL CONTROLLER & TIMELINE -->
+    <div class="video-player-controls">
+      <button class="video-btn" id="playPauseBtn">PLAY</button>
+      <div class="timeline-container" id="timelineContainer">
+        <div class="timeline-progress" id="timelineProgress"></div>
+      </div>
+      <div class="video-time-display">
+        <span id="currentTimeDisplay">00:00</span>
+        <span>/</span>
+        <span id="durationDisplay">00:00</span>
+      </div>
     </div>
   </section>
 
