@@ -93,11 +93,11 @@ body {
   width: 90vw;
   max-width: 1200px;
   height: auto;
-  /* 원본의 노란색/빨간색을 단색 네온 레드로 강제 변환 */
-  filter: grayscale(100%) brightness(50%) sepia(100%) hue-rotate(-50deg) saturate(1000%) brightness(90%);
+  /* SVG 자체 색상을 그대로 사용하도록 필터 제거 */
+  filter: none;
 }
 
-/* TRAILER VIDEO SECTION (비디오 가리는 테두리/박스 완전 제거) */
+/* TRAILER VIDEO SECTION */
 .media-container {
   max-width: 1200px;
   margin: 0 auto 60px auto;
@@ -176,7 +176,7 @@ video {
   text-transform: uppercase;
 }
 
-/* TAB SELECTOR BAR */
+/* TAB SELECTOR BAR (CD 플레이어 개폐 애니메이션) */
 .album-tab-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -185,10 +185,11 @@ video {
 
 .tab-selector-bar {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   justify-content: center;
   border-bottom: 1px solid var(--color-signal-flare);
   padding-bottom: 25px;
+  perspective: 1000px; /* 3D 효과를 위한 뷰포트 설정 */
 }
 
 .album-tab-btn {
@@ -198,21 +199,49 @@ video {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  opacity: 0.4;
-  transition: all 0.3s ease;
+  gap: 12px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   padding: 10px;
   pointer-events: auto !important;
 }
 
-.album-tab-btn:hover, .album-tab-btn.active {
+.album-tab-btn:hover {
+  opacity: 0.8;
+}
+
+.album-tab-btn.active {
   opacity: 1;
-  transform: translateY(-4px);
+}
+
+.tab-cd-player {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  transform-style: preserve-3d;
+}
+
+.tab-cd-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 26, 0, 0.15);
+  border: 1px solid var(--color-signal-flare);
+  z-index: 2;
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+}
+
+.album-tab-btn.active .tab-cd-cover {
+  transform: rotateY(-110deg); /* 탭 선택 시 덮개가 열리는 애니메이션 */
 }
 
 .tab-graphic-icon {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border: 1px solid var(--color-signal-flare);
   position: relative;
   display: flex;
@@ -220,11 +249,12 @@ video {
   justify-content: center;
   background-color: var(--color-sun-baked-canvas);
   pointer-events: none !important;
+  z-index: 1;
 }
 
 .tab-graphic-icon .icon-inner-cd {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--color-signal-flare);
   border-radius: 50% !important;
   display: flex;
@@ -233,15 +263,16 @@ video {
 }
 
 .tab-graphic-icon .icon-dot {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   background-color: var(--color-signal-flare);
   border-radius: 50% !important;
 }
 
 .tab-num {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 1px;
+  font-weight: bold;
   pointer-events: none !important;
 }
 
@@ -257,7 +288,7 @@ video {
   display: block;
 }
 
-/* TAB 1: STORY (해피엔드 고유의 객체 바운딩 박스 구현) */
+/* TAB 1: STORY */
 .story-node {
   margin-bottom: 100px;
 }
@@ -278,7 +309,6 @@ video {
   display: block;
 }
 
-/* 해피엔드 고유 오브젝트 바운딩 박스 (Bounding Box) */
 .bounding-box {
   position: absolute;
   border: 1.5px solid var(--color-signal-flare);
@@ -286,7 +316,6 @@ video {
   z-index: 10;
 }
 
-/* 바운딩 박스 상단 텍스트 라벨 (코드/아이디/미스터리 표기) */
 .bounding-box .box-tag {
   position: absolute;
   top: -18px;
@@ -326,7 +355,7 @@ video {
 .character-list {
   display: flex;
   flex-direction: column;
-  gap: 80px;
+  gap: 60px;
 }
 
 .char-item {
@@ -346,6 +375,7 @@ video {
   align-items: center;
   justify-content: center;
   font-size: 11px;
+  font-weight: bold;
   color: var(--color-signal-flare);
   background-color: rgba(255, 26, 0, 0.02);
 }
@@ -380,7 +410,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 3: MUSIC (턴테이블 플레이어) */
+/* TAB 3: MUSIC */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -449,8 +479,8 @@ video {
 }
 
 .tray-center-pin {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   background-color: #ffffff;
   border-radius: 50% !important;
   z-index: 30;
@@ -507,7 +537,7 @@ video {
 }
 
 .eject-btn {
-  background: #ff1a00;
+  background: var(--color-signal-flare);
   border: none;
   color: #ffffff;
   padding: 8px 16px;
@@ -573,10 +603,11 @@ video {
   cursor: grab !important;
 }
 
+/* CD 중앙 원 크기 확대 */
 .cd-center-ring {
-  width: 42px;
-  height: 42px;
-  background-color: #ff4d36;
+  width: 60px; /* 기존 42px에서 60px로 확대 */
+  height: 60px;
+  background-color: var(--color-signal-flare);
   border-radius: 50% !important;
   display: flex;
   align-items: center;
@@ -585,8 +616,8 @@ video {
 }
 
 .cd-center-hole {
-  width: 10px;
-  height: 10px;
+  width: 16px; /* 기존 10px에서 16px로 확대 */
+  height: 16px;
   background-color: var(--color-sun-baked-canvas);
   border-radius: 50% !important;
 }
@@ -602,6 +633,18 @@ video {
   width: 100% !important;
   height: 100% !important;
   z-index: 15 !important;
+}
+
+/* 플레이어 삽입 시 확대된 중앙 원 스타일 적용 */
+.cd-disc.inserted .cd-center-ring {
+  width: 120px;
+  height: 120px;
+}
+
+.cd-disc.inserted .cd-center-hole {
+  width: 32px;
+  height: 32px;
+  background-color: #2b2b2b;
 }
 
 .cd-disc.spinning {
