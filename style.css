@@ -1050,9 +1050,3 @@ video {
   .case-item { transform: none !important; }
   .opened-jewel-case { margin-right: 0; }
 }
-
-.scramble-noise {
-  opacity: 0.6;
-  color: var(--color-signal-flare);
-  display: inline;
-}
