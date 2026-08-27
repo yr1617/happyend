@@ -289,7 +289,7 @@ window.addEventListener('DOMContentLoaded', () => {
       trackDisplay.innerText = 'NO RECORD LOADED';
       scrambleText(trackDisplay);
     }
-    if (trayText) trayText.innerText = 'DROP CD HERE TO PLAY';
+    if (trayText) trayText.innerText = 'DROP HERE';
 
     if (activeCD) {
       activeCD.classList.remove('spinning', 'inserted');
