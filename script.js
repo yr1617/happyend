@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-  // 0. 다크 모드 토글 & 조명 깜빡임 연출
+  // 0. 다크 모드 토글
   const darkModeToggle = document.getElementById('darkModeToggle');
   if (darkModeToggle) {
     darkModeToggle.addEventListener('click', (e) => {
@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 1. 비디오 재생 / 일시정지 (오류 방지 Safe Guard)
+  // 1. 비디오 재생 / 일시정지 (Safe Guard)
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. 탭 버튼 전환 이벤트
+  // 2. 탭 전환
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
