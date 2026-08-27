@@ -84,97 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeContent = document.getElementById(targetTab);
       if (activeContent) {
         activeContent.classList.add('active');
-        initScrambleObserver();
       }
     });
   });
 
   /* -------------------------------------------------------------
-   * 4. REFERO DESIGN STYLE - 한글 빠른 디코딩 연출
-   * ------------------------------------------------------------- */
-  const koreanNoiseChars = '가나다라마바사아자차카타파하한글음악청춘엔딩해피미래도쿄감시학교자유';
-
-  // 순수 텍스트 노드만 안전하게 추출하는 함수 (이미지, HTML 구조 보존)
-  function getTextNodes(node) {
-    let textNodes = [];
-    if (node.nodeType === Node.TEXT_NODE) {
-      if (node.nodeValue.trim().length > 0) {
-        textNodes.push(node);
-      }
-    } else {
-      for (let child of node.childNodes) {
-        textNodes = textNodes.concat(getTextNodes(child));
-      }
-    }
-    return textNodes;
-  }
-
-  function playFastKoreanDecode(element) {
-    // 최초 1회 원본 HTML 구조 보존 백업
-    if (!element.dataset.originalHTML) {
-      element.dataset.originalHTML = element.innerHTML;
-    }
-
-    if (element.decodeInterval) clearInterval(element.decodeInterval);
-
-    const textNodes = getTextNodes(element);
-    if (textNodes.length === 0) return;
-
-    // 각 노드의 순수 텍스트 백업
-    const originalTexts = textNodes.map(tn => tn.nodeValue);
-
-    let frameCount = 0;
-    const totalFrames = 5; // 0.12초간 아주 짧게 틱틱거림
-
-    element.decodeInterval = setInterval(() => {
-      frameCount++;
-
-      textNodes.forEach((node, index) => {
-        const targetText = originalTexts[index];
-        const charArray = Array.from(targetText);
-
-        if (frameCount >= totalFrames) {
-          node.nodeValue = targetText;
-        } else {
-          node.nodeValue = charArray.map(char => {
-            if (char === ' ' || char === '\n' || char === '\r') return char;
-            return Math.random() > 0.4 ? char : koreanNoiseChars[Math.floor(Math.random() * koreanNoiseChars.length)];
-          }).join('');
-        }
-      });
-
-      if (frameCount >= totalFrames) {
-        clearInterval(element.decodeInterval);
-        element.innerHTML = element.dataset.originalHTML; // 원본 HTML 및 이미지 복구
-      }
-    }, 25);
-  }
-
-  const scrambleObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        playFastKoreanDecode(entry.target);
-      } else {
-        if (entry.target.dataset.originalHTML) {
-          entry.target.innerHTML = entry.target.dataset.originalHTML;
-        }
-      }
-    });
-  }, {
-    threshold: 0.05
-  });
-
-  function initScrambleObserver() {
-    const textNodes = document.querySelectorAll('.scramble-text');
-    textNodes.forEach(node => {
-      scrambleObserver.observe(node);
-    });
-  }
-
-  initScrambleObserver();
-
-  /* -------------------------------------------------------------
-   * 5. TURNTABLE & CD STACK INTERACTION
+   * 4. TURNTABLE & CD STACK INTERACTION
    * ------------------------------------------------------------- */
   const caseItems = document.querySelectorAll('.case-item');
   const jewelCases = document.querySelectorAll('.opened-jewel-case');
