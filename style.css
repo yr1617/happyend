@@ -185,7 +185,7 @@ body.dark-mode .club-room-backdrop {
   transform: rotateY(-18deg) rotateX(2deg) scale(1.05);
   transform-origin: right center;
   position: relative;
-  background: linear-gradient(to right, #080808 0%, #181615 60%, #0a0a0a 100%);
+  background: transparent; /* 수정: 희미한 벽면 색상을 완전히 없애 투명하게 변경 */
   display: flex;
   align-items: center;
 }
@@ -560,10 +560,10 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (수정: 상단 2열, 하단 3열 Grid 레이아웃) */
+/* TAB 2: CHARACTERS */
 .character-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6분할 그리드로 2열/3열 유연한 배치 */
+  grid-template-columns: repeat(6, 1fr);
   gap: 40px 30px;
 }
 
@@ -575,35 +575,18 @@ video {
   gap: 16px;
 }
 
-/* 상단 2명: 유타, 코우 (화면 1/2씩 크게 배치) */
-.char-yuta {
-  grid-column: span 3;
-}
+.char-yuta { grid-column: span 3; }
+.char-kou { grid-column: span 3; }
 
-.char-kou {
-  grid-column: span 3;
-}
+.char-ata { grid-column: span 2; }
+.char-ming { grid-column: span 2; }
+.char-tom { grid-column: span 2; }
 
-/* 하단 3명: 아타, 밍, 톰 (화면 1/3씩 나란히 배치) */
-.char-ata {
-  grid-column: span 2;
-}
-
-.char-ming {
-  grid-column: span 2;
-}
-
-.char-tom {
-  grid-column: span 2;
-}
-
-/* 상단 주연 캐릭터 이미지 영역 (크게 강조) */
 .char-yuta .char-img-placeholder,
 .char-kou .char-img-placeholder {
   aspect-ratio: 16 / 9;
 }
 
-/* 하단 조연 캐릭터 이미지 영역 (비율 다듬음) */
 .char-ata .char-img-placeholder,
 .char-ming .char-img-placeholder,
 .char-tom .char-img-placeholder {
