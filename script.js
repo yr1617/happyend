@@ -9,34 +9,86 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 1. 비디오 재생 / 일시정지
+  // 1. 커스텀 비디오 플레이어 & 실시간 타임라인
   const video = document.getElementById('teaserVideo');
   const videoFrame = document.getElementById('videoFrame');
   const playControl = document.getElementById('playControl');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const timelineProgress = document.getElementById('timelineProgress');
+  const timelineContainer = document.getElementById('timelineContainer');
+  const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+  const durationDisplay = document.getElementById('durationDisplay');
+
+  function togglePlay() {
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(err => console.log("Video play error:", err));
+    } else {
+      video.pause();
+    }
+  }
 
   if (videoFrame && video) {
-    videoFrame.addEventListener('click', () => {
-      if (video.paused) {
-        video.play().catch(err => console.log("Video play error:", err));
-      } else {
-        video.pause();
-      }
-    });
+    videoFrame.addEventListener('click', togglePlay);
+    if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
 
     video.addEventListener('play', () => {
       if (playControl) playControl.classList.add('is-playing');
+      if (playPauseBtn) playPauseBtn.innerText = 'PAUSE';
     });
 
     video.addEventListener('pause', () => {
       if (playControl) playControl.classList.remove('is-playing');
+      if (playPauseBtn) playPauseBtn.innerText = 'PLAY';
     });
 
-    video.addEventListener('ended', () => {
-      if (playControl) playControl.classList.remove('is-playing');
+    // 실시간 타임라인 업데이트
+    video.addEventListener('timeupdate', () => {
+      if (video.duration) {
+        const progressPercent = (video.currentTime / video.duration) * 100;
+        if (timelineProgress) timelineProgress.style.width = `${progressPercent}%`;
+        if (currentTimeDisplay) currentTimeDisplay.innerText = formatTime(video.currentTime);
+      }
     });
+
+    video.addEventListener('loadedmetadata', () => {
+      if (durationDisplay) durationDisplay.innerText = formatTime(video.duration);
+    });
+
+    // 타임라인 클릭/드래그 시 위치 이동
+    if (timelineContainer) {
+      let isSeeking = false;
+
+      const seek = (e) => {
+        const rect = timelineContainer.getBoundingClientRect();
+        const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        if (video.duration) {
+          video.currentTime = pos * video.duration;
+        }
+      };
+
+      timelineContainer.addEventListener('mousedown', (e) => {
+        isSeeking = true;
+        seek(e);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isSeeking) seek(e);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isSeeking) isSeeking = false;
+      });
+    }
   }
 
-  // 2. 텍스트 스크램블 / 랜덤 타이핑 애니메이션
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  // 2. 텍스트 스크램블 애니메이션
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#@$&*';
 
   function scrambleText(element) {
@@ -70,24 +122,37 @@ window.addEventListener('DOMContentLoaded', () => {
         element.dataset.scrambling = 'false';
       }
 
-      iteration += 1 / 2; // 재생 속도 조절
+      iteration += 1 / 2;
     }, 25);
   }
 
-  function triggerScrambleEffects(container) {
-    const scrambleTargets = container.querySelectorAll('.box-tag, .analysis-meta, .char-tag');
-    scrambleTargets.forEach((el, index) => {
-      setTimeout(() => {
+  // 3. Intersection Observer (스크롤 시 감지하여 애니메이션 실행)
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -10% 0px',
+    threshold: 0.1
+  };
+
+  const scrambleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
         scrambleText(el);
-      }, index * 80);
+      }
+    });
+  }, observerOptions);
+
+  function observeScrambleTargets(container) {
+    const targets = container.querySelectorAll('.box-tag, .analysis-meta, .char-tag');
+    targets.forEach(target => {
+      scrambleObserver.observe(target);
     });
   }
 
-  // 초기 로딩 시 활성화된 탭 애니메이션
-  const activeTab = document.querySelector('.tab-content.active');
-  if (activeTab) triggerScrambleEffects(activeTab);
+  // 전체 페이지 대상 등록
+  observeScrambleTargets(document);
 
-  // 3. 탭 전환
+  // 4. 탭 전환
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -104,13 +169,14 @@ window.addEventListener('DOMContentLoaded', () => {
         const targetContent = document.getElementById(targetTabId);
         if (targetContent) {
           targetContent.classList.add('active');
-          triggerScrambleEffects(targetContent); // 탭 클릭 시 스크램블 재실행
+          // 탭 활성화 시 내부 요소 재관찰
+          observeScrambleTargets(targetContent);
         }
       });
     });
   }
 
-  // 4. CD 플레이어 드래그 앤 드롭
+  // 5. CD 플레이어 드래그 앤 드롭
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
