@@ -1,313 +1,266 @@
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-  // 0. 다크 모드 토글
+  /* -------------------------------------------------------------
+   * 1. DARK MODE TOGGLE
+   * ------------------------------------------------------------- */
   const darkModeToggle = document.getElementById('darkModeToggle');
   if (darkModeToggle) {
-    darkModeToggle.addEventListener('click', (e) => {
-      e.preventDefault();
+    darkModeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
   }
 
-  // 1. 커스텀 비디오 플레이어 & 실시간 타임라인
-  const video = document.getElementById('teaserVideo');
-  const videoFrame = document.getElementById('videoFrame');
+  /* -------------------------------------------------------------
+   * 2. VIDEO PLAYER CONTROLS
+   * ------------------------------------------------------------- */
+  const teaserVideo = document.getElementById('teaserVideo');
   const playControl = document.getElementById('playControl');
   const playPauseBtn = document.getElementById('playPauseBtn');
-  const timelineProgress = document.getElementById('timelineProgress');
   const timelineContainer = document.getElementById('timelineContainer');
+  const timelineProgress = document.getElementById('timelineProgress');
   const currentTimeDisplay = document.getElementById('currentTimeDisplay');
   const durationDisplay = document.getElementById('durationDisplay');
 
-  function togglePlay() {
-    if (!video) return;
-    if (video.paused) {
-      video.play().catch(err => console.log("Video play error:", err));
-    } else {
-      video.pause();
-    }
-  }
-
-  if (videoFrame && video) {
-    videoFrame.addEventListener('click', togglePlay);
-    if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
-
-    video.addEventListener('play', () => {
-      if (playControl) playControl.classList.add('is-playing');
-      if (playPauseBtn) playPauseBtn.innerText = 'PAUSE';
-    });
-
-    video.addEventListener('pause', () => {
-      if (playControl) playControl.classList.remove('is-playing');
-      if (playPauseBtn) playPauseBtn.innerText = 'PLAY';
-    });
-
-    video.addEventListener('timeupdate', () => {
-      if (video.duration) {
-        const progressPercent = (video.currentTime / video.duration) * 100;
-        if (timelineProgress) timelineProgress.style.width = `${progressPercent}%`;
-        if (currentTimeDisplay) currentTimeDisplay.innerText = formatTime(video.currentTime);
-      }
-    });
-
-    video.addEventListener('loadedmetadata', () => {
-      if (durationDisplay) durationDisplay.innerText = formatTime(video.duration);
-    });
-
-    if (timelineContainer) {
-      let isSeeking = false;
-
-      const seek = (e) => {
-        const rect = timelineContainer.getBoundingClientRect();
-        const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-        if (video.duration) {
-          video.currentTime = pos * video.duration;
-        }
-      };
-
-      timelineContainer.addEventListener('mousedown', (e) => {
-        isSeeking = true;
-        seek(e);
-      });
-
-      window.addEventListener('mousemove', (e) => {
-        if (isSeeking) seek(e);
-      });
-
-      window.addEventListener('mouseup', () => {
-        if (isSeeking) isSeeking = false;
-      });
-    }
-  }
-
   function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 
-  // 2. 텍스트 스크램블 애니메이션
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#@$&*';
+  function togglePlay() {
+    if (!teaserVideo) return;
+    if (teaserVideo.paused) {
+      teaserVideo.play();
+      if (playControl) playControl.classList.add('is-playing');
+      if (playPauseBtn) playPauseBtn.textContent = 'PAUSE';
+    } else {
+      teaserVideo.pause();
+      if (playControl) playControl.classList.remove('is-playing');
+      if (playPauseBtn) playPauseBtn.textContent = 'PLAY';
+    }
+  }
+
+  if (teaserVideo) {
+    const videoFrame = document.getElementById('videoFrame');
+    if (videoFrame) videoFrame.addEventListener('click', togglePlay);
+    if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
+
+    teaserVideo.addEventListener('loadedmetadata', () => {
+      if (durationDisplay) durationDisplay.textContent = formatTime(teaserVideo.duration);
+    });
+
+    teaserVideo.addEventListener('timeupdate', () => {
+      if (currentTimeDisplay) currentTimeDisplay.textContent = formatTime(teaserVideo.currentTime);
+      if (timelineProgress && teaserVideo.duration) {
+        const percent = (teaserVideo.currentTime / teaserVideo.duration) * 100;
+        timelineProgress.style.width = `${percent}%`;
+      }
+    });
+
+    if (timelineContainer) {
+      timelineContainer.addEventListener('click', (e) => {
+        const rect = timelineContainer.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        teaserVideo.currentTime = pos * teaserVideo.duration;
+      });
+    }
+  }
+
+  /* -------------------------------------------------------------
+   * 3. TAB NAVIGATION SYSTEM
+   * ------------------------------------------------------------- */
+  const tabButtons = document.querySelectorAll('.album-tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      tabButtons.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      const activeContent = document.getElementById(targetTab);
+      if (activeContent) {
+        activeContent.classList.add('active');
+        // 탭 전환 시 화면에 들어온 요소 재관찰 및 애니메이션 재생
+        triggerReveals();
+      }
+    });
+  });
+
+  /* -------------------------------------------------------------
+   * 4. [요청 4 반영] SCROLL REVEAL & FAST TEXT DECODE EFFECT
+   * ------------------------------------------------------------- */
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#$&@';
 
   function scrambleText(element) {
-    if (!element || element.dataset.scrambling === 'true') return;
-    
-    if (!element.dataset.originalText) {
-      element.dataset.originalText = element.innerText;
-    }
-    
-    const originalText = element.dataset.originalText;
-    element.dataset.scrambling = 'true';
+    if (element.dataset.scrambled === 'true') return;
+    element.dataset.scrambled = 'true';
+
+    const originalText = element.textContent.trim();
+    const length = originalText.length;
     let iteration = 0;
     
-    clearInterval(element.scrambleInterval);
-
-    element.scrambleInterval = setInterval(() => {
-      element.innerText = originalText
+    // 빠른 로딩을 위해 간격(12ms)과 채움 단계(4 step)로 단축
+    const interval = setInterval(() => {
+      element.textContent = originalText
         .split('')
         .map((char, index) => {
           if (char === ' ' || char === '\n') return char;
-          if (index < iteration) {
-            return originalText[index];
-          }
+          if (index < iteration) return originalText[index];
           return chars[Math.floor(Math.random() * chars.length)];
         })
         .join('');
 
-      if (iteration >= originalText.length) {
-        clearInterval(element.scrambleInterval);
-        element.innerText = originalText;
-        element.dataset.scrambling = 'false';
+      if (iteration >= length) {
+        clearInterval(interval);
+        element.textContent = originalText;
       }
-
-      iteration += 1 / 2;
-    }, 25);
+      iteration += Math.ceil(length / 25); // 약 0.3~0.4초 내 고속 완료
+    }, 12);
   }
 
-  // 3. Intersection Observer
   const observerOptions = {
-    root: null,
-    rootMargin: '0px 0px -10% 0px',
-    threshold: 0.1
+    threshold: 0.15
   };
 
-  const scrambleObserver = new IntersectionObserver((entries) => {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const el = entry.target;
-        scrambleText(el);
+        entry.target.classList.add('is-visible');
+        const textNode = entry.target.querySelector('.scramble-text');
+        if (textNode) {
+          scrambleText(textNode);
+        }
+        observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
 
-  function observeScrambleTargets(container) {
-    const targets = container.querySelectorAll('.box-tag, .analysis-meta');
-    targets.forEach(target => {
-      scrambleObserver.observe(target);
+  function triggerReveals() {
+    const revealItems = document.querySelectorAll('.reveal-item');
+    revealItems.forEach(item => {
+      revealObserver.observe(item);
     });
   }
 
-  observeScrambleTargets(document);
+  triggerReveals();
 
-  // 4. 탭 전환
-  const tabBtns = document.querySelectorAll('.album-tab-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  if (tabBtns.length > 0) {
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const currentBtn = e.currentTarget;
-        const targetTabId = currentBtn.getAttribute('data-tab');
-
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
-
-        currentBtn.classList.add('active');
-        const targetContent = document.getElementById(targetTabId);
-        if (targetContent) {
-          targetContent.classList.add('active');
-          observeScrambleTargets(targetContent);
-        }
-      });
-    });
-  }
-
-  // 5. CD 케이스 클릭 시 여백 영역(Stage)으로 이동 및 뚜껑 오픈
-  const stackItems = document.querySelectorAll('.case-item');
+  /* -------------------------------------------------------------
+   * 5. TURNTABLE & CD STACK INTERACTION
+   * ------------------------------------------------------------- */
+  const caseItems = document.querySelectorAll('.case-item');
+  const jewelCases = document.querySelectorAll('.opened-jewel-case');
   const stagePlaceholder = document.getElementById('stagePlaceholder');
-  const openedCases = document.querySelectorAll('.opened-jewel-case');
-
-  stackItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const targetId = item.getAttribute('data-case');
-
-      stackItems.forEach(i => i.classList.remove('active-selected'));
-      item.classList.add('active-selected');
-
-      if (stagePlaceholder) stagePlaceholder.style.display = 'none';
-
-      openedCases.forEach(c => c.classList.remove('active'));
-      const targetCase = document.getElementById(`jewel-${targetId}`);
-      if (targetCase) {
-        targetCase.classList.add('active');
-      }
-    });
-  });
-
-  // 6. 턴테이블 CD 플레이어 & 드래그 앤 드롭
-  let activeCD = null;
-  const audioPlayer = document.getElementById('audioPlayer');
-
-  const cds = document.querySelectorAll('.cd-disc');
+  const cdDiscs = document.querySelectorAll('.cd-disc');
   const dropZone = document.getElementById('dropZone');
   const playerDeck = document.getElementById('playerDeck');
   const cdTray = document.getElementById('cdTray');
-  const trackDisplay = document.getElementById('trackDisplay');
-  const trayText = document.getElementById('trayText');
-  const ejectBtn = document.getElementById('ejectBtn');
   const tonearm = document.getElementById('tonearm');
+  const trackDisplay = document.getElementById('trackDisplay');
+  const ejectBtn = document.getElementById('ejectBtn');
+  const audioPlayer = document.getElementById('audioPlayer');
 
-  function playAudioTrack(src, title) {
-    if (!audioPlayer) return;
+  let currentLoadedDisc = null;
 
-    const safeSrc = encodeURI(src);
-    audioPlayer.src = safeSrc;
-    
-    audioPlayer.play().then(() => {
-      if (trackDisplay) {
-        trackDisplay.innerText = title + ' [PLAYING]';
-        scrambleText(trackDisplay);
+  // Case Click to Open
+  caseItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const caseId = item.getAttribute('data-case');
+
+      caseItems.forEach(i => i.classList.remove('active-selected'));
+      jewelCases.forEach(j => j.classList.remove('active'));
+
+      item.classList.add('active-selected');
+      if (stagePlaceholder) stagePlaceholder.style.display = 'none';
+
+      const targetJewel = document.getElementById(`jewel-${caseId}`);
+      if (targetJewel) {
+        targetJewel.classList.add('active');
       }
-      if (tonearm) tonearm.classList.add('playing');
-    }).catch(err => {
-      console.warn("Audio Load/Play Error:", err);
-      if (trackDisplay) {
-        trackDisplay.innerText = title + ' [ERROR]';
-      }
-    });
-  }
-
-  // CD Drag Start
-  cds.forEach(cd => {
-    cd.addEventListener('dragstart', (e) => {
-      e.stopPropagation();
-      e.dataTransfer.setData('text/plain', cd.id);
     });
   });
 
-  // CD를 턴테이블에 장착
-  function mountCDToPlayer(cdElement) {
-    if (!cdElement) return;
+  // Drag & Drop
+  cdDiscs.forEach(disc => {
+    disc.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', disc.id);
+    });
+  });
 
-    if (activeCD) {
-      ejectCD();
-    }
-
-    activeCD = cdElement;
-    cdTray.appendChild(cdElement);
-    cdElement.classList.add('inserted', 'spinning');
-
-    const title = cdElement.getAttribute('data-title');
-    const audioSrc = cdElement.getAttribute('data-src');
-
-    playAudioTrack(audioSrc, title);
-    if (trayText) trayText.innerText = '';
-  }
-
-  // Drag & Drop 처리
-  if (dropZone && playerDeck && cdTray) {
+  if (dropZone) {
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      playerDeck.classList.add('drag-over');
+      if (playerDeck) playerDeck.classList.add('drag-over');
     });
 
     dropZone.addEventListener('dragleave', () => {
-      playerDeck.classList.remove('drag-over');
+      if (playerDeck) playerDeck.classList.remove('drag-over');
     });
 
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
-      playerDeck.classList.remove('drag-over');
+      if (playerDeck) playerDeck.classList.remove('drag-over');
 
-      const cdId = e.dataTransfer.getData('text/plain');
-      const cdElement = document.getElementById(cdId);
+      const discId = e.dataTransfer.getData('text/plain');
+      const disc = document.getElementById(discId);
 
-      if (cdElement) {
-        mountCDToPlayer(cdElement);
+      if (disc) {
+        loadCDToPlayer(disc);
       }
     });
   }
 
-  // Eject 기능 (펼쳐진 쥬얼 케이스 트레이 위치로 복귀)
+  function loadCDToPlayer(disc) {
+    if (currentLoadedDisc) {
+      ejectCD();
+    }
+
+    currentLoadedDisc = disc;
+    cdTray.appendChild(disc);
+    disc.classList.add('inserted');
+
+    const title = disc.getAttribute('data-title') || 'UNKNOWN TRACK';
+    const src = disc.getAttribute('data-src');
+
+    if (trackDisplay) trackDisplay.textContent = `${title} [PLAYING]`;
+
+    if (tonearm) tonearm.classList.add('playing');
+    disc.classList.add('spinning');
+
+    if (src && audioPlayer) {
+      audioPlayer.src = src;
+      audioPlayer.play().catch(() => {});
+    }
+  }
+
   function ejectCD() {
+    if (!currentLoadedDisc) return;
+
+    const discId = currentLoadedDisc.id;
+    const jewelCase = document.getElementById(`jewel-${discId}`);
+
+    if (jewelCase) {
+      const tray = jewelCase.querySelector('.case-tray');
+      if (tray) {
+        currentLoadedDisc.classList.remove('inserted', 'spinning');
+        tray.appendChild(currentLoadedDisc);
+      }
+    }
+
+    if (tonearm) tonearm.classList.remove('playing');
+    if (trackDisplay) trackDisplay.textContent = 'NO RECORD LOADED';
+
     if (audioPlayer) {
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
     }
 
-    if (tonearm) {
-      tonearm.classList.remove('playing');
-    }
-
-    if (trackDisplay) {
-      trackDisplay.innerText = 'NO RECORD LOADED';
-      scrambleText(trackDisplay);
-    }
-    if (trayText) trayText.innerText = 'DROP HERE';
-
-    if (activeCD) {
-      activeCD.classList.remove('spinning', 'inserted');
-      const caseId = activeCD.id;
-      const targetTray = document.querySelector(`#jewel-${caseId} .case-tray`);
-      
-      if (targetTray) {
-        targetTray.appendChild(activeCD);
-      }
-      activeCD = null;
-    }
+    currentLoadedDisc = null;
   }
 
-  if (ejectBtn) {
-    ejectBtn.addEventListener('click', ejectCD);
-  }
+  if (ejectBtn) ejectBtn.addEventListener('click', ejectCD);
+
 });
