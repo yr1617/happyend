@@ -36,7 +36,58 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. 탭 전환
+  // 2. 텍스트 스크램블 / 랜덤 타이핑 애니메이션
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789%#@$&*';
+
+  function scrambleText(element) {
+    if (!element || element.dataset.scrambling === 'true') return;
+    
+    if (!element.dataset.originalText) {
+      element.dataset.originalText = element.innerText;
+    }
+    
+    const originalText = element.dataset.originalText;
+    element.dataset.scrambling = 'true';
+    let iteration = 0;
+    
+    clearInterval(element.scrambleInterval);
+
+    element.scrambleInterval = setInterval(() => {
+      element.innerText = originalText
+        .split('')
+        .map((char, index) => {
+          if (char === ' ' || char === '\n') return char;
+          if (index < iteration) {
+            return originalText[index];
+          }
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join('');
+
+      if (iteration >= originalText.length) {
+        clearInterval(element.scrambleInterval);
+        element.innerText = originalText;
+        element.dataset.scrambling = 'false';
+      }
+
+      iteration += 1 / 2; // 재생 속도 조절
+    }, 25);
+  }
+
+  function triggerScrambleEffects(container) {
+    const scrambleTargets = container.querySelectorAll('.box-tag, .analysis-meta, .char-tag');
+    scrambleTargets.forEach((el, index) => {
+      setTimeout(() => {
+        scrambleText(el);
+      }, index * 80);
+    });
+  }
+
+  // 초기 로딩 시 활성화된 탭 애니메이션
+  const activeTab = document.querySelector('.tab-content.active');
+  if (activeTab) triggerScrambleEffects(activeTab);
+
+  // 3. 탭 전환
   const tabBtns = document.querySelectorAll('.album-tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -53,12 +104,13 @@ window.addEventListener('DOMContentLoaded', () => {
         const targetContent = document.getElementById(targetTabId);
         if (targetContent) {
           targetContent.classList.add('active');
+          triggerScrambleEffects(targetContent); // 탭 클릭 시 스크램블 재실행
         }
       });
     });
   }
 
-  // 3. CD 플레이어 드래그 앤 드롭
+  // 4. CD 플레이어 드래그 앤 드롭
   let activeCD = null;
 
   const albumCovers = document.querySelectorAll('.album-cover');
@@ -110,14 +162,20 @@ window.addEventListener('DOMContentLoaded', () => {
         cdTray.appendChild(cdElement);
         cdElement.classList.add('inserted', 'spinning');
 
-        if (trackDisplay) trackDisplay.innerText = title + ' [PLAYING]';
+        if (trackDisplay) {
+          trackDisplay.innerText = title + ' [PLAYING]';
+          scrambleText(trackDisplay);
+        }
         if (trayText) trayText.innerText = '';
       }
     });
   }
 
   function ejectCD() {
-    if (trackDisplay) trackDisplay.innerText = 'NO RECORD LOADED';
+    if (trackDisplay) {
+      trackDisplay.innerText = 'NO RECORD LOADED';
+      scrambleText(trackDisplay);
+    }
     if (trayText) trayText.innerText = 'DROP HERE';
 
     if (activeCD) {
