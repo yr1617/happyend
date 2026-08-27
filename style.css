@@ -81,6 +81,7 @@ body {
   color: var(--color-sun-baked-canvas);
 }
 
+/* TOP SCROLL BUTTON */
 .top-scroll-btn {
   position: fixed;
   bottom: 24px;
@@ -90,20 +91,35 @@ body {
   height: 48px;
   border: 1px solid var(--color-signal-flare);
   background-color: var(--color-sun-baked-canvas);
-  color: var(--color-signal-flare);
+  color: transparent; /* 기존 텍스트(↑) 가리기 */
   border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
   text-decoration: none;
   cursor: pointer !important;
   transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+/* 납작한 위쪽 세모 아이콘 구현 */
+.top-scroll-btn::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;  /* 좌우 폭 설정 */
+  border-right: 8px solid transparent;
+  border-bottom: 7px solid var(--color-signal-flare); /* 높이를 줄여 납작한 세모로 만듦 */
+  transition: border-bottom-color 0.25s ease;
+  transform: translateY(-1px); /* 정중앙 시각적 보정 */
 }
 
 .top-scroll-btn:hover {
   background-color: var(--color-signal-flare);
-  color: var(--color-sun-baked-canvas);
+}
+
+.top-scroll-btn:hover::before {
+  border-bottom-color: var(--color-sun-baked-canvas); /* 호버 시 세모 색상 변경 */
 }
 
 /* HERO SECTION */
@@ -686,7 +702,6 @@ video {
   overflow: visible !important;
 }
 
-/* [요청 1 반영] 바늘(tonearm) 레이어를 z-index: 100으로 최상단 배치 */
 .tonearm {
   position: absolute;
   top: 40px;
@@ -819,7 +834,6 @@ video {
   position: relative;
 }
 
-/* [요청 2 반영] 1. CD 케이스 스택 테두리 제거 */
 .cd-stack-rack {
   display: flex;
   flex-direction: column;
@@ -827,7 +841,7 @@ video {
   padding: 20px 0;
   align-items: center;
   background-color: transparent;
-  border: none !important; /* 테두리 제거 */
+  border: none !important;
 }
 
 .case-item {
@@ -867,10 +881,9 @@ video {
 .spine-num { font-size: 11px; font-weight: bold; margin-right: 12px; }
 .spine-title { font-size: 12px; font-weight: bold; }
 
-/* [요청 2 반영] 2. STAGING AREA 테두리 제거 */
 .opened-case-stage {
   min-height: 240px;
-  border: none !important; /* 점선 테두리 제거 */
+  border: none !important;
   padding: 20px 0;
   display: flex;
   align-items: center;
@@ -885,7 +898,6 @@ video {
   opacity: 0.5;
 }
 
-/* 펼쳐진 쥬얼 케이스 컨테이너 */
 .opened-jewel-case {
   display: none;
   width: 380px;
