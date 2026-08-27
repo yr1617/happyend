@@ -240,7 +240,7 @@
     </div>
   </section>
 
-  <!-- TAB 3: MUSIC (5개 음원 연동 및 CD 랙 디자인 적용) -->
+  <!-- TAB 3: MUSIC -->
   <section id="tab-music" class="tab-content">
     <div class="cd-section">
       <div class="cd-section-title">
@@ -250,6 +250,11 @@
 
       <div class="player-workspace">
         <div class="cd-player-device">
+          <!-- 톤암(바늘) 추가 -->
+          <div class="tonearm" id="tonearm">
+            <div class="tonearm-head"></div>
+          </div>
+
           <div class="turntable-surface" id="dropZone">
             <div class="player-deck" id="playerDeck">
               <div class="cd-tray" id="cdTray">
@@ -265,66 +270,86 @@
           </div>
         </div>
 
-        <!-- 5개 CD 랙 (나란히 세워져 있는 슬롯 형태) -->
-        <div class="album-rack-stacked">
+        <!-- 5개 CD 랙 (케이스 드로어 구조 복원) -->
+        <div class="cd-rack-stack">
           
-          <div class="album-item-slot" id="album1">
-            <div class="album-cover">
-              <span class="cover-no">01</span>
-              <span class="cover-title">HAPPYEND Theme (Opening)</span>
+          <div class="cd-slot-container" id="slot-cd1">
+            <div class="cd-case-header">
+              <span class="case-index">01</span>
+              <span class="case-title">HAPPYEND Theme (Opening)</span>
+              <span class="case-arrow">▼</span>
             </div>
-            <div class="cd-disc" id="cd1" draggable="true" 
-                 data-title="HAPPYEND Theme (Opening)" 
-                 data-src="Lia Ouyang Rusli - HAPPYEND Theme (Opening)  Happyend (Original Motion Picture Soundtrack).mp3">
-              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-            </div>
-          </div>
-
-          <div class="album-item-slot" id="album2">
-            <div class="album-cover">
-              <span class="cover-no">02</span>
-              <span class="cover-title">HAPPYEND Theme (Closing)</span>
-            </div>
-            <div class="cd-disc" id="cd2" draggable="true" 
-                 data-title="HAPPYEND Theme (Closing)" 
-                 data-src="Lia Ouyang Rusli - HAPPYEND Theme (Closing)  Happyend (Original Motion Picture Soundtrack).mp3">
-              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd1" draggable="true" 
+                   data-title="HAPPYEND Theme (Opening)" 
+                   data-src="Lia Ouyang Rusli - HAPPYEND Theme (Opening)  Happyend (Original Motion Picture Soundtrack).mp3">
+                <span class="cd-label-pattern">HAPPYEND</span>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
             </div>
           </div>
 
-          <div class="album-item-slot" id="album3">
-            <div class="album-cover">
-              <span class="cover-no">03</span>
-              <span class="cover-title">SUBWOOFER</span>
+          <div class="cd-slot-container" id="slot-cd2">
+            <div class="cd-case-header">
+              <span class="case-index">02</span>
+              <span class="case-title">HAPPYEND Theme (Closing)</span>
+              <span class="case-arrow">▼</span>
             </div>
-            <div class="cd-disc" id="cd3" draggable="true" 
-                 data-title="SUBWOOFER" 
-                 data-src="Lia Ouyang Rusli - SUBWOOFER  Happyend (Original Motion Picture Soundtrack).mp3">
-              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
-            </div>
-          </div>
-
-          <div class="album-item-slot" id="album4">
-            <div class="album-cover">
-              <span class="cover-no">04</span>
-              <span class="cover-title">WORLD (Variation 1)</span>
-            </div>
-            <div class="cd-disc" id="cd4" draggable="true" 
-                 data-title="WORLD (Variation 1)" 
-                 data-src="WORLD (Variation 1).mp3">
-              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd2" draggable="true" 
+                   data-title="HAPPYEND Theme (Closing)" 
+                   data-src="Lia Ouyang Rusli - HAPPYEND Theme (Closing)  Happyend (Original Motion Picture Soundtrack).mp3">
+                <span class="cd-label-pattern">HAPPYEND</span>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
             </div>
           </div>
 
-          <div class="album-item-slot" id="album5">
-            <div class="album-cover">
-              <span class="cover-no">05</span>
-              <span class="cover-title">LOVE (Variation 1)</span>
+          <div class="cd-slot-container" id="slot-cd3">
+            <div class="cd-case-header">
+              <span class="case-index">03</span>
+              <span class="case-title">SUBWOOFER</span>
+              <span class="case-arrow">▼</span>
             </div>
-            <div class="cd-disc" id="cd5" draggable="true" 
-                 data-title="LOVE (Variation 1)" 
-                 data-src="Lia Ouyang Rusli - LOVE (Variation 1)  Happyend (Original Motion Picture Soundtrack).mp3">
-              <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd3" draggable="true" 
+                   data-title="SUBWOOFER" 
+                   data-src="Lia Ouyang Rusli - SUBWOOFER  Happyend (Original Motion Picture Soundtrack).mp3">
+                <span class="cd-label-pattern">HAPPYEND</span>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cd-slot-container" id="slot-cd4">
+            <div class="cd-case-header">
+              <span class="case-index">04</span>
+              <span class="case-title">WORLD (Variation 1)</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd4" draggable="true" 
+                   data-title="WORLD (Variation 1)" 
+                   data-src="WORLD (Variation 1).mp3">
+                <span class="cd-label-pattern">HAPPYEND</span>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cd-slot-container" id="slot-cd5">
+            <div class="cd-case-header">
+              <span class="case-index">05</span>
+              <span class="case-title">LOVE (Variation 1)</span>
+              <span class="case-arrow">▼</span>
+            </div>
+            <div class="cd-drawer">
+              <div class="cd-disc" id="cd5" draggable="true" 
+                   data-title="LOVE (Variation 1)" 
+                   data-src="Lia Ouyang Rusli - LOVE (Variation 1)  Happyend (Original Motion Picture Soundtrack).mp3">
+                <span class="cd-label-pattern">HAPPYEND</span>
+                <div class="cd-center-ring"><div class="cd-center-hole"></div></div>
+              </div>
             </div>
           </div>
 
