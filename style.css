@@ -1,8 +1,7 @@
 :root {
   --color-signal-flare: #ff1a00;
   --color-sun-baked-canvas: #f2ece1;
-  --color-warm-light: #ffd278; /* 창문 속 은은한 노란빛 */
-  --color-corridor-dark: #121010;
+  --color-midnight-frame: #0a0a0a;
 
   --font-pressura: 'JetBrains Mono', monospace;
   --font-monument: 'Space Grotesk', sans-serif;
@@ -78,7 +77,6 @@ body {
   transition: all 0.25s ease;
 }
 
-/* 호버 시 색상 반전 효과 */
 .corner-badge:hover .badge-circle {
   background-color: var(--color-signal-flare);
   color: var(--color-sun-baked-canvas);
@@ -140,7 +138,6 @@ body {
   z-index: 10;
 }
 
-/* 동아리실 복도 비주얼 (기본 라이트 모드에서는 완전히 숨김) */
 .club-room-backdrop {
   display: none;
   position: absolute;
@@ -153,7 +150,6 @@ body {
   overflow: hidden;
 }
 
-/* 다크 모드 켜면 치직거리며 깜빡이는 애니메이션과 함께 등장 */
 body.dark-mode .club-room-backdrop {
   display: block;
   animation: flickerIn 0.8s ease-in-out forwards;
@@ -185,12 +181,11 @@ body.dark-mode .club-room-backdrop {
   transform: rotateY(-18deg) rotateX(2deg) scale(1.05);
   transform-origin: right center;
   position: relative;
-  background: transparent; /* 수정: 희미한 벽면 색상을 완전히 없애 투명하게 변경 */
+  background: transparent;
   display: flex;
   align-items: center;
 }
 
-/* 창문 및 동아리실 조명 디테일 */
 .window-zone {
   position: absolute;
   right: 15%;
@@ -223,7 +218,6 @@ body.dark-mode .club-room-backdrop {
   font-weight: bold;
 }
 
-/* 인물 그림자 연출: 곡선을 살린 두 사람 실루엣 */
 .shadow-figures-group {
   position: absolute;
   right: 0px;
@@ -240,7 +234,6 @@ body.dark-mode .club-room-backdrop {
   filter: blur(4px);
 }
 
-/* 뒤쪽 인물 */
 .person-back {
   right: 80px;
   width: 100px;
@@ -261,7 +254,6 @@ body.dark-mode .club-room-backdrop {
   border-radius: 50% !important;
 }
 
-/* 앞쪽 인물 */
 .person-front {
   right: 15px;
   width: 95px;
@@ -489,7 +481,18 @@ video {
   pointer-events: none !important;
 }
 
-/* TAB CONTENT PANELS */
+/* TAB CONTENT PANELS & REVEAL ANIMATIONS */
+@keyframes textSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .tab-content {
   display: none;
   max-width: 1200px;
@@ -499,15 +502,29 @@ video {
 
 .tab-content.active { display: block; }
 
-/* TAB 1: STORY */
-.story-node { margin-bottom: 100px; }
+.tab-content.active .analysis-text,
+.tab-content.active .char-desc {
+  animation: textSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* TAB 1: STORY (Editorial Grid Layout) */
+.story-node {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 120px;
+}
+
+.story-node:nth-child(even) .node-media {
+  order: 2;
+}
 
 .node-media {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  margin-bottom: 20px;
-  background-color: #000;
+  background-color: var(--color-midnight-frame);
   overflow: hidden;
 }
 
@@ -541,35 +558,34 @@ video {
 }
 
 .analysis-block {
-  display: grid;
-  grid-template-columns: 1fr 2.5fr;
-  gap: 40px;
-  border-top: 1px solid var(--color-signal-flare);
-  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .analysis-meta {
   font-size: 11px;
   line-height: 1.5;
+  border-bottom: 1px solid var(--color-signal-flare);
+  padding-bottom: 12px;
+  letter-spacing: -0.02em;
 }
 
 .analysis-text {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--color-signal-flare);
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS */
+/* TAB 2: CHARACTERS (Asymmetric Poster Grid) */
 .character-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 40px 30px;
+  gap: 60px 30px;
 }
 
 .char-item {
-  border-top: 1px solid var(--color-signal-flare);
-  padding-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -582,28 +598,49 @@ video {
 .char-ming { grid-column: span 2; }
 .char-tom { grid-column: span 2; }
 
+.char-img-placeholder {
+  width: 100%;
+  background-color: var(--color-midnight-frame);
+  border: 1px solid var(--color-signal-flare);
+  border-radius: 0px !important;
+  position: relative;
+  overflow: hidden;
+}
+
 .char-yuta .char-img-placeholder,
 .char-kou .char-img-placeholder {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 10;
 }
 
 .char-ata .char-img-placeholder,
 .char-ming .char-img-placeholder,
 .char-tom .char-img-placeholder {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1 / 1;
 }
 
-.char-img-placeholder {
+.char-img-placeholder img {
   width: 100%;
-  border: 1px dashed var(--color-signal-flare);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.char-item:hover .char-img-placeholder img {
+  transform: scale(1.04);
+}
+
+.char-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--color-signal-flare);
+  color: #ffffff;
+  font-size: 10px;
   font-weight: bold;
-  color: var(--color-signal-flare);
-  background-color: rgba(255, 26, 0, 0.02);
+  padding: 2px 6px;
+  letter-spacing: 0.5px;
+  z-index: 5;
 }
 
 .char-details {
@@ -613,13 +650,14 @@ video {
 }
 
 .char-header {
-  border-bottom: 1px solid rgba(255, 26, 0, 0.2);
+  border-bottom: 1px solid var(--color-signal-flare);
   padding-bottom: 8px;
 }
 
 .char-name {
   font-size: 18px;
   font-weight: bold;
+  letter-spacing: -0.03em;
 }
 
 .char-desc {
@@ -865,16 +903,21 @@ video {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* 반응형 처리 (모바일에서는 1컬럼 배치) */
-@media (max-width: 768px) {
-  .hero { height: 100vh; }
-  .analysis-block, .player-workspace {
+/* 반응형 처리 */
+@media (max-width: 900px) {
+  .story-node, .story-node:nth-child(even) {
     grid-template-columns: 1fr;
+  }
+  .story-node:nth-child(even) .node-media {
+    order: 0;
   }
   .character-grid {
     grid-template-columns: 1fr;
   }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom {
     grid-column: span 1;
+  }
+  .player-workspace {
+    grid-template-columns: 1fr;
   }
 }
