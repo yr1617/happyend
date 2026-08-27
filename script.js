@@ -89,72 +89,73 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* -------------------------------------------------------------
-   * 4. [개선] REFERO DESIGN 스타일 디코딩 & 스크롤 연출
+/* -------------------------------------------------------------
+   * 4. [개선] 빠른 한글 디코딩 (글자 수 제한 & 짧은 틱틱 연출)
    * ------------------------------------------------------------- */
-  const scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+  // 한글 무작위 샘플 글자 세트
+  const koreanNoiseChars = '가나다라마바사아자차카타파하한글음악청춘엔딩해피미래도쿄감시학교자유';
 
-  function playMatrixDecode(element) {
-    // 기존 애니메이션이 진행 중이라면 중단
+  function playFastKoreanDecode(element) {
     if (element.decodeInterval) clearInterval(element.decodeInterval);
 
-    // 원본 텍스트 백업
     if (!element.dataset.originalText) {
       element.dataset.originalText = element.textContent.trim();
     }
     const targetText = element.dataset.originalText;
     const length = targetText.length;
-    
-    let revealedCount = 0; // 확정된 글자 수
-    const revealSpeed = 2;  // 한 번 프레임에 확정할 글자 수 (숫자가 클수록 빠름)
+
+    let frameCount = 0;
+    const totalFrames = 6; // 총 6번만 빠르게 틱틱거리며 (약 0.15초) 즉시 정착
 
     element.decodeInterval = setInterval(() => {
+      frameCount++;
       let result = '';
 
       for (let i = 0; i < length; i++) {
         const char = targetText[i];
 
-        if (i < revealedCount) {
-          // 이미 확정된 글자
+        // 공백 및 줄바꿈은 그대로 유지
+        if (char === ' ' || char === '\n') {
           result += char;
-        } else if (char === ' ' || char === '\n') {
-          // 공백 및 줄바꿈 유지
+          continue;
+        }
+
+        // 전체 텍스트 중 뒤쪽 약 30% 영역 혹은 랜덤한 일부 글자만 아주 잠깐 노이즈 처리
+        const progressThreshold = (frameCount / totalFrames) * length;
+        
+        if (i < progressThreshold || Math.random() > 0.4) {
+          // 정착된 진짜 한글 글자
           result += char;
         } else {
-          // 아직 안 열린 글자: 무작위 노이즈 글자 생성
-          const randomChar = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-          result += `<span class="scramble-noise">${randomChar}</span>`;
+          // 순간적으로 바뀌는 한글 무작위 글자
+          const randomKorean = koreanNoiseChars[Math.floor(Math.random() * koreanNoiseChars.length)];
+          result += `<span class="scramble-noise">${randomKorean}</span>`;
         }
       }
 
       element.innerHTML = result;
 
-      // 조금씩 확정 글자 수를 늘려감
-      revealedCount += revealSpeed;
-
-      // 전체 텍스트가 모두 완성되면 정지
-      if (revealedCount > length) {
+      // 지정한 프레임 횟수에 도달하면 곧바로 완성형 원본 텍스트로 고정
+      if (frameCount >= totalFrames) {
         clearInterval(element.decodeInterval);
         element.innerHTML = targetText;
       }
-    }, 25); // 25ms 간격으로 무작위 글자가 틱틱거림
+    }, 25); // 25ms 간격으로 빠르게 전환
   }
 
   const observerOptions = {
-    threshold: 0.2 // 요소가 20% 이상 보일 때 작동
+    threshold: 0.15
   };
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 화면 진입 시 올라오는 애니메이션
         entry.target.classList.add('is-visible');
 
-        // 해당 요소 내부의 텍스트 디코딩 시작
         const textNodes = entry.target.querySelectorAll('.scramble-text');
-        textNodes.forEach(node => playMatrixDecode(node));
+        textNodes.forEach(node => playFastKoreanDecode(node));
       } else {
-        // 화면 밖으로 나가면 클래스를 제거하여 재스크롤 시 다시 동작하도록 설정
+        // 화면 밖으로 나가면 클래스 제거 (재스크롤 시 재실행)
         entry.target.classList.remove('is-visible');
       }
     });
