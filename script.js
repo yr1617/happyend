@@ -42,7 +42,6 @@ window.addEventListener('DOMContentLoaded', () => {
       if (playPauseBtn) playPauseBtn.innerText = 'PLAY';
     });
 
-    // 실시간 타임라인 업데이트
     video.addEventListener('timeupdate', () => {
       if (video.duration) {
         const progressPercent = (video.currentTime / video.duration) * 100;
@@ -55,7 +54,6 @@ window.addEventListener('DOMContentLoaded', () => {
       if (durationDisplay) durationDisplay.innerText = formatTime(video.duration);
     });
 
-    // 타임라인 클릭/드래그 시 위치 이동
     if (timelineContainer) {
       let isSeeking = false;
 
@@ -126,7 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 25);
   }
 
-  // 3. Intersection Observer (스크롤 시 감지하여 애니메이션 실행)
+  // 3. Intersection Observer
   const observerOptions = {
     root: null,
     rootMargin: '0px 0px -10% 0px',
@@ -149,7 +147,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 전체 페이지 대상 등록
   observeScrambleTargets(document);
 
   // 4. 탭 전환
@@ -169,30 +166,22 @@ window.addEventListener('DOMContentLoaded', () => {
         const targetContent = document.getElementById(targetTabId);
         if (targetContent) {
           targetContent.classList.add('active');
-          // 탭 활성화 시 내부 요소 재관찰
           observeScrambleTargets(targetContent);
         }
       });
     });
   }
 
-  // 5. CD 플레이어 드래그 앤 드롭
+  // 5. CD 오디오 플레이어 (오디오 재생 로직 포함)
   let activeCD = null;
-
-  const albumCovers = document.querySelectorAll('.album-cover');
-  albumCovers.forEach(cover => {
-    cover.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const parent = cover.parentElement;
-      if (parent) parent.classList.toggle('open');
-    });
-  });
+  const audioPlayer = document.getElementById('audioPlayer');
 
   const cds = document.querySelectorAll('.cd-disc');
   cds.forEach(cd => {
     cd.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', cd.id);
       e.dataTransfer.setData('title', cd.getAttribute('data-title') || '');
+      e.dataTransfer.setData('src', cd.getAttribute('data-src') || '');
     });
   });
 
@@ -219,6 +208,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const cdId = e.dataTransfer.getData('text/plain');
       const title = e.dataTransfer.getData('title');
+      const audioSrc = e.dataTransfer.getData('src');
       const cdElement = document.getElementById(cdId);
 
       if (cdElement) {
@@ -227,6 +217,12 @@ window.addEventListener('DOMContentLoaded', () => {
         activeCD = cdElement;
         cdTray.appendChild(cdElement);
         cdElement.classList.add('inserted', 'spinning');
+
+        // 음원 재생 로직
+        if (audioPlayer && audioSrc) {
+          audioPlayer.src = audioSrc;
+          audioPlayer.play().catch(err => console.log("Audio playback blocked:", err));
+        }
 
         if (trackDisplay) {
           trackDisplay.innerText = title + ' [PLAYING]';
@@ -238,6 +234,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function ejectCD() {
+    // 오디오 정지
+    if (audioPlayer) {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+    }
+
     if (trackDisplay) {
       trackDisplay.innerText = 'NO RECORD LOADED';
       scrambleText(trackDisplay);
@@ -246,11 +248,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (activeCD) {
       activeCD.classList.remove('spinning', 'inserted');
-      let targetAlbumId = 'album1';
-      if (activeCD.id === 'cd2') targetAlbumId = 'album2';
-      if (activeCD.id === 'cd3') targetAlbumId = 'album3';
-
-      const targetAlbum = document.getElementById(targetAlbumId);
+      const num = activeCD.id.replace('cd', '');
+      const targetAlbum = document.getElementById(`album${num}`);
+      
       if (targetAlbum) {
         targetAlbum.appendChild(activeCD);
       }
