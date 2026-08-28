@@ -563,7 +563,7 @@ video {
   transform: translateY(0);
 }
 
-/* TAB 1: STORY (사진은 화면 끝, 설명은 사진 바로 옆에 밀착) */
+/* TAB 1: STORY (사진은 화면 끝, 설명글은 넓게 확보) */
 #tab-story {
   max-width: 100% !important;
   padding: 0 !important;
@@ -571,7 +571,7 @@ video {
 
 .story-node {
   display: flex;
-  flex-direction: row-reverse; /* 홀수: 사진 오른쪽 끝, 글은 사진 바로 왼쪽 */
+  flex-direction: row-reverse; /* 홀수: 사진 오른쪽 끝, 글은 넓게 왼쪽 배치 */
   align-items: center;
   justify-content: flex-start;
   gap: 40px;
@@ -581,15 +581,15 @@ video {
 }
 
 .story-node:nth-child(even) {
-  flex-direction: row; /* 짝수: 사진 왼쪽 끝, 글은 사진 바로 오른쪽 */
-  padding-right: 24px;
+  flex-direction: row; /* 짝수: 사진 왼쪽 끝, 글은 넓게 오른쪽 배치 */
+  padding-right: 0;
   padding-left: 0;
 }
 
 .node-media {
   position: relative;
-  width: 60vw;
-  max-width: 950px;
+  width: 50vw; /* 사진 너비 비율을 적절히 조정하여 텍스트 공간 넓게 부여 */
+  max-width: 850px;
   flex-shrink: 0;
   aspect-ratio: 3 / 2;
   background-color: var(--color-midnight-frame);
@@ -643,13 +643,15 @@ video {
   line-height: 1;
 }
 
+/* 설명글 블록 (제한을 풀어 넓은 영역 사용) */
 .analysis-block {
   flex: 1;
-  max-width: 420px;
+  width: 100%;
+  max-width: none; /* 너비 제한 완전히 해제 */
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 0 24px;
+  padding: 0 60px; /* 여유 있는 내부 여백 */
 }
 
 .analysis-meta {
@@ -1129,6 +1131,9 @@ video {
     width: 100%; 
     border-left: 2px solid var(--color-signal-flare) !important;
     border-right: 2px solid var(--color-signal-flare) !important;
+  }
+  .analysis-block {
+    padding: 24px 0;
   }
   .character-grid { grid-template-columns: 1fr; }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
