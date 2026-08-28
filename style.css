@@ -545,9 +545,9 @@ video {
 /* TAB CONTENT PANELS & REVEAL ANIMATIONS */
 .tab-content {
   display: none;
-  max-width: 1200px;
+  width: 100%;
   margin: 60px auto;
-  padding: 0 24px;
+  padding: 0;
 }
 
 .tab-content.active { display: block; }
@@ -563,28 +563,53 @@ video {
   transform: translateY(0);
 }
 
-/* TAB 1: STORY (지그재그 벽 포스터 정렬) */
-.story-node {
-  display: flex;
-  flex-direction: row; /* 홀수 번째: 사진 왼쪽, 글 오른쪽 */
-  align-items: center;
-  gap: 40px;
-  margin-bottom: 140px;
-  width: 100%;
+/* TAB 1: STORY (화면 양쪽 끝 벽면에 붙이는 지그재그 연출) */
+#tab-story {
+  max-width: 100% !important;
+  padding: 0 !important;
 }
 
+.story-node {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  margin-bottom: 160px;
+  width: 100vw;
+  padding: 0 40px; /* 화면 가장자리 여백 */
+}
+
+/* 홀수 번째: 사진을 화면 좌측 끝에 붙임 */
+.story-node:nth-child(odd) {
+  padding-left: 0;
+}
+
+/* 짝수 번째: 사진을 화면 우측 끝에 붙임 */
 .story-node:nth-child(even) {
-  flex-direction: row-reverse; /* 짝수 번째: 사진 오른쪽, 글 왼쪽 */
+  flex-direction: row-reverse;
+  padding-right: 0;
 }
 
 .node-media {
   position: relative;
-  width: 70%; /* 화면에 큼지막하게 밀어붙인 대형 크기 */
+  width: 65vw; /* 화면 넓게 차지하도록 확장 */
+  max-width: 1000px;
   flex-shrink: 0;
   aspect-ratio: 3 / 2;
   background-color: var(--color-midnight-frame);
   border: 2px solid var(--color-signal-flare);
   overflow: hidden;
+}
+
+/* 좌측에 붙은 사진 테두리 처리 */
+.story-node:nth-child(odd) .node-media {
+  border-left: none;
+}
+
+/* 우측에 붙은 사진 테두리 처리 */
+.story-node:nth-child(even) .node-media {
+  border-right: none;
 }
 
 .node-media img {
@@ -599,7 +624,7 @@ video {
   transform: scale(1.03);
 }
 
-/* 바운딩 박스: 이미지 비율 기반 인물 위치 고정 */
+/* 인물 추종 바운딩 박스 */
 .bounding-box {
   position: absolute;
   border: 1.5px solid var(--color-signal-flare);
@@ -628,6 +653,7 @@ video {
 
 .analysis-block {
   flex: 1;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -650,6 +676,11 @@ video {
 }
 
 /* TAB 2: CHARACTERS */
+#tab-characters, #tab-music {
+  max-width: 1200px;
+  padding: 0 24px;
+}
+
 .character-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -1096,9 +1127,13 @@ video {
   .story-node, 
   .story-node:nth-child(even) { 
     flex-direction: column; 
+    padding: 0 24px !important;
+    width: 100%;
   }
   .node-media { 
     width: 100%; 
+    border-left: 2px solid var(--color-signal-flare) !important;
+    border-right: 2px solid var(--color-signal-flare) !important;
   }
   .character-grid { grid-template-columns: 1fr; }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
