@@ -563,21 +563,25 @@ video {
   transform: translateY(0);
 }
 
-/* TAB 1: STORY (벽 포스터/액자 스타일 개편) */
+/* TAB 1: STORY (지그재그 벽 포스터 정렬) */
 .story-node {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  flex-direction: row; /* 홀수 번째: 사진 왼쪽, 글 오른쪽 */
+  align-items: center;
+  gap: 40px;
   margin-bottom: 140px;
   width: 100%;
 }
 
-.story-node:nth-child(even) .node-media { order: 0; }
+.story-node:nth-child(even) {
+  flex-direction: row-reverse; /* 짝수 번째: 사진 오른쪽, 글 왼쪽 */
+}
 
 .node-media {
   position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 2; /* 시원하고 볼드한 대형 액자 비율 */
+  width: 70%; /* 화면에 큼지막하게 밀어붙인 대형 크기 */
+  flex-shrink: 0;
+  aspect-ratio: 3 / 2;
   background-color: var(--color-midnight-frame);
   border: 2px solid var(--color-signal-flare);
   overflow: hidden;
@@ -595,7 +599,7 @@ video {
   transform: scale(1.03);
 }
 
-/* 바운딩 박스: 이미지 비율 기준 인물 추종 위치 설정 */
+/* 바운딩 박스: 이미지 비율 기반 인물 위치 고정 */
 .bounding-box {
   position: absolute;
   border: 1.5px solid var(--color-signal-flare);
@@ -623,10 +627,10 @@ video {
 }
 
 .analysis-block {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 0 4px;
+  gap: 16px;
 }
 
 .analysis-meta {
@@ -639,7 +643,7 @@ video {
 }
 
 .analysis-text {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--color-signal-flare);
   word-break: keep-all;
@@ -677,7 +681,6 @@ video {
   transition: transform 0.4s ease;
 }
 
-/* 캐릭터별 개별 위치/크기 조정 */
 .char-ata .char-img-placeholder img {
   object-fit: cover;
   object-position: right center;
@@ -726,7 +729,6 @@ video {
   align-items: start;
 }
 
-/* 턴테이블 플레이어 */
 .cd-player-device {
   background-color: #e2e2e2 !important;
   border-radius: 20px !important;
@@ -862,7 +864,6 @@ video {
 
 .eject-btn:hover { opacity: 0.8; }
 
-/* ARCHIVE INTERACTIVE AREA */
 .interactive-archive {
   display: flex;
   flex-direction: column;
@@ -1090,7 +1091,15 @@ video {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+/* RESPONSIVE DESIGN */
 @media (max-width: 960px) {
+  .story-node, 
+  .story-node:nth-child(even) { 
+    flex-direction: column; 
+  }
+  .node-media { 
+    width: 100%; 
+  }
   .character-grid { grid-template-columns: 1fr; }
   .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
   .player-workspace { grid-template-columns: 1fr; }
