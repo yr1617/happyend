@@ -573,8 +573,8 @@ video {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  justify-content: flex-start;
-  gap: 40px;
+  justify-content: space-between; /* 사진과 텍스트 양끝으로 정렬 */
+  gap: 80px; /* 사진과 텍스트 사이 간격을 80px로 넉넉히 지정 */
   margin-bottom: 160px;
   width: 100vw;
   padding-right: 0;
@@ -588,8 +588,8 @@ video {
 
 .node-media {
   position: relative;
-  width: 50vw;
-  max-width: 850px;
+  width: 48vw;
+  max-width: 800px;
   flex-shrink: 0;
   aspect-ratio: 3 / 2;
   background-color: var(--color-midnight-frame);
@@ -643,15 +643,15 @@ video {
   line-height: 1;
 }
 
-/* 설명글 블록 (최적 가독성 580px 설정) */
+/* 설명글 블록 (폭 680px로 수정 및 패딩 다듬기) */
 .analysis-block {
   flex: 1;
   width: 100%;
-  max-width: 580px;
+  max-width: 680px; /* 살짝 넓혀서 보기 편하게 조정 */
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 0 40px;
+  padding: 0 60px; /* 화면 좌우 여백 */
 }
 
 .analysis-meta {
@@ -1124,6 +1124,7 @@ video {
   .story-node, 
   .story-node:nth-child(even) { 
     flex-direction: column; 
+    gap: 30px;
     padding: 0 24px !important;
     width: 100%;
   }
