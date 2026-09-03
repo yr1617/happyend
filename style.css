@@ -15,13 +15,17 @@ body.dark-mode {
   --color-signal-flare: #ff4d36;
 }
 
-html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth; 
+  cursor: none !important;
+}
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   box-shadow: none !important;
+  cursor: none !important; /* 기본 시스템 마우스 커서 숨김 */
 }
 
 body {
@@ -36,29 +40,29 @@ body {
   position: relative;
 }
 
-/* CUSTOM CURSOR */
+/* CUSTOM CURSOR SYSTEM */
 .custom-cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background-color: var(--color-signal-flare);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999999;
   transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border-radius 0.25s ease;
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 십자 모양 크로스헤어 */
+/* 빨간 십자가 크로스헤어 (흰색 사각형 완전 제거) */
 .cursor-crosshair {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   opacity: 0;
   transition: opacity 0.2s ease;
   display: flex;
@@ -80,19 +84,10 @@ body {
   background-color: var(--color-signal-flare);
 }
 
-.crosshair-box {
-  width: 10px;
-  height: 10px;
-  border: 1.5px solid var(--color-signal-flare);
-  background-color: var(--color-sun-baked-canvas);
-  z-index: 2;
-}
-
 .custom-cursor.crosshair-mode {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background-color: transparent;
-  border-radius: 0%;
 }
 
 .custom-cursor.crosshair-mode .cursor-crosshair {
@@ -122,7 +117,6 @@ body {
   font-size: var(--text-caption);
   color: var(--color-signal-flare);
   text-decoration: none;
-  cursor: pointer !important;
   background: none;
   border: none;
 }
@@ -162,7 +156,6 @@ body {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  cursor: pointer !important;
   transition: all 0.25s ease;
   overflow: hidden;
 }
@@ -176,8 +169,6 @@ body {
   border-right: 7px solid transparent;
   border-bottom: 9px solid var(--color-signal-flare);
   transition: border-bottom-color 0.25s ease;
-  margin: 0;
-  padding: 0;
   transform: translateY(-1px);
 }
 
@@ -196,7 +187,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
   position: relative;
   overflow: hidden;
   background-color: var(--color-sun-baked-canvas);
@@ -262,7 +252,6 @@ body.dark-mode .club-room-backdrop {
   transform: rotateY(-18deg) rotateX(2deg) scale(1.05);
   transform-origin: right center;
   position: relative;
-  background: transparent;
   display: flex;
   align-items: center;
 }
@@ -387,7 +376,6 @@ body.dark-mode .club-room-backdrop {
   width: 100%;
   aspect-ratio: 16 / 9;
   background-color: #000;
-  cursor: pointer !important;
   overflow: hidden;
   z-index: 10;
   border: 1px solid var(--color-signal-flare);
@@ -457,7 +445,6 @@ video {
   font-family: var(--font-pressura);
   font-size: 11px;
   font-weight: bold;
-  cursor: pointer !important;
   transition: all 0.2s ease;
 }
 
@@ -471,7 +458,6 @@ video {
   height: 14px;
   border: 1px solid var(--color-signal-flare);
   background-color: rgba(255, 26, 0, 0.05);
-  cursor: pointer !important;
   position: relative;
   display: flex;
   align-items: center;
@@ -511,7 +497,6 @@ video {
 .album-tab-btn {
   background: none;
   border: none;
-  cursor: pointer !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -731,129 +716,113 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS */
+/* TAB 2: CHARACTERS (레퍼런스 형태 반영: 박스 제거, 넓은 자유 산란 배치) */
 #tab-characters {
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   padding: 0 24px;
 }
 
 .valiente-char-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
   width: 100%;
+  position: relative;
 }
 
+/* 박스 구성을 철저히 없애고 전체 화면에 넓게 개체 배치 */
 .valiente-canvas {
   position: relative;
   width: 100%;
-  height: 520px;
-  border: 1px solid var(--color-signal-flare);
-  background-color: rgba(255, 26, 0, 0.015);
-  overflow: hidden;
+  height: 85vh;
+  min-height: 650px;
+  background: transparent;
+  border: none !important;
+  overflow: visible;
 }
 
 .valiente-card {
   position: absolute;
-  width: 220px;
-  cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease, opacity 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  transition: transform 0.15s linear, opacity 0.3s ease, filter 0.3s ease;
   z-index: 10;
   will-change: transform;
 }
 
 .valiente-img-box {
   position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  border: 1px solid var(--color-signal-flare);
-  overflow: hidden;
-  background-color: var(--color-midnight-frame);
+  width: auto;
+  max-width: 280px;
+  border: none !important;
+  background: transparent;
+  overflow: visible;
 }
 
 .valiente-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: contain; /* 원본 비율 완벽 유지 */
   display: block;
-  transition: transform 0.6s ease;
+  transition: transform 0.4s ease;
 }
 
-.valiente-name-tag {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: var(--color-signal-flare);
-  color: var(--color-sun-baked-canvas);
+/* 태그 형태가 아닌, 사진 하단 좌측 텍스트 형식 표기 */
+.valiente-name-text {
   font-family: var(--font-pressura);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
-  padding: 4px 8px;
+  color: var(--color-signal-flare);
   letter-spacing: 1px;
   text-transform: uppercase;
-  z-index: 5;
-  pointer-events: none;
+  margin-top: 4px;
 }
 
-.pos-yuta { top: 8%; left: 8%; }
-.pos-kou { top: 12%; left: 38%; }
-.pos-ata { top: 5%; left: 68%; }
-.pos-ming { top: 48%; left: 22%; }
-.pos-tom { top: 45%; left: 58%; }
+/* 넓고 흩뿌려진 개별 위치 설정 */
+.pos-yuta { top: 5%; left: 4%; }
+.pos-kou { top: 18%; left: 36%; }
+.pos-ata { top: 2%; right: 8%; }
+.pos-ming { top: 52%; left: 16%; }
+.pos-tom { top: 48%; right: 18%; }
 
 .valiente-canvas.has-hover .valiente-card:not(.is-hovered) {
-  filter: blur(5px) grayscale(40%);
-  opacity: 0.35;
-  transform: scale(0.88) !important;
+  opacity: 0.3;
+  filter: blur(2px) grayscale(50%);
 }
 
 .valiente-card.is-hovered {
-  z-index: 50 !important;
-  filter: blur(0px) grayscale(0%);
+  z-index: 99 !important;
   opacity: 1;
-  transform: scale(1.08) !important;
+  filter: blur(0px) grayscale(0%);
 }
 
 .valiente-card.is-hovered .valiente-img-box img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
-.valiente-detail-panel {
-  border-top: 2px solid var(--color-signal-flare);
-  padding-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 120px;
-  transition: opacity 0.3s ease;
-}
-
-.valiente-detail-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.detail-id-label {
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  opacity: 0.8;
-}
-
-.detail-name {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: -0.02em;
-}
-
-.detail-desc {
-  font-size: 14px;
-  line-height: 1.6;
-  max-width: 900px;
+/* 호버 시 바로 아래에 뜨는 실시간 정보 레이어 */
+.valiente-hover-info {
+  display: none;
+  font-family: var(--font-pressura);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-signal-flare);
+  max-width: 260px;
+  margin-top: 6px;
   word-break: keep-all;
+}
+
+.valiente-card.is-hovered .valiente-hover-info {
+  display: block;
+  animation: fadeInInfo 0.2s ease forwards;
+}
+
+@keyframes fadeInInfo {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* TAB 3: MUSIC */
@@ -1013,7 +982,6 @@ video {
   font-size: 11px;
   font-weight: bold;
   border-radius: 4px !important;
-  cursor: pointer !important;
   transition: opacity 0.2s ease;
 }
 
@@ -1046,7 +1014,6 @@ video {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  cursor: pointer !important;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, opacity 0.3s ease;
   user-select: none;
   position: relative;
@@ -1191,12 +1158,9 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: grab !important;
   transition: transform 0.3s ease;
   user-select: none;
 }
-
-.cd-disc:active { cursor: grabbing !important; }
 
 .cd-label-pattern {
   position: absolute;
@@ -1281,7 +1245,6 @@ video {
   gap: 16px;
   padding: 20px;
   border-bottom: 1px solid var(--color-signal-flare);
-  cursor: pointer !important;
   transition: background-color 0.2s ease;
 }
 
@@ -1482,7 +1445,6 @@ video {
   font-family: var(--font-pressura);
   font-size: 12px;
   font-weight: bold;
-  cursor: pointer !important;
   transition: opacity 0.2s ease;
 }
 
@@ -1513,15 +1475,17 @@ video {
     min-height: 800px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+    gap: 30px;
+    padding: 20px 0;
   }
 
   .valiente-card {
     position: relative !important;
     top: auto !important;
     left: auto !important;
+    right: auto !important;
     width: 100% !important;
+    transform: none !important;
   }
 
   .player-workspace { grid-template-columns: 1fr; }
