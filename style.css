@@ -705,12 +705,13 @@ video {
   object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
+  transform: scale(1.15); /* 모든 캐릭터 기본 scale을 밍과 동일한 1.15로 고정 */
 }
 
 .char-ata .char-img-placeholder img {
   object-fit: cover;
   object-position: right center;
-  transform: scale(1.05);
+  transform: scale(1.15);
 }
 
 .char-ming .char-img-placeholder img {
@@ -722,11 +723,12 @@ video {
 .char-tom .char-img-placeholder img {
   object-fit: cover;
   object-position: center 20%;
-  transform: scale(1.05);
+  transform: scale(1.15);
 }
 
+/* 마우스 호버 시 1.15 -> 1.20으로 살짝만 은은하게 확대 (모든 캐릭터 통일) */
 .char-item:hover .char-img-placeholder img { 
-  transform: scale(1.2) !important; 
+  transform: scale(1.20) !important; 
 }
 
 .char-details { display: flex; flex-direction: column; gap: 10px; }
