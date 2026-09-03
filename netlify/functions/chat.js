@@ -57,8 +57,8 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // gemini-3.6-flash 유지
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
+    // 가장 속도가 빠르고 503 오류율이 적은 2.5-flash 라인 사용
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
     
     const apiRes = await fetch(url, {
       method: 'POST',
@@ -72,7 +72,7 @@ exports.handler = async (event, context) => {
       console.error("Gemini Error:", data);
       
       const errorMessage = data.error?.code === 503 
-        ? "현재 구글 서버 트래픽이 많아 답변이 지연되고 있습니다. 잠시 후 다시 전송해 주세요!"
+        ? "현재 구글 서버 접속량이 너무 많습니다. 잠시 후 다시 시도해주세요."
         : `오류가 발생했습니다: ${data.error?.message || "Gemini API 오류"}`;
 
       return {
@@ -84,7 +84,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "답변 내용을 찾을 수 없습니다.";
+    const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "답변을 가져오지 못했습니다.";
 
     return {
       statusCode: 200,
@@ -106,7 +106,7 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        choices: [{ message: { content: `서버 오류 발생: ${error.message}` } }]
+        choices: [{ message: { content: `서버 통신 오류: ${error.message}` } }]
       })
     };
   }
