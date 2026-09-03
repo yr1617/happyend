@@ -238,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mailForm = document.getElementById('mailForm');
   const mailSubject = document.getElementById('mailSubject');
   const mailBody = document.getElementById('mailBody');
+  const mailLoadingIndicator = document.getElementById('mailLoadingIndicator');
 
   let activeCharacter = 'yuta';
 
@@ -282,11 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const history = mailStore[activeCharacter] || [];
 
+    // '보낸 메일이 없습니다' 안내 문구 완전 제거 (내역이 없으면 여백 유지)
     if (history.length === 0) {
-      const emptyNotice = document.createElement('div');
-      emptyNotice.className = 'mail-empty-notice';
-      emptyNotice.textContent = '보낸 메일이 없습니다. 메시지를 작성해 보세요.';
-      mailHistory.appendChild(emptyNotice);
       return;
     }
 
@@ -344,7 +342,17 @@ document.addEventListener('DOMContentLoaded', () => {
       mailSubject.value = '';
       mailBody.value = '';
 
+      // 답장 대기 중: 점 3개 애니메이션 표시
+      if (mailLoadingIndicator) {
+        mailLoadingIndicator.style.display = 'flex';
+      }
+
       const replyText = await fetchAiMailResponse(activeCharacter, subject, body, mailStore[activeCharacter]);
+
+      // 답장 수신 완료: 점 3개 애니메이션 숨김
+      if (mailLoadingIndicator) {
+        mailLoadingIndicator.style.display = 'none';
+      }
 
       const replyTime = new Date();
       const replyTimeStr = `${replyTime.getHours().toString().padStart(2, '0')}:${replyTime.getMinutes().toString().padStart(2, '0')}`;
@@ -405,27 +413,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try {
-    // netlify.toml 리다이렉트와 연결되는 단축 경로 사용
-    const response = await fetch("/.netlify/functions/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ messages })
-    });
+      // netlify.toml 리다이렉트와 연결되는 단축 경로 사용
+      const response = await fetch("/.netlify/functions/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ messages })
+      });
 
-    if (!response.ok) {
-      throw new Error(`API 오류: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`API 오류: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices?.[0]?.message?.content?.trim() || "메일을 읽긴 했는데, 뭐라고 답해야 할지 잘 모르겠네.";
+
+    } catch (error) {
+      console.error("AI Response Error:", error);
+      return "메일을 확인하긴 했는데... 지금 네트워크 상태가 좀 안 좋네. 나중에 다시 답장할게.";
     }
-
-    const data = await response.json();
-    return data.choices?.[0]?.message?.content?.trim() || "메일을 읽긴 했는데, 뭐라고 답해야 할지 잘 모르겠네.";
-
-  } catch (error) {
-    console.error("AI Response Error:", error);
-    return "메일을 확인하긴 했는데... 지금 네트워크 상태가 좀 안 좋네. 나중에 다시 답장할게.";
   }
-}
 
   renderMailHistory();
 
