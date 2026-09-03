@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
     // netlify.toml 리다이렉트와 연결되는 단축 경로 사용
-    const response = await fetch("/api/chat", {
+    const response = await fetch("/.netlify/functions/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
