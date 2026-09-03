@@ -405,7 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try {
-      const response = await fetch("/.netlify/functions/chat", {
+      // Netlify 함수 상대 경로를 호스트 기준 절대 경로로 명확히 지정
+      const response = await fetch("/.netlify/functions/chat/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -418,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const data = await response.json();
-      return data.choices[0].message.content.trim();
+      return data.choices?.[0]?.message?.content?.trim() || "메일을 읽긴 했는데, 뭐라고 답해야 할지 잘 모르겠네.";
 
     } catch (error) {
       console.error("AI Response Error:", error);
