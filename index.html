@@ -111,6 +111,16 @@
         </div>
         <span class="tab-num">03</span>
       </button>
+
+      <button class="album-tab-btn" data-tab="tab-mail">
+        <div class="tab-cd-player">
+          <div class="tab-graphic-icon">
+            <div class="icon-inner-cd"><div class="icon-dot"></div></div>
+            <div class="tab-cd-cover"></div>
+          </div>
+        </div>
+        <span class="tab-num">04</span>
+      </button>
     </div>
   </div>
 
@@ -125,7 +135,7 @@
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 01]<br>TITLE: MUSIC<br>CHARACTERS: YUTA, KOU</div>
-        <div class="analysis-text scramble-text">지진의 전조가 계속되는 근미래의 도쿄에서, 유타와 코우는 졸업을 앞둔 고등학생으로 음악을 함께 만들며 하루하루를 보낸다. 다섯 친구는 음악 연구부에서 어울리고, 학교 밖에서는 몰래 파티에 참여하며 답답한 일상에서 벗어날 자신들만의 공간을 만들어간다. 특히 유타와 코우에게 음악은 단순한 취미를 넘어 오랫동안 공유해 온 우정과 자유의 상징이다. 어두운 클럽과 밤의 도시를 담아내는 영화의 화면은 학교와 사회가 요구하는 질서에서 벗어난 이들의 시간을 더욱 자유롭게 느끼게 한다. 하지만 이 평온한 청춘은 오래 지속되지 않는다. 도시 곳곳에는 이미 감시 카메라가 늘어나고 있고, 대규모 지진에 대한 불안 속에서 정부는 ‘안전’을 이유로 사회에 대한 통제를 강화하고 있다. 영화는 이러한 거대한 변화를 직접적으로 설명하기보다, 그 속에서도 음악을 듣고 친구들과 웃는 아이들의 일상을 먼저 보여준다. 그래서 처음의 즐거움은 단순한 청춘의 낭만이라기보다, 곧 사라질지도 모르는 자유로운 시간처럼 느껴진다.</div>
+        <div class="analysis-text scramble-text">지진의 전조가 계속되는 근미래의 도쿄에서, 유타와 코우는 졸업을 앞둔 고등학생으로 음악을 함께 만들며 하루하루를 보낸다. 다섯 친구는 음악 연구부에서 어울리고, 학교 밖에서는 몰래 파티에 참여하며 답답한 일상에서 벗어날 자신들만의 공간을 만들어간 다. 특히 유타와 코우에게 음악은 단순한 취미를 넘어 오랫동안 공유해 온 우정과 자유의 상징이다. 어두운 클럽과 밤의 도시를 담아내는 영화의 화면은 학교와 사회가 요구하는 질서에서 벗어난 이들의 시간을 더욱 자유롭게 느끼게 한다. 하지만 이 평온한 청춘은 오래 지속되지 않는다. 도시 곳곳에는 이미 감시 카메라가 늘어나고 있고, 대규모 지진에 대한 불안 속에서 정부는 ‘안전’을 이유로 사회에 대한 통제를 강화하고 있다. 영화는 이러한 거대한 변화를 직접적으로 설명하기보다, 그 속에서도 음악을 듣고 친구들과 웃는 아이들의 일상을 먼저 보여준다. 그래서 처음의 즐거움은 단순한 청춘의 낭만이라기보다, 곧 사라질지도 모르는 자유로운 시간처럼 느껴진다.</div>
       </div>
     </article>
 
@@ -386,6 +396,74 @@
             </div>
 
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: MAILBOX (인물에게 메일 보내기) -->
+  <section id="tab-mail" class="tab-content">
+    <div class="mail-section reveal-item">
+      <div class="mail-header-info">
+        <span class="mail-sub-title">ENCRYPTED MAIL SYSTEM</span>
+        <span class="mail-status-tag">STATUS: ONLINE</span>
+      </div>
+
+      <div class="mail-container">
+        <!-- 수신자 인물 선택 사이드바 -->
+        <div class="mail-character-select">
+          <div class="char-card active" data-character="yuta">
+            <div class="char-avatar">
+              <img src="Yuta.jpg" alt="YUTA">
+            </div>
+            <div class="char-meta">
+              <span class="char-card-name">YUTA</span>
+              <span class="char-card-email">yuta.subwoofer@happyend.tokyo</span>
+            </div>
+          </div>
+
+          <div class="char-card" data-character="kou">
+            <div class="char-avatar">
+              <img src="Kou.jpg" alt="KOU">
+            </div>
+            <div class="char-meta">
+              <span class="char-card-name">KOU</span>
+              <span class="char-card-email">kou.02042@happyend.tokyo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 메일 전송 및 대화 스레드 영역 -->
+        <div class="mail-content-area">
+          <div class="mail-target-header">
+            <div class="target-profile-img">
+              <img id="mailTargetImg" src="Yuta.jpg" alt="Target Profile">
+            </div>
+            <div class="target-profile-info">
+              <div id="mailTargetName" class="target-name">YUTA</div>
+              <div id="mailTargetEmail" class="target-email">yuta.subwoofer@happyend.tokyo</div>
+            </div>
+          </div>
+
+          <!-- 메일 주고받은 내역 표시 영역 -->
+          <div id="mailHistory" class="mail-history">
+            <!-- 메일 메시지들이 들어오는 곳 -->
+          </div>
+
+          <!-- 메일 작성 폼 -->
+          <form id="mailForm" class="mail-form">
+            <div class="form-row">
+              <label for="mailSubject">SUBJECT</label>
+              <input type="text" id="mailSubject" placeholder="제목을 입력하세요..." required>
+            </div>
+            <div class="form-row">
+              <label for="mailBody">MESSAGE</label>
+              <textarea id="mailBody" rows="4" placeholder="메일 내용을 작성하세요..." required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="mail-send-btn">SEND MAIL ➔</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
