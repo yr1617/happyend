@@ -36,6 +36,69 @@ body {
   position: relative;
 }
 
+/* CUSTOM CURSOR */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-signal-flare);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999999;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border-radius 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 십자 모양 크로스헤어 */
+.cursor-crosshair {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crosshair-h {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-signal-flare);
+}
+
+.crosshair-v {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: var(--color-signal-flare);
+}
+
+.crosshair-box {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--color-signal-flare);
+  background-color: var(--color-sun-baked-canvas);
+  z-index: 2;
+}
+
+.custom-cursor.crosshair-mode {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 0%;
+}
+
+.custom-cursor.crosshair-mode .cursor-crosshair {
+  opacity: 1;
+}
+
 /* CORNER NAV & BADGE */
 .corner-nav {
   position: fixed;
@@ -668,75 +731,142 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS & TAB 4: MAILBOX SYSTEM */
-#tab-characters, #tab-music, #tab-mail {
+/* TAB 2: CHARACTERS (VALIENTE BRANDS SCATTER INTERACTION) */
+#tab-characters {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
+}
+
+.valiente-char-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+}
+
+.valiente-canvas {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  border: 1px solid var(--color-signal-flare);
+  background-color: rgba(255, 26, 0, 0.015);
+  overflow: hidden;
+}
+
+.valiente-card {
+  position: absolute;
+  width: 220px;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease, opacity 0.4s ease;
+  z-index: 10;
+  will-change: transform;
+}
+
+.valiente-img-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--color-signal-flare);
+  overflow: hidden;
+  background-color: var(--color-midnight-frame);
+}
+
+.valiente-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.valiente-name-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: var(--color-signal-flare);
+  color: var(--color-sun-baked-canvas);
+  font-family: var(--font-pressura);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* 자유 산란 절대 위치 설정 */
+.pos-yuta { top: 8%; left: 8%; }
+.pos-kou { top: 12%; left: 38%; }
+.pos-ata { top: 5%; left: 68%; }
+.pos-ming { top: 48%; left: 22%; }
+.pos-tom { top: 45%; left: 58%; }
+
+/* 호버 상태 인터랙션 클래스 */
+.valiente-canvas.has-hover .valiente-card:not(.is-hovered) {
+  filter: blur(5px) grayscale(40%);
+  opacity: 0.35;
+  transform: scale(0.88) !important;
+}
+
+.valiente-card.is-hovered {
+  z-index: 50 !important;
+  filter: blur(0px) grayscale(0%);
+  opacity: 1;
+  transform: scale(1.08) !important;
+}
+
+.valiente-card.is-hovered .valiente-img-box img {
+  transform: scale(1.08);
+}
+
+/* 디테일 설명 패널 */
+.valiente-detail-panel {
+  border-top: 2px solid var(--color-signal-flare);
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 120px;
+  transition: opacity 0.3s ease;
+}
+
+.valiente-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.detail-id-label {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.detail-name {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: -0.02em;
+}
+
+.detail-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 900px;
+  word-break: keep-all;
+}
+
+/* TAB 3: MUSIC */
+#tab-music, #tab-mail {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   padding: 0 24px;
 }
 
-.character-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 60px 30px;
-}
-
-.char-item { display: flex; flex-direction: column; gap: 16px; }
-.char-yuta { grid-column: span 3; }
-.char-kou { grid-column: span 3; }
-.char-ata { grid-column: span 2; }
-.char-ming { grid-column: span 2; }
-.char-tom { grid-column: span 2; }
-
-.char-img-placeholder {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: var(--color-midnight-frame);
-  border: 1px solid var(--color-signal-flare);
-  border-radius: 0px !important;
-  position: relative;
-  overflow: hidden;
-}
-
-.char-img-placeholder img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-  transform: scale(1.15); /* 모든 캐릭터 기본 scale을 밍과 동일한 1.15로 고정 */
-}
-
-.char-ata .char-img-placeholder img {
-  object-fit: cover;
-  object-position: right center;
-  transform: scale(1.15);
-}
-
-.char-ming .char-img-placeholder img {
-  object-fit: cover;
-  object-position: 85% 0%;
-  transform: scale(1.15);
-}
-
-.char-tom .char-img-placeholder img {
-  object-fit: cover;
-  object-position: center 20%;
-  transform: scale(1.15);
-}
-
-/* 마우스 호버 시 1.15 -> 1.20으로 살짝만 은은하게 확대 (모든 캐릭터 통일) */
-.char-item:hover .char-img-placeholder img { 
-  transform: scale(1.20) !important; 
-}
-
-.char-details { display: flex; flex-direction: column; gap: 10px; }
-.char-header { border-bottom: 1px solid var(--color-signal-flare); padding-bottom: 8px; }
-.char-name { font-size: 18px; font-weight: bold; letter-spacing: -0.03em; }
-.char-desc { font-size: 13px; line-height: 1.6; color: var(--color-signal-flare); word-break: keep-all; }
-
-/* TAB 3: MUSIC */
 .cd-section {
   width: 100%;
   border-top: 1px solid var(--color-signal-flare);
@@ -1380,8 +1510,23 @@ video {
   .analysis-block {
     padding: 24px 0;
   }
-  .character-grid { grid-template-columns: 1fr; }
-  .char-yuta, .char-kou, .char-ata, .char-ming, .char-tom { grid-column: span 1; }
+  
+  .valiente-canvas {
+    height: auto;
+    min-height: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .valiente-card {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+  }
+
   .player-workspace { grid-template-columns: 1fr; }
   .case-item { transform: none !important; }
   .opened-jewel-case { margin-right: 0; }
@@ -1402,18 +1547,4 @@ video {
   .char-card:last-child {
     border-right: none;
   }
-}
-
-/* 메일이 비어있을 때 안내 문구 */
-.mail-empty-notice {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  min-height: 200px;
-  font-size: 12px;
-  color: var(--color-signal-flare);
-  opacity: 0.6;
-  border: 1px dashed var(--color-signal-flare);
-  letter-spacing: 0.5px;
 }
