@@ -19,7 +19,9 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: "GEMINI_API_KEY가 설정되지 않았습니다." })
+      body: JSON.stringify({
+        choices: [{ message: { content: "GEMINI_API_KEY가 설정되지 않았습니다." } }]
+      })
     };
   }
 
@@ -42,7 +44,6 @@ exports.handler = async (event, context) => {
     }
 
     const payload = {
-      systemInstruction: systemInstructionText ? { parts: [{ text: systemInstructionText }] } : undefined,
       contents: contents,
       generationConfig: {
         temperature: 0.7,
@@ -50,8 +51,16 @@ exports.handler = async (event, context) => {
       }
     };
 
-    // Node.js https 모듈 대신 fetch API 사용 (Netlify Runtime 최적화)
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
+    // System Instruction이 존재할 때만 추가
+    if (systemInstructionText) {
+      payload.systemInstruction = {
+        parts: [{ text: systemInstructionText }]
+      };
+    }
+
+    // Google AI Studio 표준 모델 지정
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
+    
     const apiRes = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -62,14 +71,23 @@ exports.handler = async (event, context) => {
 
     if (!apiRes.ok) {
       console.error("Gemini Error:", data);
+      
+      // 구글 503 트래픽 과부하 에러 시 사용자 안내 메시지 처리
+      const errorMessage = data.error?.code === 503 
+        ? "현재 접속자가 많아 답변이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
+        : `오류가 발생했습니다. (${data.error?.message || "Gemini API 오류"})`;
+
       return {
-        statusCode: apiRes.status,
+        statusCode: 200,
         headers,
-        body: JSON.stringify({ error: "Gemini API 오류 발생" })
+        body: JSON.stringify({
+          choices: [{ message: { content: errorMessage } }]
+        })
       };
     }
 
-    const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "답변을 생성하지 못했습니다.";
+    // 정상 응답 파싱
+    const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "답변 내용을 찾을 수 없습니다.";
 
     return {
       statusCode: 200,
@@ -88,9 +106,11 @@ exports.handler = async (event, context) => {
   } catch (error) {
     console.error("Function Error:", error);
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({
+        choices: [{ message: { content: `서버 오류 발생: ${error.message}` } }]
+      })
     };
   }
 };
