@@ -6,7 +6,7 @@
   <title>HAPPYEND</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
   <style>
@@ -49,6 +49,15 @@
   </style>
 </head>
 <body id="top">
+
+  <!-- Custom Cursor Elements -->
+  <div id="custom-cursor" class="custom-cursor">
+    <div class="cursor-crosshair">
+      <div class="crosshair-h"></div>
+      <div class="crosshair-v"></div>
+      <div class="crosshair-box"></div>
+    </div>
+  </div>
 
   <!-- 숨겨진 오디오 태그 (실제 재생용) -->
   <audio id="audioPlayer" preload="auto"></audio>
@@ -187,7 +196,7 @@
       </div>
       <div class="analysis-block">
         <div class="analysis-meta">[SCENE 02]<br>TITLE: PRANK<br>CHARACTERS: YUTA, KOU</div>
-        <div class="analysis-text scramble-text">그런 상황에서 유타와 코우는 친구들과 함께 학교의 규칙을 가볍게 비틀며 장난을 이어간다. 그러던 중 두 사람은 교장의 자동차를 세워두는 장난을 벌이고, 이 사건은 예상하지 못한 결과를 가져온다. 학교는 학생들의 행동을 통제하기 위한 감시 시스템을 도입하고, 학생들의 얼굴을 인식해 규칙 위반 여부를 판단하고 벌점을 부여하기 시작한다. 영화는 이 변화를 갑작스러운 미래 기술의 등장처럼 보여주지 않는다. 오히려 평범한 학교의 풍경 속에 감시 장치를 자연스럽게 끼워 넣으며, ‘안전’을 위한 조치가 어떻게 일상의 일부가 되는지를 보여준다. 밝고 장난스러웠던 학생들의 행동과 대비되는 학교의 정적인 공간은 이제 이전과 같은 장소가 아니다. 특히 사건의 중심에 놓인 선명한 노란색 자동차는 무채색에 가까운 학교 풍경 속에서 유난히 튀어나오며, 평범했던 일상에 균열을 만들어낸 사건을 시각적으로 남긴다. 작은 장난으로 시작된 행동이 더 큰 통제를 불러왔다는 점에서, 이 사건은 영화의 분위기와 인물들의 관계가 바뀌는 결정적인 전환점이 된다.</div>
+        <div class="analysis-text scramble-text">그런 상황에서 유타와 코우는 친구들과 함께 학교의 규칙을 가볍게 비틀며 장난을 이어간 다. 그러던 중 두 사람은 교장의 자동차를 세워두는 장난을 벌이고, 이 사건은 예상하지 못한 결과를 가져온다. 학교는 학생들의 행동을 통제하기 위한 감시 시스템을 도입하고, 학생들의 얼굴을 인식해 규칙 위반 여부를 판단하고 벌점을 부여하기 시작한다. 영화는 이 변화를 갑작스러운 미래 기술의 등장처럼 보여주지 않는다. 오히려 평범한 학교의 풍경 속에 감시 장치를 자연스럽게 끼워 넣으며, ‘안전’을 위한 조치가 어떻게 일상의 일부가 되는지를 보여준다. 밝고 장난스러웠던 학생들의 행동과 대비되는 학교의 정적인 공간은 이제 이전과 같은 장소가 아니다. 특히 사건의 중심에 놓인 선명한 노란색 자동차는 무채색에 가까운 학교 풍경 속에서 유난히 튀어나오며, 평범했던 일상에 균열을 만들어낸 사건을 시각적으로 남긴다. 작은 장난으로 시작된 행동이 더 큰 통제를 불러왔다는 점에서, 이 사건은 영화의 분위기와 인물들의 관계가 바뀌는 결정적인 전환점이 된다.</div>
       </div>
     </article>
 
@@ -244,48 +253,59 @@
     </article>
   </section>
 
-  <!-- TAB 2: CHARACTERS -->
+  <!-- TAB 2: CHARACTERS (Valiente Interactive Canvas) -->
   <section id="tab-characters" class="tab-content">
-    <div class="character-grid">
-      <article class="char-item main-char char-yuta reveal-item">
-        <div class="char-img-placeholder"><img src="Yuta.jpg" alt="YUTA"></div>
-        <div class="char-details">
-          <div class="char-header"><div class="char-name">YUTA</div></div>
-          <p class="char-desc scramble-text">유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다. 학교에 감시 시스템이 도입된 이후에도 사회의 변화에 적극적으로 문제를 제기하기보다는 남은 고등학교 생활을 평소처럼 즐기려 한다.</p>
+    <div class="valiente-char-wrapper reveal-item">
+      <!-- 산란 레이아웃 캔버스 -->
+      <div class="valiente-canvas" id="valienteCanvas">
+        
+        <div class="valiente-card pos-yuta" data-id="yuta">
+          <div class="valiente-img-box">
+            <img src="Yuta.jpg" alt="YUTA">
+            <div class="valiente-name-tag">YUTA</div>
+          </div>
         </div>
-      </article>
 
-      <article class="char-item main-char char-kou reveal-item">
-        <div class="char-img-placeholder"><img src="Kou.jpg" alt="KOU"></div>
-        <div class="char-details">
-          <div class="char-header"><div class="char-name">KOU</div></div>
-          <p class="char-desc scramble-text">코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다. 재일교포 4세라는 배경을 가진 그는 일상 속에서 자신이 완전히 받아들여지지 않는다는 감각을 경험하며, 감시와 차별이 개인의 문제가 아니라 사회 전체의 문제라는 사실에 민감하게 반응한다.</p>
+        <div class="valiente-card pos-kou" data-id="kou">
+          <div class="valiente-img-box">
+            <img src="Kou.jpg" alt="KOU">
+            <div class="valiente-name-tag">KOU</div>
+          </div>
         </div>
-      </article>
 
-      <article class="char-item sub-char char-ata reveal-item">
-        <div class="char-img-placeholder"><img src="ata.png" alt="ATA"></div>
-        <div class="char-details">
-          <div class="char-header"><div class="char-name">ATA</div></div>
-          <p class="char-desc scramble-text">아타는 다섯 친구들 가운데 분위기를 이끌며 장난과 농담을 즐기는 인물이다. 유타와 마찬가지로 학교생활을 무겁게 받아들이기보다는 친구들과 함께하는 즐거운 시간을 중요하게 생각하며, 특유의 활기찬 성격으로 그룹에 에너지를 더한다.</p>
+        <div class="valiente-card pos-ata" data-id="ata">
+          <div class="valiente-img-box">
+            <img src="ata.png" alt="ATA">
+            <div class="valiente-name-tag">ATA</div>
+          </div>
         </div>
-      </article>
 
-      <article class="char-item sub-char char-ming reveal-item">
-        <div class="char-img-placeholder"><img src="Ming.png" alt="MING"></div>
-        <div class="char-details">
-          <div class="char-header"><div class="char-name">MING</div></div>
-          <p class="char-desc scramble-text">밍은 유타, 코우, 아타, 톰과 함께 음악을 중심으로 관계를 맺고 있는 친구다. 중국계 배경을 가진 인물로, 일본에서 살아가면서도 자신의 문화적 배경과 가족 사이에서 복합적인 정체성을 경험한다.</p>
+        <div class="valiente-card pos-ming" data-id="ming">
+          <div class="valiente-img-box">
+            <img src="Ming.png" alt="MING">
+            <div class="valiente-name-tag">MING</div>
+          </div>
         </div>
-      </article>
 
-      <article class="char-item sub-char char-tom reveal-item">
-        <div class="char-img-placeholder"><img src="Tom.jpg" alt="TOM"></div>
-        <div class="char-details">
-          <div class="char-header"><div class="char-name">TOM</div></div>
-          <p class="char-desc scramble-text">톰은 일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 다섯 친구 중에서도 자신이 속한 곳에 대한 질문을 가장 직접적으로 보여주는 인물이다.</p>
+        <div class="valiente-card pos-tom" data-id="tom">
+          <div class="valiente-img-box">
+            <img src="Tom.jpg" alt="TOM">
+            <div class="valiente-name-tag">TOM</div>
+          </div>
         </div>
-      </article>
+
+      </div>
+
+      <!-- 하단 등장인물 설명 영역 -->
+      <div class="valiente-detail-panel" id="valienteDetailPanel">
+        <div class="valiente-detail-header">
+          <span class="detail-id-label">[CHARACTER ARCHIVE]</span>
+          <h3 class="detail-name" id="valienteDetailName">HOVER A CHARACTER</h3>
+        </div>
+        <p class="detail-desc" id="valienteDetailDesc">
+          사진 위에 마우스를 올리면 각 등장인물의 상세 정보와 서사를 확인하실 수 있습니다.
+        </p>
+      </div>
     </div>
   </section>
 
