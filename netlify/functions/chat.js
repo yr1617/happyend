@@ -47,7 +47,7 @@ exports.handler = async (event, context) => {
       contents: contents,
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 350
+        maxOutputTokens: 150
       }
     };
 
