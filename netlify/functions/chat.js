@@ -1,3 +1,6 @@
+// chat.js 맨 위에 추가
+const fetch = require('node-fetch');
+
 exports.handler = async (event, context) => {
   const headers = {
     "Access-Control-Allow-Origin": "*",
