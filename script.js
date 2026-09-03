@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 마우스 움직임에 따른 미세 부유(Float/Parallax) 효과
   if (valienteCanvas) {
     valienteCanvas.addEventListener('mousemove', (e) => {
       const rect = valienteCanvas.getBoundingClientRect();
@@ -182,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 카드 호버 시 집중 및 디테일 정보 표시 인터랙션
   valienteCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
       valienteCanvas.classList.add('has-hover');
@@ -324,7 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (ejectBtn) ejectBtn.addEventListener('click', ejectCD);
 
-
   /* -------------------------------------------------------------
    * 7. MAIL SYSTEM INTERACTION
    * ------------------------------------------------------------- */
@@ -464,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 8. AI API 메일 연동 (Netlify Serverless Function 활용)
+   * 8. AI API 메일 연동
    * ------------------------------------------------------------- */
   async function fetchAiMailResponse(char, currentSubject, currentBody, historyList) {
     const systemPrompts = {
