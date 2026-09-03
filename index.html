@@ -50,12 +50,11 @@
 </head>
 <body id="top">
 
-  <!-- Custom Cursor Elements -->
+  <!-- Custom Cursor Elements (중앙 흰색 사각형 완전히 제거함) -->
   <div id="custom-cursor" class="custom-cursor">
     <div class="cursor-crosshair">
       <div class="crosshair-h"></div>
       <div class="crosshair-v"></div>
-      <div class="crosshair-box"></div>
     </div>
   </div>
 
@@ -253,58 +252,66 @@
     </article>
   </section>
 
-  <!-- TAB 2: CHARACTERS (Valiente Interactive Canvas) -->
+  <!-- TAB 2: CHARACTERS (박스 제거 및 넓고 자유롭게 흩뿌려진 산란 레이아웃) -->
   <section id="tab-characters" class="tab-content">
     <div class="valiente-char-wrapper reveal-item">
-      <!-- 산란 레이아웃 캔버스 -->
       <div class="valiente-canvas" id="valienteCanvas">
         
+        <!-- YUTA -->
         <div class="valiente-card pos-yuta" data-id="yuta">
           <div class="valiente-img-box">
             <img src="Yuta.jpg" alt="YUTA">
-            <div class="valiente-name-tag">YUTA</div>
+          </div>
+          <div class="valiente-name-text">YUTA</div>
+          <div class="valiente-hover-info">
+            유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다.
           </div>
         </div>
 
+        <!-- KOU -->
         <div class="valiente-card pos-kou" data-id="kou">
           <div class="valiente-img-box">
             <img src="Kou.jpg" alt="KOU">
-            <div class="valiente-name-tag">KOU</div>
+          </div>
+          <div class="valiente-name-text">KOU</div>
+          <div class="valiente-hover-info">
+            코우는 재일교포 4세라는 배경을 가진 인물로, 학교에 감시 시스템이 도입되면서 사회 전체의 문제에 민감하게 반응한다.
           </div>
         </div>
 
+        <!-- ATA -->
         <div class="valiente-card pos-ata" data-id="ata">
           <div class="valiente-img-box">
             <img src="ata.png" alt="ATA">
-            <div class="valiente-name-tag">ATA</div>
+          </div>
+          <div class="valiente-name-text">ATA</div>
+          <div class="valiente-hover-info">
+            아타는 다섯 친구들 가운데 분위기를 이끌며 특유의 활기찬 성격으로 그룹에 에너지를 더한다.
           </div>
         </div>
 
+        <!-- MING -->
         <div class="valiente-card pos-ming" data-id="ming">
           <div class="valiente-img-box">
             <img src="Ming.png" alt="MING">
-            <div class="valiente-name-tag">MING</div>
+          </div>
+          <div class="valiente-name-text">MING</div>
+          <div class="valiente-hover-info">
+            중국계 배경을 가진 인물로, 일본에서 살아가면서 자신의 문화적 배경과 정체성을 경험한다.
           </div>
         </div>
 
+        <!-- TOM -->
         <div class="valiente-card pos-tom" data-id="tom">
           <div class="valiente-img-box">
             <img src="Tom.jpg" alt="TOM">
-            <div class="valiente-name-tag">TOM</div>
+          </div>
+          <div class="valiente-name-text">TOM</div>
+          <div class="valiente-hover-info">
+            일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 자신이 속한 곳에 대한 질문을 직접적으로 표현한다.
           </div>
         </div>
 
-      </div>
-
-      <!-- 하단 등장인물 설명 영역 -->
-      <div class="valiente-detail-panel" id="valienteDetailPanel">
-        <div class="valiente-detail-header">
-          <span class="detail-id-label">[CHARACTER ARCHIVE]</span>
-          <h3 class="detail-name" id="valienteDetailName">HOVER A CHARACTER</h3>
-        </div>
-        <p class="detail-desc" id="valienteDetailDesc">
-          사진 위에 마우스를 올리면 각 등장인물의 상세 정보와 서사를 확인하실 수 있습니다.
-        </p>
       </div>
     </div>
   </section>
