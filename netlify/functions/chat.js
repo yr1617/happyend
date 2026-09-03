@@ -57,14 +57,14 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey.trim()}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey.trim()}`;
 
     // Node.js 환경 호환성을 위해 내장 globalThis.fetch 선호 사용
     const fetchFunc = globalThis.fetch || (await import('node-fetch')).default;
 
     // 15초 타임아웃
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 26000);
 
     let apiRes;
     try {
