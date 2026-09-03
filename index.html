@@ -8,6 +8,45 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* 점 3개 물결 로딩 애니메이션 전용 스타일 */
+    .mail-loading-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+    }
+
+    .mail-loading-dots span {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-color, #ff3b30);
+      border-radius: 50%;
+      display: inline-block;
+      animation: mailWave 1.4s infinite ease-in-out both;
+    }
+
+    .mail-loading-dots span:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .mail-loading-dots span:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    @keyframes mailWave {
+      0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.3;
+      }
+      40% {
+        transform: translateY(-8px);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body id="top">
 
@@ -445,9 +484,14 @@
             </div>
           </div>
 
-          <!-- 메일 주고받은 내역 표시 영역 -->
-          <div id="mailHistory" class="mail-history">
-            <!-- 메일 메시지들이 들어오는 곳 -->
+          <!-- 메일 주고받은 내역 표시 영역 (초기 상태엔 완전한 여백만 유지) -->
+          <div id="mailHistory" class="mail-history"></div>
+
+          <!-- 답변 생성 중일 때 나타나는 점 3개 물결 애니메이션 (기본적으로 숨김) -->
+          <div id="mailLoadingIndicator" class="mail-loading-dots" style="display: none;">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
 
           <!-- 메일 작성 폼 -->
