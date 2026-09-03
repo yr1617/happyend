@@ -50,7 +50,7 @@
 </head>
 <body id="top">
 
-  <!-- Custom Cursor Elements (중앙 흰색 사각형 완전히 제거함) -->
+  <!-- Custom Cursor Elements -->
   <div id="custom-cursor" class="custom-cursor">
     <div class="cursor-crosshair">
       <div class="crosshair-h"></div>
@@ -252,7 +252,7 @@
     </article>
   </section>
 
-  <!-- TAB 2: CHARACTERS (박스 제거 및 넓고 자유롭게 흩뿌려진 산란 레이아웃) -->
+  <!-- TAB 2: CHARACTERS -->
   <section id="tab-characters" class="tab-content">
     <div class="valiente-char-wrapper reveal-item">
       <div class="valiente-canvas" id="valienteCanvas">
@@ -348,7 +348,6 @@
 
         <!-- RIGHT: CD STACK & OPENED MARGIN STAGE -->
         <div class="interactive-archive">
-          <!-- 1. 가로로 불규칙하게 쌓여있는 CD 케이스 랙 -->
           <div class="cd-stack-rack">
             <div class="case-item offset-left-1" data-case="cd1">
               <span class="spine-num">01</span>
@@ -372,7 +371,6 @@
             </div>
           </div>
 
-          <!-- 2. 클릭 시 이동하여 펼쳐지는 독립 여백 공간 -->
           <div class="opened-case-stage" id="caseStage">
             <div class="stage-placeholder" id="stagePlaceholder">CLICK A CASE TO OPEN HERE</div>
 
@@ -467,7 +465,7 @@
     </div>
   </section>
 
-  <!-- TAB 4: MAILBOX (인물에게 메일 보내기) -->
+  <!-- TAB 4: MAILBOX -->
   <section id="tab-mail" class="tab-content">
     <div class="mail-section reveal-item">
       <div class="mail-header-info">
@@ -476,7 +474,6 @@
       </div>
 
       <div class="mail-container">
-        <!-- 수신자 인물 선택 사이드바 -->
         <div class="mail-character-select">
           <div class="char-card active" data-character="yuta">
             <div class="char-avatar">
@@ -499,7 +496,6 @@
           </div>
         </div>
 
-        <!-- 메일 전송 및 대화 스레드 영역 -->
         <div class="mail-content-area">
           <div class="mail-target-header">
             <div class="target-profile-img">
@@ -511,17 +507,14 @@
             </div>
           </div>
 
-          <!-- 메일 주고받은 내역 표시 영역 -->
           <div id="mailHistory" class="mail-history"></div>
 
-          <!-- 답변 생성 중일 때 나타나는 점 3개 물결 애니메이션 -->
           <div id="mailLoadingIndicator" class="mail-loading-dots" style="display: none;">
             <span></span>
             <span></span>
             <span></span>
           </div>
 
-          <!-- 메일 작성 폼 -->
           <form id="mailForm" class="mail-form">
             <div class="form-row">
               <label for="mailSubject">SUBJECT</label>
