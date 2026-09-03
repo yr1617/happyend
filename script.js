@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 2. SCROLL REVEAL ANIMATION (안 보이던 요소 강제 표시)
+   * 2. SCROLL REVEAL ANIMATION
    * ------------------------------------------------------------- */
   const revealItems = document.querySelectorAll('.reveal-item');
 
@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const activeContent = document.getElementById(targetTab);
       if (activeContent) {
         activeContent.classList.add('active');
-        // 탭 전환 시 요소 안 보임 방지 처리
         const itemsInTab = activeContent.querySelectorAll('.reveal-item');
         itemsInTab.forEach(item => item.classList.add('is-visible'));
       }
@@ -229,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* -------------------------------------------------------------
-   * 6. MAIL SYSTEM INTERACTION (유타 & 코우 이메일 AI 시뮬레이션)
+   * 6. MAIL SYSTEM INTERACTION (자연스러운 캐릭터 대화 엔진)
    * ------------------------------------------------------------- */
   const charCards = document.querySelectorAll('.char-card');
   const mailTargetImg = document.getElementById('mailTargetImg');
@@ -240,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mailSubject = document.getElementById('mailSubject');
   const mailBody = document.getElementById('mailBody');
 
-  let activeCharacter = 'yuta'; // 기본 수신자
+  let activeCharacter = 'yuta';
 
   const characterProfiles = {
     yuta: {
@@ -253,6 +252,12 @@ document.addEventListener('DOMContentLoaded', () => {
       email: 'kou.02042@happyend.tokyo',
       img: 'Kou.jpg'
     }
+  };
+
+  // 1. 초기 메일 내역을 빈 배열로 시작 (사전 메시지 제거)
+  const mailStore = {
+    yuta: [],
+    kou: []
   };
 
   // 캐릭터 전환 이벤트
@@ -273,31 +278,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 메일 내역 데이터베이스 (로컬 메모리)
-  const mailStore = {
-    yuta: [
-      {
-        sender: 'yuta',
-        subject: 'Re: 어이',
-        body: 'ㅋㅋ 뭐야 메일은 또 처음 받아보네. 오늘 밤에 club-room 올 거임? 베이스 스피커 새로 세팅해 뒀으니까 들으러 오든가.',
-        time: '18:24'
-      }
-    ],
-    kou: [
-      {
-        sender: 'kou',
-        subject: 'Re: 학교 쪽 카메라 관련',
-        body: '학교 정문 쪽 카메라 위치가 이상하게 바뀌었어. 다들 별생각 없는 것 같은데... 그게 정말 그냥 안전 때문일까. 모르겠다.',
-        time: '19:10'
-      }
-    ]
-  };
-
   function renderMailHistory() {
     if (!mailHistory) return;
     mailHistory.innerHTML = '';
 
     const history = mailStore[activeCharacter] || [];
+
+    if (history.length === 0) {
+      const emptyNotice = document.createElement('div');
+      emptyNotice.className = 'mail-empty-notice';
+      emptyNotice.textContent = '보낸 메일이 없습니다. 첫 메시지를 작성해보세요.';
+      mailHistory.appendChild(emptyNotice);
+      return;
+    }
+
     history.forEach(mail => {
       const isUser = mail.sender === 'user';
       const mailEl = document.createElement('div');
@@ -328,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  // 메일 전송 이벤트
+  // 메일 전송 이벤트 처리
   if (mailForm) {
     mailForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -341,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const now = new Date();
       const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-      // 1. 유저 메일 보관함에 추가
+      // 사용자 메일 저장
       mailStore[activeCharacter].push({
         sender: 'user',
         subject: subject,
@@ -354,51 +348,180 @@ document.addEventListener('DOMContentLoaded', () => {
       mailSubject.value = '';
       mailBody.value = '';
 
-      // 2. 답변 대기 로딩 표시 후 AI 응답 생성 시뮬레이션
+      // 자연스러운 답변 시간 딜레이 (1초~1.8초)
+      const delay = Math.floor(Math.random() * 800) + 1000;
       setTimeout(() => {
-        const reply = generateCharacterReply(activeCharacter, subject, body);
+        const replyText = buildDynamicResponse(activeCharacter, subject, body);
         mailStore[activeCharacter].push({
           sender: activeCharacter,
-          subject: `Re: ${subject}`,
-          body: reply,
-          time: `${now.getHours().toString().padStart(2, '0')}:${(now.getMinutes() + 1).toString().padStart(2, '0')}`
+          subject: `Re: ${subject.startsWith('Re:') ? subject.replace(/^Re:\s*/, '') : subject}`,
+          body: replyText,
+          time: `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
         });
         renderMailHistory();
-      }, 1200);
+      }, delay);
     });
   }
 
-  // AI 캐릭터별 규칙에 따른 자동 응답 로직
-  function generateCharacterReply(char, subject, text) {
-    const isAiQuestion = text.includes('AI') || text.includes('인공지능') || text.includes('챗봇') || text.includes('프로그램');
-    
-    if (char === 'yuta') {
-      if (isAiQuestion) {
-        return "ㅋㅋㅋ 뭐야 갑자기? 뭔 소리야 AI라니. 너 오늘 어디 머리 부딪혔냐? 쓸데없는 소리 말고 있다 밤에 음악이나 들으러 와라.";
-      }
-      if (text.includes('음악') || text.includes('DJ') || text.includes('클럽') || text.includes('곡')) {
-        return "오 진짜? 베이스 울릴 때 그 느낌 제대로 아네. 이번에 리믹스해 본 트랙 있는데 밤에 와서 한 번 들어봐. 완전 괜찮아 ㅋㅋㅋ";
-      }
-      if (text.includes('코우') || text.includes('감시') || text.includes('학교') || text.includes('진지')) {
-        return "아 코우 이야기구나... 요즘 코우 왜 이렇게 진지해졌는지 모르겠어. 어차피 졸업하면 끝나는 일 같은데 굳이 복잡하게 생각해야 하나? 그냥 예전처럼 재미있게 놀면 좋을 텐데 말이야.";
-      }
-      return "ㅋㅋ 읽어봤는데 재밌네. 너무 어렵게 생각하지 마, 어차피 어떻게든 되겠지 뭐! 그냥 지금 재밌으면 된 거 아니야?";
-    } else if (char === 'kou') {
-      if (isAiQuestion) {
-        return "무슨 말을 하는 건지 모르겠네. 내가 AI라니... 그런 식의 장난은 별로 재미없어. 할 말 있으면 제대로 해줘.";
-      }
-      if (text.includes('감시') || text.includes('학교') || text.includes('카메라') || text.includes('사회')) {
-        return "그게 생각보다 간단한 문제가 아니잖아. 다들 안전 때문이라고 쉽게 넘어가는데, 왜 아무도 그 시선이 누구를 향해 있는지 이상하게 안 여기는지 모르겠어... 나만 예민한 건가?";
-      }
-      if (text.includes('유타') || text.includes('음악') || text.includes('친구')) {
-        return "유타는... 아직 그런 걸 깊게 생각하고 싶지 않은 거겠지. 유타랑 같이 음악 듣던 때가 싫은 건 아닌데, 예전처럼 아무렇지 않게 그냥 즐기기만 하는 건 이젠 좀 힘들 것 같아.";
-      }
-      return "보내준 메일 잘 읽었어. 그 문제에 대해서는 나도 요즘 계속 고민 중이야. 확신할 수는 없지만, 그렇다고 그냥 가만히 보고만 있을 수는 없잖아.";
-    }
-    return "메일 확인했어.";
+  /* -------------------------------------------------------------
+   * 7. 동적 자연어 대화 조합 엔진 (고정 문장 배제)
+   * ------------------------------------------------------------- */
+  function getRandomItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
   }
 
-  // 초기 렌더링
+  function buildDynamicResponse(char, subject, body) {
+    const text = (subject + ' ' + body).toLowerCase();
+
+    // 입력 내용 주제 감지 (참고용 인덱스)
+    const isMusic = /음악|곡|트랙|베이스|스피커|파티|클럽|소리|리믹스/.test(text);
+    const isSurveillance = /감시|카메라|학교|교장|벌점|규칙|시스템|통제/.test(text);
+    const isFriendship = /코우|유타|친구|요즘|사이|얼굴|이야기|생각/.test(text);
+    const isAiMeta = /ai|인공지능|챗봇|프로그램|로봇/.test(text);
+
+    if (char === 'yuta') {
+      if (isAiMeta) {
+        const aiReplies = [
+          "무슨 소리야 갑자기? 무슨 말을 하고 싶은 건지 잘 모르겠는데.",
+          "응? 갑자기 인공지능 얘기는 왜 나와. 메일 잘못 보낸 거 아니야?",
+          "글쎄, 무슨 말인지 이해하기 어렵네. 오늘 좀 피곤한가 봐."
+        ];
+        return getRandomItem(aiReplies);
+      }
+
+      if (isMusic) {
+        const opens = ["메일 읽었어.", "보내준 얘기 생각하고 있었어.", "음악 얘기 하니까 반갑네."];
+        const middles = [
+          "요즘 새로 맞춰보는 리믹스가 있는데, 스피커 울림이 지난번이랑은 확실히 달라.",
+          "부실에서 베이스 세팅 좀 다듬어봤거든. 시간 날 때 와서 들어봐.",
+          "다 같이 음악 들으면서 있을 때가 제일 좋긴 해. 복잡한 생각도 좀 사라지고."
+        ];
+        const closes = [
+          "오늘 밤에도 동아리 방에 있을 것 같은데 오든가.",
+          "나중에 시간 되면 부실 들러.",
+          "다음에 와서 들려줄게."
+        ];
+        return `${getRandomItem(opens)} ${getRandomItem(middles)} ${getRandomItem(closes)}`;
+      }
+
+      if (isSurveillance) {
+        const opens = ["학교 분위기 요즘 좀 답답하긴 하지.", "메일 잘 확인했어.", "그 문제 가지고 다들 말이 많네."];
+        const middles = [
+          "카메라 늘어난 건 짜증 나긴 한데, 너무 그것만 신경 쓰다 보면 하루가 답답해지더라고.",
+          "코우도 요즘 그 생각 때문에 머리 아파하는 것 같고... 난 그냥 우리 할 일 하면서 지내고 싶어.",
+          "어차피 졸업도 얼마 안 남았는데 매번 신경 쓰기도 지치고 그렇네."
+        ];
+        const closes = [
+          "아무튼 너무 스트레스 받지 마.",
+          "다음에 만나면 얘기 더 하자.",
+          "일단 오늘 할 일부터 해야지."
+        ];
+        return `${getRandomItem(opens)} ${getRandomItem(middles)} ${getRandomItem(closes)}`;
+      }
+
+      if (isFriendship) {
+        const opens = ["생각해 보니 그렇네.", "요즘 다들 각자 고민이 많은 것 같아.", "응, 무슨 말인지 알아."];
+        const middles = [
+          "코우랑은 어릴 때부터 계속 같이 지내왔으니까 잘 알지. 다만 요즘은 서로 바라보는 방향이 조금씩 달라지는 느낌이 들 때가 있어.",
+          "다 같이 모여서 아무 생각 없이 웃을 때가 제일 좋은데, 요즘은 다들 조금씩 서먹해진 것 같기도 하고.",
+          "서로 상황이 달라져도 그래도 친구는 친구니까 너무 걱정 안 하려고."
+        ];
+        const closes = [
+          "나중에 다 같이 모여서 밥이나 먹자.",
+          "조만간 부실에서 보자.",
+          "언제 한번 다 같이 만나자."
+        ];
+        return `${getRandomItem(opens)} ${getRandomItem(middles)} ${getRandomItem(closes)}`;
+      }
+
+      // 일반/일상 대화
+      const genOpens = ["메일 고마워.", "잘 읽어봤어.", "요즘 별일 없지?"];
+      const genMiddles = [
+        "오늘 수업은 생각보다 길게 느껴졌네. 졸업 전까지 조용히 지나갔으면 좋겠는데.",
+        "그냥 평소처럼 지내는 중이야. 동아리 방 정리를 좀 해야 하는데 미루고 있네.",
+        "날씨도 그렇고 요즘 분위기가 전체적으로 좀 차분한 것 같아."
+      ];
+      const genCloses = [
+        "또 연락해.",
+        "다음에 만나서 얘기 나누자.",
+        "좋은 하루 보내."
+      ];
+      return `${getRandomItem(genOpens)} ${getRandomItem(genMiddles)} ${getRandomItem(genCloses)}`;
+
+    } else if (char === 'kou') {
+      if (isAiMeta) {
+        const aiReplies = [
+          "무슨 말을 하려는 건지 잘 이해하지 못했어.",
+          "장난치는 거라면 그다지 재미있진 않네. 할 말이 있으면 편하게 해줘.",
+          "갑자기 그게 무슨 소리야. 내가 이상한 말을 한 적이 있었나?"
+        ];
+        return getRandomItem(aiReplies);
+      }
+
+      if (isSurveillance) {
+        const opens = ["메일 잘 받았어.", "나도 그 문제에 대해 계속 보고 있었어.", "생각보다 상황이 가볍지 않은 것 같아."];
+        const middles = [
+          "다들 안전을 위한 거라고 말하지만, 시선이 우리를 향해 있다는 사실은 변하지 않잖아.",
+          "교문에 들어설 때마다 기분이 이상해. 단순히 규칙의 문제가 아니라 우리 삶을 통제하려는 것 같아.",
+          "유타나 다른 친구들은 너무 깊게 생각하지 말라고 하지만, 난 그냥 넘어가기가 어렵네."
+        ];
+        const closes = [
+          "너는 어떻게 생각하는지 궁금하다.",
+          "나중에 시간 되면 조금 더 이야기해보자.",
+          "조심해서 다녀."
+        ];
+        return `${getRandomItem(opens)} ${getRandomItem(middles)} ${getRandomItem(closes)}`;
+      }
+
+      if (isMusic) {
+        const opens = ["음악 얘기구나.", "메일 확인했어.", "유타가 만든 곡 들었어?"];
+        const middles = [
+          "유타랑 같이 음악 듣거나 작업할 때는 그래도 마음이 편해져.",
+          "요즘은 소리에 집중하는 시간이 고맙게 느껴져. 시끄러운 생각들이 잠시 멈추니까.",
+          "부실 스피커 소리가 요즘 들어 더 선명하게 들리는 것 같기도 하고."
+        ];
+        const closes = [
+          "다음에 부실 들어갈 때 얘기해 줘.",
+          "음악 들으러 들를게.",
+          "천천히 더 들어보자."
+        ];
+        return `${getRandomItem(opens)} ${getRandomItem(middles)} ${getRandomItem(closes)}`;
+      }
+
+      if (isFriendship) {
+        const opens = ["고마워, 무슨 뜻인지 알아.", "생각을 많이 하게 되네.", "솔직하게 적어줘서 고마워."];
+        const middles = [
+          "유타와는 어릴 때부터 항상 함께였지만, 요즘은 나 스스로 판단해야 할 일들이 많아진 것 같아.",
+          "다들 그대로인데 나만 다른 생각을 하는 건가 싶어서 마음이 복잡할 때가 있어.",
+          "서로 방식은 달라도 친구들을 아끼는 마음은 변함없어. 다만 표현하기가 쉽지 않네."
+        ];
+        const closes = [
+          "늘 신경 써줘서 고마워.",
+          "다음에 차분하게 이야기하자.",
+          "나중에 부실에서 보자."
+        ];
+        return `${getRandomItem(opens)} ${getRandomItem(middles)} ${getRandomItem(closes)}`;
+      }
+
+      // 일반/일상 대화
+      const genOpens = ["메일 잘 읽었어.", "보내준 내용 확인했어.", "잘 지내지?"];
+      const genMiddles = [
+        "요즘 학교 분위기가 전보다 더 경직된 것 같아서 마음이 편치 않아.",
+        "졸업이 다가오니까 여러 생각이 드네. 앞으로 어떻게 될지도 모르겠고.",
+        "도서관에 들렀다가 들어가는 길이야. 여전히 생각할 건 많지만 잘 지내고 있어."
+      ];
+      const genCloses = [
+        "또 연락 줘.",
+        "오늘 하루 잘 마무리해.",
+        "조만간 보자."
+      ];
+      return `${getRandomItem(genOpens)} ${getRandomItem(genMiddles)} ${getRandomItem(genCloses)}`;
+    }
+
+    return "메일 확인했어. 조만간 또 연락할게.";
+  }
+
+  // 초기 상태 렌더링
   renderMailHistory();
 
 });
