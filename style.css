@@ -716,7 +716,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (넓은 수직 공간 확장 및 하단 여백 추가) */
+/* TAB 2: CHARACTERS (균등한 대각선 지그재그 균형 배치) */
 #tab-characters {
   width: 100%;
   max-width: 1600px;
@@ -727,13 +727,13 @@ video {
 .valiente-char-wrapper {
   width: 100%;
   position: relative;
-  padding-bottom: 250px; /* 맨 아래 카드 설명글(hover-info) 잘림 방지 넉넉한 하단 여백 */
+  padding-bottom: 220px;
 }
 
 .valiente-canvas {
   position: relative;
   width: 100%;
-  min-height: 1300px; /* 기존 85vh에서 위아래 높이를 1300px로 대폭 확장 */
+  min-height: 1600px; /* 5명이 약 280px 간격으로 지그재그 정렬되도록 충분한 공간 확보 */
   background: transparent;
   border: none !important;
   overflow: visible;
@@ -753,7 +753,7 @@ video {
 .valiente-img-box {
   position: relative;
   width: auto;
-  max-width: 320px;
+  max-width: 300px;
   border: none !important;
   background: transparent;
   overflow: visible;
@@ -763,7 +763,7 @@ video {
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 420px;
+  max-height: 400px;
   object-fit: contain;
   display: block;
   transition: transform 0.4s ease;
@@ -779,12 +779,12 @@ video {
   margin-top: 4px;
 }
 
-/* 캐릭터 위치 간격 확장 (위아래, 좌우 배치 분리) */
-.pos-yuta { top: 20px; left: 3%; }
-.pos-kou { top: 240px; left: 38%; }
-.pos-ata { top: 60px; right: 4%; }
-.pos-ming { top: 560px; left: 12%; }
-.pos-tom { top: 760px; right: 8%; }
+/* 5명 캐릭터 간격을 약 280px씩 일정하게 떨어뜨려 계단식(지그재그)으로 재배치 */
+.pos-yuta { top: 20px; left: 4%; }
+.pos-kou  { top: 300px; left: 36%; }
+.pos-ata  { top: 580px; right: 5%; }
+.pos-ming { top: 860px; left: 18%; }
+.pos-tom  { top: 1140px; right: 12%; }
 
 .valiente-canvas.has-hover .valiente-card:not(.is-hovered) {
   opacity: 0.3;
@@ -801,7 +801,6 @@ video {
   transform: scale(1.05);
 }
 
-/* 호버 설명글 오버플로우 방지 및 z-index 상위 고정 */
 .valiente-hover-info {
   display: none;
   font-family: var(--font-pressura);
