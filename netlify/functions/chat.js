@@ -1,9 +1,27 @@
 const https = require('https');
 
 exports.handler = async (event, context) => {
+  // CORS 공통 헤더
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Content-Type": "application/json"
+  };
+
+  // OPTIONS 예비 요청(Preflight) 처리
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers,
+      body: ""
+    };
+  }
+
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
+      headers,
       body: JSON.stringify({ error: "Method Not Allowed" })
     };
   }
@@ -13,6 +31,7 @@ exports.handler = async (event, context) => {
   if (!apiKey) {
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ error: "Netlify 환경변수에 GEMINI_API_KEY가 설정되지 않았습니다." })
     };
   }
@@ -20,25 +39,26 @@ exports.handler = async (event, context) => {
   try {
     const { messages } = JSON.parse(event.body || '{}');
 
-    // OpenAI 형식의 messages 배열을 Gemini API의 systemInstruction 및 contents 형식으로 변환
     let systemInstructionText = "";
     const contents = [];
 
-    messages.forEach(msg => {
-      if (msg.role === "system") {
-        systemInstructionText += (systemInstructionText ? "\n" : "") + msg.content;
-      } else if (msg.role === "user") {
-        contents.push({
-          role: "user",
-          parts: [{ text: msg.content }]
-        });
-      } else if (msg.role === "assistant") {
-        contents.push({
-          role: "model",
-          parts: [{ text: msg.content }]
-        });
-      }
-    });
+    if (Array.isArray(messages)) {
+      messages.forEach(msg => {
+        if (msg.role === "system") {
+          systemInstructionText += (systemInstructionText ? "\n" : "") + msg.content;
+        } else if (msg.role === "user") {
+          contents.push({
+            role: "user",
+            parts: [{ text: msg.content }]
+          });
+        } else if (msg.role === "assistant") {
+          contents.push({
+            role: "model",
+            parts: [{ text: msg.content }]
+          });
+        }
+      });
+    }
 
     const postData = JSON.stringify({
       systemInstruction: systemInstructionText ? {
@@ -74,7 +94,7 @@ exports.handler = async (event, context) => {
             console.error("Gemini API Error:", res.statusCode, data);
             resolve({
               statusCode: res.statusCode,
-              headers: { "Content-Type": "application/json" },
+              headers,
               body: JSON.stringify({ error: `Gemini API 오류 (${res.statusCode})` })
             });
             return;
@@ -84,10 +104,9 @@ exports.handler = async (event, context) => {
             const parsed = JSON.parse(data);
             const replyText = parsed.candidates?.[0]?.content?.parts?.[0]?.text || "답변을 생성하지 못했습니다.";
 
-            // script.js가 인식할 수 있는 데이터 형태로 가공해서 반환
             resolve({
               statusCode: 200,
-              headers: { "Content-Type": "application/json" },
+              headers,
               body: JSON.stringify({
                 choices: [
                   {
@@ -101,6 +120,7 @@ exports.handler = async (event, context) => {
           } catch (e) {
             resolve({
               statusCode: 500,
+              headers,
               body: JSON.stringify({ error: "Gemini 응답 파싱 실패" })
             });
           }
@@ -111,6 +131,7 @@ exports.handler = async (event, context) => {
         console.error("HTTP Request Error:", e);
         resolve({
           statusCode: 500,
+          headers,
           body: JSON.stringify({ error: e.message })
         });
       });
@@ -122,6 +143,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ error: error.message })
     };
   }
