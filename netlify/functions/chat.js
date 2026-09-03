@@ -57,14 +57,34 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // gemini-3.6-flash 모델 엔드포인트 적용
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
-    
-    const apiRes = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+
+    // Netlify 504 타임아웃 방지를 위한 15초 강제 타임아웃 제어
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    let apiRes;
+    try {
+      apiRes = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+    } catch (fetchErr) {
+      if (fetchErr.name === 'AbortError') {
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            choices: [{ message: { content: "응답 시간이 너무 오래 걸려 요청을 취소했습니다. 다시 시도해 주세요." } }]
+          })
+        };
+      }
+      throw fetchErr;
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     const data = await apiRes.json();
 
