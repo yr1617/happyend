@@ -57,7 +57,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // 가장 속도가 빠르고 503 오류율이 적은 2.5-flash 라인 사용
+    // gemini-3.6-flash 모델 엔드포인트 적용
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
     
     const apiRes = await fetch(url, {
@@ -111,14 +111,3 @@ exports.handler = async (event, context) => {
     };
   }
 };
-// chat.js 내부 Gemini API 호출부 예시
-const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    contents: [...],
-    generationConfig: {
-      maxOutputTokens: 250 // 답장 길이를 짧게 제한하여 응답 속도 향상 (10초 이내 도착 목표)
-    }
-  })
-});
