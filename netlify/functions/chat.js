@@ -1,6 +1,3 @@
-// chat.js 맨 위에 추가
-const fetch = require('node-fetch');
-
 exports.handler = async (event, context) => {
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -50,7 +47,7 @@ exports.handler = async (event, context) => {
       contents: contents,
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 150
+        maxOutputTokens: 250
       }
     };
 
@@ -62,13 +59,16 @@ exports.handler = async (event, context) => {
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
 
-    // Netlify 504 타임아웃 방지를 위한 15초 강제 타임아웃 제어
+    // Node.js 환경 호환성을 위해 내장 globalThis.fetch 선호 사용
+    const fetchFunc = globalThis.fetch || (await import('node-fetch')).default;
+
+    // 15초 타임아웃
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     let apiRes;
     try {
-      apiRes = await fetch(url, {
+      apiRes = await fetchFunc(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -80,7 +80,7 @@ exports.handler = async (event, context) => {
           statusCode: 200,
           headers,
           body: JSON.stringify({
-            choices: [{ message: { content: "응답 시간이 너무 오래 걸려 요청을 취소했습니다. 다시 시도해 주세요." } }]
+            choices: [{ message: { content: "응답 시간이 오래 걸려 요청이 취소되었습니다. 다시 시도해 주세요." } }]
           })
         };
       }
