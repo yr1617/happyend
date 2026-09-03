@@ -25,7 +25,7 @@ html {
   margin: 0;
   padding: 0;
   box-shadow: none !important;
-  cursor: none !important; /* 기본 시스템 마우스 커서 숨김 */
+  cursor: none !important;
 }
 
 body {
@@ -58,7 +58,6 @@ body {
   justify-content: center;
 }
 
-/* 빨간 십자가 크로스헤어 (흰색 사각형 완전 제거) */
 .cursor-crosshair {
   position: relative;
   width: 28px;
@@ -716,10 +715,10 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (콜라주형 콤팩트 배치) */
+/* TAB 2: CHARACTERS (넓게 흩어진 자유 배치) */
 #tab-characters {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -733,7 +732,7 @@ video {
 .valiente-canvas {
   position: relative;
   width: 100%;
-  min-height: 850px;
+  min-height: 1200px; /* 세로 공간 대폭 확장 */
   background: transparent;
   border: none !important;
   overflow: visible;
@@ -753,7 +752,7 @@ video {
 .valiente-img-box {
   position: relative;
   width: auto;
-  max-width: 280px;
+  max-width: 450px; /* 크기 제한 대폭 완화하여 톰의 사진 비율 정상화 */
   border: none !important;
   background: transparent;
   overflow: visible;
@@ -763,7 +762,7 @@ video {
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 380px; 
+  max-height: 500px; 
   object-fit: contain;
   display: block;
   transition: transform 0.4s ease;
@@ -779,12 +778,12 @@ video {
   margin-top: 4px;
 }
 
-/* 거대한 계단 대신, 겹쳐진 사진 묶음처럼 자유로운 산개 배치 */
-.pos-yuta { top: 40px; left: 8%; }
-.pos-kou  { top: 180px; left: 35%; }
-.pos-ata  { top: 60px; right: 12%; }
-.pos-ming { top: 420px; left: 18%; }
-.pos-tom  { top: 350px; right: 22%; }
+/* 레퍼런스 이미지처럼 넓게 산개된 좌표 설정 */
+.pos-yuta { top: 5%; left: 5%; }
+.pos-ata  { top: 12%; right: 8%; }
+.pos-kou  { top: 38%; left: 38%; }
+.pos-ming { top: 68%; left: 15%; }
+.pos-tom  { top: 62%; right: 10%; }
 
 .valiente-canvas.has-hover .valiente-card:not(.is-hovered) {
   opacity: 0.3;
