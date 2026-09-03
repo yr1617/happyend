@@ -405,27 +405,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try {
-      // Netlify 함수 상대 경로를 호스트 기준 절대 경로로 명확히 지정
-      const response = await fetch("/.netlify/functions/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ messages })
-      });
+    // netlify.toml 리다이렉트와 연결되는 단축 경로 사용
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ messages })
+    });
 
-      if (!response.ok) {
-        throw new Error(`API 오류: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data.choices?.[0]?.message?.content?.trim() || "메일을 읽긴 했는데, 뭐라고 답해야 할지 잘 모르겠네.";
-
-    } catch (error) {
-      console.error("AI Response Error:", error);
-      return "메일을 확인하긴 했는데... 지금 네트워크 상태가 좀 안 좋네. 나중에 다시 답장할게.";
+    if (!response.ok) {
+      throw new Error(`API 오류: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content?.trim() || "메일을 읽긴 했는데, 뭐라고 답해야 할지 잘 모르겠네.";
+
+  } catch (error) {
+    console.error("AI Response Error:", error);
+    return "메일을 확인하긴 했는데... 지금 네트워크 상태가 좀 안 좋네. 나중에 다시 답장할게.";
   }
+}
 
   renderMailHistory();
 
