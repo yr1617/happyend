@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // Netlify 함수 상대 경로를 호스트 기준 절대 경로로 명확히 지정
-      const response = await fetch("/.netlify/functions/chat/", {
+      const response = await fetch("/.netlify/functions/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
