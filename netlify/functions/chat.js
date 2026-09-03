@@ -51,15 +51,14 @@ exports.handler = async (event, context) => {
       }
     };
 
-    // System Instruction이 존재할 때만 추가
     if (systemInstructionText) {
       payload.systemInstruction = {
         parts: [{ text: systemInstructionText }]
       };
     }
 
-    // Google AI Studio 표준 모델 지정
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
+    // gemini-3.6-flash 유지
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
     
     const apiRes = await fetch(url, {
       method: 'POST',
@@ -72,10 +71,9 @@ exports.handler = async (event, context) => {
     if (!apiRes.ok) {
       console.error("Gemini Error:", data);
       
-      // 구글 503 트래픽 과부하 에러 시 사용자 안내 메시지 처리
       const errorMessage = data.error?.code === 503 
-        ? "현재 접속자가 많아 답변이 지연되고 있습니다. 잠시 후 다시 시도해 주세요."
-        : `오류가 발생했습니다. (${data.error?.message || "Gemini API 오류"})`;
+        ? "현재 구글 서버 트래픽이 많아 답변이 지연되고 있습니다. 잠시 후 다시 전송해 주세요!"
+        : `오류가 발생했습니다: ${data.error?.message || "Gemini API 오류"}`;
 
       return {
         statusCode: 200,
@@ -86,7 +84,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // 정상 응답 파싱
     const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || "답변 내용을 찾을 수 없습니다.";
 
     return {
