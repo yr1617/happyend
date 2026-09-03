@@ -1401,3 +1401,16 @@ video {
     border-right: none;
   }
 }
+/* 메일이 비어있을 때 안내 문구 */
+.mail-empty-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  font-size: 12px;
+  color: var(--color-signal-flare);
+  opacity: 0.6;
+  border: 1px dashed var(--color-signal-flare);
+  letter-spacing: 0.5px;
+}
