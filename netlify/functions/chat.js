@@ -57,7 +57,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey.trim()}`;
 
     // Node.js 환경 호환성을 위해 내장 globalThis.fetch 선호 사용
     const fetchFunc = globalThis.fetch || (await import('node-fetch')).default;
