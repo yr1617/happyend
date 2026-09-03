@@ -731,7 +731,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (VALIENTE BRANDS SCATTER INTERACTION) */
+/* TAB 2: CHARACTERS */
 #tab-characters {
   max-width: 1400px;
   margin-left: auto;
@@ -797,14 +797,12 @@ video {
   pointer-events: none;
 }
 
-/* 자유 산란 절대 위치 설정 */
 .pos-yuta { top: 8%; left: 8%; }
 .pos-kou { top: 12%; left: 38%; }
 .pos-ata { top: 5%; left: 68%; }
 .pos-ming { top: 48%; left: 22%; }
 .pos-tom { top: 45%; left: 58%; }
 
-/* 호버 상태 인터랙션 클래스 */
 .valiente-canvas.has-hover .valiente-card:not(.is-hovered) {
   filter: blur(5px) grayscale(40%);
   opacity: 0.35;
@@ -822,7 +820,6 @@ video {
   transform: scale(1.08);
 }
 
-/* 디테일 설명 패널 */
 .valiente-detail-panel {
   border-top: 2px solid var(--color-signal-flare);
   padding-top: 24px;
