@@ -58,7 +58,7 @@ exports.handler = async (event, context) => {
     }
 
     // 가장 속도가 빠르고 503 오류율이 적은 2.5-flash 라인 사용
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey.trim()}`;
     
     const apiRes = await fetch(url, {
       method: 'POST',
