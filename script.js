@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* -------------------------------------------------------------
+   * 0. CUSTOM CURSOR SYSTEM
+   * ------------------------------------------------------------- */
+  const customCursor = document.getElementById('custom-cursor');
+
+  if (customCursor) {
+    window.addEventListener('mousemove', (e) => {
+      customCursor.style.left = `${e.clientX}px`;
+      customCursor.style.top = `${e.clientY}px`;
+    });
+  }
+
+  /* -------------------------------------------------------------
    * 1. DARK MODE TOGGLE
    * ------------------------------------------------------------- */
   const darkModeToggle = document.getElementById('darkModeToggle');
@@ -114,7 +126,93 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* -------------------------------------------------------------
-   * 5. TURNTABLE & CD STACK INTERACTION
+   * 5. TAB 2: VALIENTE BRANDS CHARACTERS INTERACTION
+   * ------------------------------------------------------------- */
+  const valienteCanvas = document.getElementById('valienteCanvas');
+  const valienteCards = document.querySelectorAll('.valiente-card');
+  const detailName = document.getElementById('valienteDetailName');
+  const detailDesc = document.getElementById('valienteDetailDesc');
+
+  const charData = {
+    yuta: {
+      name: "YUTA",
+      desc: "유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다. 학교에 감시 시스템이 도입된 이후에도 사회의 변화에 적극적으로 문제를 제기하기보다는 남은 고등학교 생활을 평소처럼 즐기려 한다."
+    },
+    kou: {
+      name: "KOU",
+      desc: "코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다. 재일교포 4세라는 배경을 가진 그는 일상 속에서 자신이 완전히 받아들여지지 않는다는 감각을 경험하며, 감시와 차별이 개인의 문제가 아니라 사회 전체의 문제라는 사실에 민감하게 반응한다."
+    },
+    ata: {
+      name: "ATA",
+      desc: "아타는 다섯 친구들 가운데 분위기를 이끌며 장난과 농담을 즐기는 인물이다. 유타와 마찬가지로 학교생활을 무겁게 받아들이기보다는 친구들과 함께하는 즐거운 시간을 중요하게 생각하며, 특유의 활기찬 성격으로 그룹에 에너지를 더한다."
+    },
+    ming: {
+      name: "MING",
+      desc: "밍은 유타, 코우, 아타, 톰과 함께 음악을 중심으로 관계를 맺고 있는 친구다. 중국계 배경을 가진 인물로, 일본에서 살아가면서도 자신의 문화적 배경과 가족 사이에서 복합적인 정체성을 경험한다."
+    },
+    tom: {
+      name: "TOM",
+      desc: "톰은 일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 다섯 친구 중에서도 자신이 속한 곳에 대한 질문을 가장 직접적으로 보여주는 인물이다."
+    }
+  };
+
+  // 마우스 움직임에 따른 미세 부유(Float/Parallax) 효과
+  if (valienteCanvas) {
+    valienteCanvas.addEventListener('mousemove', (e) => {
+      const rect = valienteCanvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left - rect.width / 2;
+      const mouseY = e.clientY - rect.top - rect.height / 2;
+
+      valienteCards.forEach((card, index) => {
+        if (!card.classList.contains('is-hovered')) {
+          const factor = (index + 1) * 0.015;
+          const moveX = mouseX * factor;
+          const moveY = mouseY * factor;
+          card.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+        }
+      });
+    });
+
+    valienteCanvas.addEventListener('mouseleave', () => {
+      valienteCards.forEach(card => {
+        if (!card.classList.contains('is-hovered')) {
+          card.style.transform = `translate3d(0, 0, 0)`;
+        }
+      });
+    });
+  }
+
+  // 카드 호버 시 집중 및 디테일 정보 표시 인터랙션
+  valienteCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      valienteCanvas.classList.add('has-hover');
+      card.classList.add('is-hovered');
+
+      if (customCursor) {
+        customCursor.classList.add('crosshair-mode');
+      }
+
+      const id = card.getAttribute('data-id');
+      if (charData[id]) {
+        detailName.textContent = charData[id].name;
+        detailDesc.textContent = charData[id].desc;
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      valienteCanvas.classList.remove('has-hover');
+      card.classList.remove('is-hovered');
+
+      if (customCursor) {
+        customCursor.classList.remove('crosshair-mode');
+      }
+
+      card.style.transform = `translate3d(0, 0, 0)`;
+    });
+  });
+
+  /* -------------------------------------------------------------
+   * 6. TURNTABLE & CD STACK INTERACTION
    * ------------------------------------------------------------- */
   const caseItems = document.querySelectorAll('.case-item');
   const jewelCases = document.querySelectorAll('.opened-jewel-case');
@@ -228,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* -------------------------------------------------------------
-   * 6. MAIL SYSTEM INTERACTION
+   * 7. MAIL SYSTEM INTERACTION
    * ------------------------------------------------------------- */
   const charCards = document.querySelectorAll('.char-card');
   const mailTargetImg = document.getElementById('mailTargetImg');
@@ -283,7 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const history = mailStore[activeCharacter] || [];
 
-    // '보낸 메일이 없습니다' 안내 문구 완전 제거 (내역이 없으면 여백 유지)
     if (history.length === 0) {
       return;
     }
@@ -342,14 +439,12 @@ document.addEventListener('DOMContentLoaded', () => {
       mailSubject.value = '';
       mailBody.value = '';
 
-      // 답장 대기 중: 점 3개 애니메이션 표시
       if (mailLoadingIndicator) {
         mailLoadingIndicator.style.display = 'flex';
       }
 
       const replyText = await fetchAiMailResponse(activeCharacter, subject, body, mailStore[activeCharacter]);
 
-      // 답장 수신 완료: 점 3개 애니메이션 숨김
       if (mailLoadingIndicator) {
         mailLoadingIndicator.style.display = 'none';
       }
@@ -369,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------
-   * 7. AI API 메일 연동 (Netlify Serverless Function 활용)
+   * 8. AI API 메일 연동 (Netlify Serverless Function 활용)
    * ------------------------------------------------------------- */
   async function fetchAiMailResponse(char, currentSubject, currentBody, historyList) {
     const systemPrompts = {
@@ -396,7 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
       { role: "system", content: systemPrompts[char] || systemPrompts.yuta }
     ];
 
-    // 과거 이메일 히스토리 반영
     const pastHistory = historyList.slice(0, historyList.length - 1);
     pastHistory.forEach(item => {
       if (item.sender === 'user') {
@@ -406,14 +500,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 신규 수신 메일 반영
     messages.push({
       role: "user",
       content: `[수신 메일]\n제목: ${currentSubject}\n내용: ${currentBody}`
     });
 
     try {
-      // netlify.toml 리다이렉트와 연결되는 단축 경로 사용
       const response = await fetch("/.netlify/functions/chat", {
         method: "POST",
         headers: {
