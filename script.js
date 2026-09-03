@@ -127,85 +127,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* -------------------------------------------------------------
    * 5. TAB 2: VALIENTE BRANDS CHARACTERS INTERACTION
+   * (호버 상태에서도 지속적 마우스 이동 반영 + 빨간 십자가 커서 적용)
    * ------------------------------------------------------------- */
   const valienteCanvas = document.getElementById('valienteCanvas');
   const valienteCards = document.querySelectorAll('.valiente-card');
-  const detailName = document.getElementById('valienteDetailName');
-  const detailDesc = document.getElementById('valienteDetailDesc');
-
-  const charData = {
-    yuta: {
-      name: "YUTA",
-      desc: "유타는 코우와 어린 시절부터 함께해 온 가장 친한 친구로, 음악과 장난을 좋아하며 친구들과 보내는 현재의 시간을 무엇보다 중요하게 생각한다. 학교에 감시 시스템이 도입된 이후에도 사회의 변화에 적극적으로 문제를 제기하기보다는 남은 고등학교 생활을 평소처럼 즐기려 한다."
-    },
-    kou: {
-      name: "KOU",
-      desc: "코우는 유타와 함께 음악을 즐기며 성장해 온 친구이지만, 학교에 감시 시스템이 도입되면서 주변 사회를 바라보는 시선이 점차 달라진다. 재일교포 4세라는 배경을 가진 그는 일상 속에서 자신이 완전히 받아들여지지 않는다는 감각을 경험하며, 감시와 차별이 개인의 문제가 아니라 사회 전체의 문제라는 사실에 민감하게 반응한다."
-    },
-    ata: {
-      name: "ATA",
-      desc: "아타는 다섯 친구들 가운데 분위기를 이끌며 장난과 농담을 즐기는 인물이다. 유타와 마찬가지로 학교생활을 무겁게 받아들이기보다는 친구들과 함께하는 즐거운 시간을 중요하게 생각하며, 특유의 활기찬 성격으로 그룹에 에너지를 더한다."
-    },
-    ming: {
-      name: "MING",
-      desc: "밍은 유타, 코우, 아타, 톰과 함께 음악을 중심으로 관계를 맺고 있는 친구다. 중국계 배경을 가진 인물로, 일본에서 살아가면서도 자신의 문화적 배경과 가족 사이에서 복합적인 정체성을 경험한다."
-    },
-    tom: {
-      name: "TOM",
-      desc: "톰은 일본인 어머니와 흑인 미국인 아버지를 둔 다문화적 배경의 학생으로, 다섯 친구 중에서도 자신이 속한 곳에 대한 질문을 가장 직접적으로 보여주는 인물이다."
-    }
-  };
 
   if (valienteCanvas) {
-    valienteCanvas.addEventListener('mousemove', (e) => {
+    // 호버 유무와 무관하게 모든 카드가 마우스를 지속 추적하도록 수정
+    window.addEventListener('mousemove', (e) => {
+      if (!valienteCanvas.offsetWidth) return;
+      
       const rect = valienteCanvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left - rect.width / 2;
       const mouseY = e.clientY - rect.top - rect.height / 2;
 
       valienteCards.forEach((card, index) => {
-        if (!card.classList.contains('is-hovered')) {
-          const factor = (index + 1) * 0.015;
-          const moveX = mouseX * factor;
-          const moveY = mouseY * factor;
-          card.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-        }
+        const factor = (index + 1) * 0.02;
+        const moveX = mouseX * factor;
+        const moveY = mouseY * factor;
+        card.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
       });
     });
 
     valienteCanvas.addEventListener('mouseleave', () => {
       valienteCards.forEach(card => {
-        if (!card.classList.contains('is-hovered')) {
-          card.style.transform = `translate3d(0, 0, 0)`;
-        }
+        card.style.transform = `translate3d(0, 0, 0)`;
       });
     });
   }
 
   valienteCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
-      valienteCanvas.classList.add('has-hover');
+      if (valienteCanvas) valienteCanvas.classList.add('has-hover');
       card.classList.add('is-hovered');
 
+      // 호버 시 빨간 십자가 커서로 전환
       if (customCursor) {
         customCursor.classList.add('crosshair-mode');
-      }
-
-      const id = card.getAttribute('data-id');
-      if (charData[id]) {
-        detailName.textContent = charData[id].name;
-        detailDesc.textContent = charData[id].desc;
       }
     });
 
     card.addEventListener('mouseleave', () => {
-      valienteCanvas.classList.remove('has-hover');
+      if (valienteCanvas) valienteCanvas.classList.remove('has-hover');
       card.classList.remove('is-hovered');
 
       if (customCursor) {
         customCursor.classList.remove('crosshair-mode');
       }
-
-      card.style.transform = `translate3d(0, 0, 0)`;
     });
   });
 
