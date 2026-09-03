@@ -565,31 +565,30 @@ video {
 
 /* TAB 1: STORY */
 #tab-story {
-  max-width: 100% !important;
-  padding: 0 !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 40px !important;
 }
 
 .story-node {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  justify-content: space-between;
-  gap: 80px;
+  justify-content: flex-start;
+  gap: 100px;
   margin-bottom: 160px;
-  width: 100vw;
-  padding-right: 0;
+  width: 100%;
 }
 
 .story-node:nth-child(even) {
   flex-direction: row;
-  padding-right: 0;
-  padding-left: 0;
+  justify-content: flex-start;
 }
 
 .node-media {
   position: relative;
-  width: 48vw;
-  max-width: 800px;
+  width: 50%;
+  max-width: 650px;
   flex-shrink: 0;
   aspect-ratio: 3 / 2;
   background-color: var(--color-midnight-frame);
@@ -598,11 +597,11 @@ video {
 }
 
 .story-node:nth-child(odd) .node-media {
-  border-right: none;
+  border-right: 2px solid var(--color-signal-flare);
 }
 
 .story-node:nth-child(even) .node-media {
-  border-left: none;
+  border-left: 2px solid var(--color-signal-flare);
 }
 
 .node-media img {
@@ -646,11 +645,11 @@ video {
 .analysis-block {
   flex: 1;
   width: 100%;
-  max-width: 680px;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 0 60px;
+  padding: 0;
 }
 
 .analysis-meta {
@@ -1208,6 +1207,7 @@ video {
   display: flex;
   flex-direction: column;
   padding: 24px;
+}
 
 .mail-target-header {
   display: flex;
@@ -1401,6 +1401,7 @@ video {
     border-right: none;
   }
 }
+
 /* 메일이 비어있을 때 안내 문구 */
 .mail-empty-notice {
   display: flex;
