@@ -28,6 +28,21 @@ html {
   cursor: none !important;
 }
 
+/* 커스텀 스크롤바 적용 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-sun-baked-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-signal-flare);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 26, 0, 0.8);
+}
+
 body {
   background-color: var(--color-sun-baked-canvas);
   color: var(--color-signal-flare);
@@ -273,6 +288,7 @@ body.dark-mode .club-room-backdrop {
   box-shadow: 0 0 50px rgba(255, 210, 120, 0.25), inset 0 0 20px rgba(0,0,0,0.6);
   position: relative;
   overflow: hidden;
+  transition: border-color 0.3s ease;
 }
 
 .kanji-text {
@@ -351,14 +367,23 @@ body.dark-mode .club-room-backdrop {
   height: 400px;
   border: 4px solid #1c1a19;
   background-color: #111010;
+  transition: border-color 0.3s ease;
 }
 
 .door-poster {
   width: 60px;
   height: 80px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px stroke rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   margin: 20px auto;
+  transition: border-color 0.3s ease;
+}
+
+/* 다크모드 시 메인 화면 그래픽 스트로크(테두리) 제거 */
+body.dark-mode .window-pane,
+body.dark-mode .sliding-door,
+body.dark-mode .door-poster {
+  border-color: transparent;
 }
 
 /* TRAILER VIDEO SECTION */
@@ -732,7 +757,7 @@ video {
 .valiente-canvas {
   position: relative;
   width: 100%;
-  min-height: 1200px; /* 세로 공간 대폭 확장 */
+  min-height: 1200px; 
   background: transparent;
   border: none !important;
   overflow: visible;
@@ -752,7 +777,7 @@ video {
 .valiente-img-box {
   position: relative;
   width: auto;
-  max-width: 450px; /* 크기 제한 대폭 완화하여 톰의 사진 비율 정상화 */
+  max-width: 450px; 
   border: none !important;
   background: transparent;
   overflow: visible;
@@ -778,10 +803,10 @@ video {
   margin-top: 4px;
 }
 
-/* 레퍼런스 이미지처럼 넓게 산개된 좌표 설정 */
+/* 겹침 방지를 위해 아타와 코우의 위치 간격 재조정 */
 .pos-yuta { top: 5%; left: 5%; }
-.pos-ata  { top: 12%; right: 8%; }
-.pos-kou  { top: 38%; left: 38%; }
+.pos-ata  { top: 5%; right: 12%; }
+.pos-kou  { top: 48%; left: 34%; }
 .pos-ming { top: 68%; left: 15%; }
 .pos-tom  { top: 62%; right: 10%; }
 
