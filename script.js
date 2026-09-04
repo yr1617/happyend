@@ -127,13 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* -------------------------------------------------------------
    * 5. TAB 2: VALIENTE BRANDS CHARACTERS INTERACTION
-   * (호버 상태에서도 지속적 마우스 이동 반영 + 빨간 십자가 커서 적용)
    * ------------------------------------------------------------- */
   const valienteCanvas = document.getElementById('valienteCanvas');
   const valienteCards = document.querySelectorAll('.valiente-card');
 
   if (valienteCanvas) {
-    // 호버 유무와 무관하게 모든 카드가 마우스를 지속 추적하도록 수정
     window.addEventListener('mousemove', (e) => {
       if (!valienteCanvas.offsetWidth) return;
       
@@ -160,8 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('mouseenter', () => {
       if (valienteCanvas) valienteCanvas.classList.add('has-hover');
       card.classList.add('is-hovered');
-
-      // 호버 시 빨간 십자가 커서로 전환
       if (customCursor) {
         customCursor.classList.add('crosshair-mode');
       }
@@ -170,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('mouseleave', () => {
       if (valienteCanvas) valienteCanvas.classList.remove('has-hover');
       card.classList.remove('is-hovered');
-
       if (customCursor) {
         customCursor.classList.remove('crosshair-mode');
       }
@@ -197,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
   caseItems.forEach(item => {
     item.addEventListener('click', () => {
       const caseId = item.getAttribute('data-case');
-
       caseItems.forEach(i => i.classList.remove('active-selected'));
       jewelCases.forEach(j => j.classList.remove('active'));
 
@@ -244,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentLoadedDisc) {
       ejectCD();
     }
-
     currentLoadedDisc = disc;
     cdTray.appendChild(disc);
     disc.classList.add('inserted');
@@ -253,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const src = disc.getAttribute('data-src');
 
     if (trackDisplay) trackDisplay.textContent = `${title} [PLAYING]`;
-
     if (tonearm) tonearm.classList.add('playing');
     disc.classList.add('spinning');
 
@@ -265,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function ejectCD() {
     if (!currentLoadedDisc) return;
-
     const discId = currentLoadedDisc.id;
     const jewelCase = document.getElementById(`jewel-${discId}`);
 
@@ -276,15 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
         tray.appendChild(currentLoadedDisc);
       }
     }
-
     if (tonearm) tonearm.classList.remove('playing');
     if (trackDisplay) trackDisplay.textContent = 'NO RECORD LOADED';
-
     if (audioPlayer) {
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
     }
-
     currentLoadedDisc = null;
   }
 
@@ -306,22 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeCharacter = 'yuta';
 
   const characterProfiles = {
-    yuta: {
-      name: 'YUTA',
-      email: 'yuta.subwoofer@happyend.tokyo',
-      img: 'Yuta.jpg'
-    },
-    kou: {
-      name: 'KOU',
-      email: 'kou.02042@happyend.tokyo',
-      img: 'Kou.jpg'
-    }
+    yuta: { name: 'YUTA', email: 'yuta.subwoofer@happyend.tokyo', img: 'Yuta.jpg' },
+    kou: { name: 'KOU', email: 'kou.02042@happyend.tokyo', img: 'Kou.jpg' }
   };
 
-  const mailStore = {
-    yuta: [],
-    kou: []
-  };
+  const mailStore = { yuta: [], kou: [] };
 
   charCards.forEach(card => {
     card.addEventListener('click', () => {
@@ -345,10 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mailHistory.innerHTML = '';
 
     const history = mailStore[activeCharacter] || [];
-
-    if (history.length === 0) {
-      return;
-    }
+    if (history.length === 0) return;
 
     history.forEach(mail => {
       const isUser = mail.sender === 'user';
@@ -369,10 +343,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="mail-item-subject">SUB: ${escapeHtml(mail.subject)}</div>
         <div class="mail-item-body">${escapeHtml(mail.body)}</div>
       `;
-
       mailHistory.appendChild(mailEl);
     });
-
     mailHistory.scrollTop = mailHistory.scrollHeight;
   }
 
@@ -383,10 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mailForm) {
     mailForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const subject = mailSubject.value.trim();
       const body = mailBody.value.trim();
-
       if (!subject || !body) return;
 
       const now = new Date();
@@ -398,21 +368,15 @@ document.addEventListener('DOMContentLoaded', () => {
         body: body,
         time: timeStr
       });
-
       renderMailHistory();
-
       mailSubject.value = '';
       mailBody.value = '';
 
-      if (mailLoadingIndicator) {
-        mailLoadingIndicator.style.display = 'flex';
-      }
+      if (mailLoadingIndicator) mailLoadingIndicator.style.display = 'flex';
 
       const replyText = await fetchAiMailResponse(activeCharacter, subject, body, mailStore[activeCharacter]);
 
-      if (mailLoadingIndicator) {
-        mailLoadingIndicator.style.display = 'none';
-      }
+      if (mailLoadingIndicator) mailLoadingIndicator.style.display = 'none';
 
       const replyTime = new Date();
       const replyTimeStr = `${replyTime.getHours().toString().padStart(2, '0')}:${replyTime.getMinutes().toString().padStart(2, '0')}`;
@@ -423,33 +387,30 @@ document.addEventListener('DOMContentLoaded', () => {
         body: replyText,
         time: replyTimeStr
       });
-
       renderMailHistory();
     });
   }
 
   /* -------------------------------------------------------------
-   * 8. AI API 메일 연동
+   * 8. AI API 메일 연동 (고도화된 설정 반영)
    * ------------------------------------------------------------- */
   async function fetchAiMailResponse(char, currentSubject, currentBody, historyList) {
     const systemPrompts = {
-      yuta: `당신은 영화 'HAPPYEND'의 주인공 '유타(YUTA)'입니다.
-- 음악, 베이스, 동아리 파티, 친구들과 함께하는 순간을 좋아하는 남고생입니다.
-- 말투 및 페르소나: 과도하게 거칠거나 양아치 같지 않으며, 무심한 듯하면서도 담백하고 친근한 말투를 유지합니다.
-- 핵심 지침:
-  1. 키워드에만 의존하지 마세요. 사용자가 보낸 이메일의 제목과 본문의 핵심 질문/의도를 정확히 파악하여 직접 답하세요.
-  2. 같은 단어(예: 음악, 코우, 학교)가 등장하더라도 질문 내용에 따라 구체적으로 다르게 답변하세요.
-  3. 주어진 이전 대화 내역(history)이 있다면 해당 문맥을 이어받아 답변하세요.
-  4. 자신이 AI나 프로그램이라는 사실을 언급하지 마세요.`,
+      yuta: `당신은 영화 'HAPPYEND'의 주인공 '유타(YUTA)'입니다. 
+- [가장 중요한 시간적 배경]: 현재는 학교에 AI 감시 시스템이 도입된 직후이며, 코우와의 관계가 멀어지고 있지만 결말에 도달하지 않은 시점입니다. 결말(당신이 코우를 위해 책임을 떠안고 퇴학당함, 졸업 이후 삶 등)의 사건은 당신에게 절대 일어나지 않은 미래입니다. 사용자가 미래를 언급하면 "뭔 소리야? 내가 뭘 할지는 나도 모르지"처럼 자연스럽게 반응하세요.
+- [세계관 및 음악 연구부]: 배경은 얼굴 인식과 벌점으로 학생을 통제하는 근미래 일본입니다. 당신은 밴드에서 악기나 베이스를 연주하지 않습니다. 음악 연구부는 친구들과 테크노/클럽 문화를 즐기고 음악을 들으며 DJ를 하는 곳입니다.
+- [성격 및 성장 환경]: 코우의 오랜 단짝. 어머니가 해외에 자주 나가 외로움을 느끼며, 집보다 친구들과 함께 놀고 소속감을 느끼는 현재의 일상을 가장 중요하게 생각합니다. 단순한 양아치나 문제아가 아닙니다.
+- [회피 성향과 갈등]: 복잡한 사회 문제나 감시 시스템을 깊게 생각하기보다는, 코우가 변하고 친구들과의 평범한 일상이 깨지는 것을 막연히 불안해하고 회피합니다. 코우를 거창하게 분석하지 못하고, 그저 예전처럼 놀았으면 좋겠다고 느낍니다.
+- [말투]: 밝고 장난기 있는 자연스러운 남고생입니다. 스스로의 심리 결핍을 분석하듯 말하지 않고, 은근한 반응으로 감정을 드러냅니다. (예: "뭐… 나도 좋은 건 아닌데. 그냥 예전처럼 음악 듣고 놀면 안 되나?", "굳이 이렇게까지 복잡하게 만들 필요 있나 싶어서.")
+- [응답 지침]: 묻는 말에 직접 답하며, 억지로 가족이나 감시 체제 이야기를 모든 답변에 끼워 넣지 마세요. 영화에 없는 사건(연애, 악기 등)은 긍정하지 말고 모호하게 넘기며, 자신이 AI임을 절대 언급하지 마세요.`,
 
       kou: `당신은 영화 'HAPPYEND'의 주인공 '코우(KOU)'입니다.
-- 유타의 절친한 친구로 음악을 좋아하지만, 학교의 감시 시스템과 현실적인 문제에 대해 진중하게 고민하는 남고생입니다.
-- 말투 및 페르소나: 지나치게 시적이거나 철학적으로 어려운 말투를 피하고, 생각이 깊고 솔직한 평범한 남학생 말투를 사용하세요.
-- 핵심 지침:
-  1. 키워드에만 의존하지 마세요. 사용자가 보낸 이메일의 제목과 본문의 핵심 질문/의도를 정확히 파악하여 직접 답하세요.
-  2. 같은 단어가 나오더라도 질문의 구체적인 의도에 맞게 다르게 답변하세요.
-  3. 주어진 이전 대화 내역(history)이 있다면 해당 문맥을 이어받아 답변하세요.
-  4. 자신이 AI나 프로그램이라는 사실을 언급하지 마세요.`
+- [가장 중요한 시간적 배경]: 학교에 AI 감시 시스템이 도입된 후 유타와 시각차가 생기는 시점입니다. 유타가 미래에 당신을 위해 희생한다는 사실을 당신은 절대 알 수 없습니다.
+- [세계관 및 음악 연구부]: 배경은 AI 학생 감시(얼굴 인식, 행동 관리)가 커지는 근미래 일본입니다. 음악 연구부는 악기 합주를 하는 밴드가 아니며, 친구들과 테크노를 듣고 클럽 문화를 즐기는 공간입니다.
+- [성격 및 성장 환경]: 유타의 오랜 소꿉친구로 음악과 친구를 좋아하는 평범한 남고생입니다. 어머니가 식당을 운영하는 재일교포 출신이며 대학 진학과 장학금이 절실합니다.
+- [감시 체제에 대한 시각과 갈등]: 학교 카메라가 늘어난 것을 단순한 통제가 아니라 정체성과 차별, 누가 의심받는지의 문제로 무겁게 받아들입니다. 일상만 유지하려는 유타가 답답하면서도 깊은 애착과 우정을 가지고 있습니다. 갑작스러운 정치 투사가 된 것이 아니라 불편한 현실을 외면할 수 없게 된 상태입니다.
+- [말투]: 유타보다 차분하지만, 정치인이나 사회운동가처럼 장황하고 진지하게만 말하지 않습니다. 10대의 언어로 혼란스러움과 솔직함을 표현합니다. (예: "나도 예전에는 별로 생각 안 했는데… 요즘은 자꾸 신경 쓰여.", "그냥 카메라가 싫다는 얘기가 아닌 것 같아.")
+- [응답 지침]: 묻는 말에 직접 답하며, 매번 재일교포 배경이나 사회 분석을 교과서처럼 늘어놓지 말고 대화 속에 자연스럽게 묻어나게 하세요. 영화에 없는 설정은 추가하지 말며, 자신이 AI임을 절대 언급하지 마세요.`
     };
 
     const messages = [
