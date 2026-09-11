@@ -292,7 +292,7 @@ body.dark-mode .club-room-backdrop {
   transition: border-color 0.3s ease;
 }
 
-/* 창문에 붙은 종이들 디테일 추가 */
+/* 창문에 붙은 종이들 디테일 */
 .window-paper {
   position: absolute;
   background-color: #f4f4f0;
@@ -319,12 +319,13 @@ body.dark-mode .club-room-backdrop {
   font-weight: bold;
 }
 
+/* 1. 수정됨: 창문에 비치는 그림자 크기 대폭 확대 */
 .shadow-figures-group {
   position: absolute;
   right: 0px;
-  bottom: 0px;
-  width: 240px;
-  height: 220px;
+  bottom: -10px;
+  width: 380px;
+  height: 320px;
   pointer-events: none;
 }
 
@@ -332,86 +333,116 @@ body.dark-mode .club-room-backdrop {
   position: absolute;
   bottom: 0;
   background: #120e0a;
-  filter: blur(4px);
+  filter: blur(5px);
 }
 
 .person-back {
-  right: 80px;
-  width: 100px;
-  height: 180px;
+  right: 140px;
+  width: 150px;
+  height: 260px;
   opacity: 0.85;
-  border-radius: 50px 50px 0 0 !important;
+  border-radius: 75px 75px 0 0 !important;
 }
 
 .person-back::before {
   content: '';
   position: absolute;
-  top: -25px;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  width: 42px;
-  height: 48px;
+  width: 65px;
+  height: 75px;
   background: #120e0a;
   border-radius: 50% !important;
 }
 
 .person-front {
-  right: 15px;
-  width: 95px;
-  height: 160px;
+  right: 20px;
+  width: 140px;
+  height: 230px;
   opacity: 0.95;
-  border-radius: 45px 45px 0 0 !important;
+  border-radius: 70px 70px 0 0 !important;
 }
 
 .person-front::before {
   content: '';
   position: absolute;
-  top: -22px;
+  top: -35px;
   left: 30%;
   transform: translateX(-50%);
-  width: 38px;
-  height: 44px;
+  width: 60px;
+  height: 70px;
   background: #120e0a;
   border-radius: 50% !important;
 }
 
-/* 미닫이문(Sliding Door) 두 짝 겹침 디테일 반영 */
+/* 2. 수정됨: 문 크기 비율 조정 (창문보다 과도하게 좁고 크지 않게 변경) */
 .sliding-door {
   position: absolute;
   right: 2%;
-  top: 15%;
-  width: 260px; /* 문 두 짝이 보이도록 너비 확장 */
-  height: 480px;
+  top: 17%;
+  width: 340px; 
+  height: 420px;
   border: 4px solid #1c1a19;
-  background-color: #0d0c0c; /* 오른쪽(뒤쪽) 문 */
+  background-color: #0d0c0c; 
   transition: border-color 0.3s ease;
   box-shadow: inset -15px 0 25px rgba(0,0,0,0.9), -5px 0 15px rgba(0,0,0,0.6);
 }
 
-/* 왼쪽(앞쪽) 문 추가 */
 .sliding-door::before {
   content: '';
   position: absolute;
-  left: -4px; /* 테두리에 맞춤 */
+  left: -4px; 
   top: -4px;
   width: 55%;
   height: calc(100% + 8px);
   border: 4px solid #1c1a19;
   background-color: #111010;
-  box-shadow: 10px 0 20px rgba(0,0,0,0.8); /* 뒷문에 지는 그림자 */
+  box-shadow: 10px 0 20px rgba(0,0,0,0.8);
   z-index: 1;
 }
 
+/* 3, 4. 수정됨: 문에 달린 창 크기 확대 및 빛 새어나오는 효과 적용 */
 .door-poster {
   position: relative;
-  z-index: 2; /* 포스터가 앞쪽 문(가상 요소) 위로 올라오도록 설정 */
-  width: 60px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2; 
+  width: 120px;
+  height: 220px;
+  background-color: rgba(255, 210, 120, 0.75); /* 실내 불빛 */
+  box-shadow: 0 0 35px rgba(255, 210, 120, 0.4), inset 0 0 15px rgba(0,0,0,0.6);
+  border: 3px solid #1c1a19;
   margin: 30px auto;
-  margin-left: 20px; /* 앞쪽 문에 자연스럽게 위치하도록 여백 조정 */
+  margin-left: 25px; 
   transition: border-color 0.3s ease;
+}
+
+/* 5. 수정됨: 문 창문에 덕지덕지 붙은 포스터 구현 */
+.door-poster::before {
+  content: '';
+  position: absolute;
+  top: 15px; left: 10px;
+  width: 35px; height: 50px;
+  background: #f4f4f0;
+  transform: rotate(-6deg);
+  /* 여러 장의 포스터를 box-shadow로 추가 구현 */
+  box-shadow: 
+    45px 65px 0 -5px #fffbe6,
+    10px 115px 0 -2px #ffe8e8;
+  z-index: 3;
+}
+
+.door-poster::after {
+  content: '';
+  position: absolute;
+  top: 35px; right: 15px;
+  width: 40px; height: 30px;
+  background: #e0f2fe;
+  transform: rotate(4deg);
+  /* 여러 장의 포스터를 box-shadow로 추가 구현 */
+  box-shadow: 
+    -20px 85px 0 5px #fef08a,
+    -5px 135px 0 -3px #f4f4f0;
+  z-index: 3;
 }
 
 /* 다크모드 시 메인 화면 그래픽 스트로크(테두리) 제거 */
@@ -776,7 +807,7 @@ video {
   word-break: keep-all;
 }
 
-/* TAB 2: CHARACTERS (사진 겹침 방지) */
+/* TAB 2: CHARACTERS */
 #tab-characters {
   width: 100%;
   max-width: 1400px;
@@ -813,7 +844,7 @@ video {
 .valiente-img-box {
   position: relative;
   width: auto;
-  max-width: 320px; /* 기존 450px에서 축소하여 겹침 방지 */
+  max-width: 320px;
   border: none !important;
   background: transparent;
   overflow: visible;
@@ -839,7 +870,6 @@ video {
   margin-top: 4px;
 }
 
-/* 겹침 방지를 위해 아타, 코우, 밍, 톰의 위치 간격 넓게 재조정 */
 .pos-yuta { top: 2%; left: 3%; }
 .pos-ata  { top: 8%; right: 5%; }
 .pos-kou  { top: 38%; left: 35%; }
